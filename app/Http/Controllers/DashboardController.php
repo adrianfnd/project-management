@@ -10,4 +10,14 @@ class DashboardController extends Controller
     {
         return view ('dashboard.index');
     }
+
+    public function dashboard_ftth()
+    {
+        return view ('dashboard.ftth');
+    }
+
+    public function dashboard_homepass()
+    {
+        return view ('dashboard.homepass');
+    }
 }

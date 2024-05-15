@@ -2,21 +2,18 @@
 <html lang="en">
 
 <head>
- @include ("layout.header")
+    @include ('layout.header')
 </head>
 
 {{-- SIDEBAR --}}
-@include ("layout.sidebar")
+@include ('layout.sidebar')
 {{-- AKHIR SIDEBAR --}}
-    
-  {{-- NAVBAR --}}
-  @include ("layout.navbar")
-  {{-- AKHIR NAVBAR --}}
-      @yield ('content')
 
-      {{-- FOOTER --}}
-      @include ('layout.footer')
-      {{-- AKHIR FOOTER --}}
+@yield ('content')
+
+{{-- FOOTER --}}
+@include ('layout.footer')
+{{-- AKHIR FOOTER --}}
 
 </body>
 

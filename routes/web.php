@@ -27,4 +27,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class,'dashboard']) -> name('dashboard');
 });
 
+//Dashboard
+Route::get('/dashboard_ftth', [DashboardController::class,'dashboard_ftth']) -> name('dashboard_ftth');
+Route::get('/filter', function () {
+    return view('filter');
+});
+Route::get('/dashboard_homepass', [DashboardController::class,'dashboard_homepass']) -> name('dashboard_homepass');
+
 
