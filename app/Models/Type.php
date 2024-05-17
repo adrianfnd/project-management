@@ -10,12 +10,12 @@ class Type extends Model
     use HasFactory;
 
     protected $fillable = [
-        'status_name',
+        'type_name',
         'description',
     ];
 
     public function ftthProjects()
     {
-        return $this->hasMany(FtthProject::class, 'type');
+        return $this->hasMany(FtthProject::class, 'type_id');
     }
 }

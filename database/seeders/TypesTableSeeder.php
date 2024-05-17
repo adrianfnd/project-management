@@ -28,7 +28,7 @@ class TypesTableSeeder extends Seeder
 
         foreach ($types as $type => $description) {
             DB::table('types')->insert([
-                'status_name' => $type,
+                'type_name' => $type,
                 'description' => $description,
                 'created_at' => now(),
                 'updated_at' => now(),

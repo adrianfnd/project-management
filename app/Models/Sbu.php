@@ -16,7 +16,7 @@ class Sbu extends Model
 
     public function ftthProjects()
     {
-        return $this->hasMany(FtthProject::class);
+        return $this->hasMany(FtthProject::class, 'sbu_id');
     }
 }
 

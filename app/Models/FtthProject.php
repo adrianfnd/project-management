@@ -10,7 +10,7 @@ class FtthProject extends Model
     use HasFactory;
 
     protected $fillable = [
-        'type',
+        'type_id',
         'project_name',
         'olt_hostname',
         'no_sp2k_spa',
@@ -31,7 +31,7 @@ class FtthProject extends Model
 
     public function type()
     {
-        return $this->belongsTo(Type::class, 'type');
+        return $this->belongsTo(Type::class, 'type_id');
     }
 
     public function sbu()
