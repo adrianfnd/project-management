@@ -130,27 +130,106 @@
             </div>
         </div>
     </nav>
+    <style>
+        .container {
+            margin-top: 20px
+        }
+
+        .filter-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .filter-container select {
+            margin-right: 10px;
+            margin-bottom: 10px;
+            flex: 1;
+        }
+
+        .filter-container .filter-button,
+        .filter-container .camera-button {
+            background-color: #1d3557;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .filter-container .camera-button {
+            background-color: #f1faee;
+            color: #1d3557;
+            border: 1px solid #1d3557;
+        }
+
+        .dashboard-stats {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .dashboard-stats .stat {
+            margin: 10px;
+            flex: 1 1 calc(33.333% - 20px);
+            box-sizing: border-box;
+        }
+
+        .dashboard-stats .stat-number {
+            font-size: 2.5em;
+            color: #1d3557;
+            font-weight: bold;
+        }
+
+        .dashboard-stats .stat-label {
+            font-size: 1em;
+            color: #457b9d;
+            margin-top: 5px;
+        }
+
+        .dashboard-stats .stat-total {
+            font-size: 0.9em;
+            color: #8d99ae;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-stats .stat {
+                flex: 1 1 100%;
+            }
+        }
+    </style>
     {{-- Content --}}
     <div class="container">
         <div class="filter-container">
-            <select class="form-select" id="filterDropdown1">
-                <option value="TK4">Turnkey 4</option>
-                <option value="CB1">CB1</option>
-                <option value="CB2">CB2</option>
-                <option value="CB3">CB3</option>
-                <option value="TK1">TK1</option>
-                <option value="TK2">TK2</option>
-                <option value="TK3">TK3</option>
-                <option value="SI">SI</option>
-                <option value="POC">POC</option>
-                <option value="JI">JI</option>
+            <select class="form-select" id="filterDropdown1" name="type" form="filterForm">
+                @foreach ($types as $type)
+                    <option value="{{ $type->id }}" {{ request()->input('type') == $type->id ? 'selected' : '' }}>
+                        {{ $type->type_name }}</option>
+                @endforeach
             </select>
-            <select class="form-select" id="filterDropdown2">
-                <option value="SBU Bandung">SBU Bandung</option>
-                <option value="SBU Jakarta">SBU Jakarta</option>
-                <option value="SBU Surabaya">SBU Surabaya</option>
-                <!-- Add more options as needed -->
+            <select class="form-select" id="filterDropdown2" name="sbu" form="filterForm">
+                @foreach ($sbus as $sbu)
+                    <option value="{{ $sbu->id }}" {{ request()->input('sbu') == $sbu->id ? 'selected' : '' }}>
+                        {{ $sbu->sbu_name }}</option>
+                @endforeach
             </select>
+
+            <form id="filterForm" action="{{ url()->current() }}" method="GET">
+            </form>
+
+            <script>
+                document.getElementById('filterDropdown1').addEventListener('change', function() {
+                    document.getElementById('filterForm').submit();
+                });
+                document.getElementById('filterDropdown2').addEventListener('change', function() {
+                    document.getElementById('filterForm').submit();
+                });
+            </script>
+
             <button class="filter-button">
                 <i class="fas fa-filter"></i>
             </button>
@@ -173,79 +252,6 @@
                 <div class="stat-label">TUR</div>
             </div>
         </div>
-        <style>
-            .container {
-                margin: 20px;
-            }
-
-            .filter-container {
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: flex-start;
-                align-items: center;
-                margin-bottom: 20px;
-            }
-
-            .filter-container select {
-                margin-right: 10px;
-                margin-bottom: 10px;
-                flex: 1;
-            }
-
-            .filter-container .filter-button,
-            .filter-container .camera-button {
-                background-color: #1d3557;
-                color: white;
-                border: none;
-                padding: 5px 10px;
-                cursor: pointer;
-                margin-right: 10px;
-                margin-bottom: 10px;
-            }
-
-            .filter-container .camera-button {
-                background-color: #f1faee;
-                color: #1d3557;
-                border: 1px solid #1d3557;
-            }
-
-            .dashboard-stats {
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: space-around;
-                text-align: center;
-                margin-top: 20px;
-            }
-
-            .dashboard-stats .stat {
-                margin: 10px;
-                flex: 1 1 calc(33.333% - 20px);
-                box-sizing: border-box;
-            }
-
-            .dashboard-stats .stat-number {
-                font-size: 2.5em;
-                color: #1d3557;
-                font-weight: bold;
-            }
-
-            .dashboard-stats .stat-label {
-                font-size: 1em;
-                color: #457b9d;
-                margin-top: 5px;
-            }
-
-            .dashboard-stats .stat-total {
-                font-size: 0.9em;
-                color: #8d99ae;
-            }
-
-            @media (max-width: 768px) {
-                .dashboard-stats .stat {
-                    flex: 1 1 100%;
-                }
-            }
-        </style>
     </div>
 
     <div class="container-fluid py-4">
@@ -255,13 +261,25 @@
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            var map = L.map('map').setView([-6.200000, 106.816666], 10); // Center the map on Jakarta
+            var map = L.map('map').setView([-6.200000, 106.816666], 10);
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             }).addTo(map);
 
-            // Add markers or other layers here if needed
+            var projects = @json($projects);
+
+            projects.forEach(function(project) {
+                var popupContent = `
+                    <b>${project.project_name}</b><br>
+                    Progress: ${project.progress}<br>
+                    Kendala: ${project.kendala}<br><br>
+                    <center><img src="${project.image}" alt="${project.name}" style="width:175px;height:auto;"></center>
+                `;
+                L.marker([project.latitude, project.longitude])
+                    .addTo(map)
+                    .bindPopup(popupContent);
+            });
         });
     </script>
 
@@ -336,52 +354,52 @@
                 </div>
             </div>
         </div>
-        <style>
-            .progress-group {
-                display: flex;
-                flex-direction: column;
-            }
-
-            .progress-item {
-
-                display: flex;
-                justify-content: space-between;
-                padding: 0.5rem 0;
-                border-bottom: 1px solid #e9ecef;
-                border-radius: 25px;
-                color: white;
-            }
-
-            .progress-item span {
-                font-size: 1rem;
-                font-weight: 500;
-            }
-
-            .budget-summary {
-                display: flex;
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .budget-label {
-                font-size: 1.2rem;
-                font-weight: 700;
-                color: #4a4a4a;
-            }
-
-            .budget-value {
-                font-size: 1.5rem;
-                font-weight: 700;
-                color: #007bff;
-            }
-
-            .budget-subvalue {
-                font-size: 1rem;
-                font-weight: 400;
-                color: #6c757d;
-            }
-        </style>
     </div>
 
+    <style>
+        .progress-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .progress-item {
+
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e9ecef;
+            border-radius: 25px;
+            color: white;
+        }
+
+        .progress-item span {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .budget-summary {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .budget-label {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #4a4a4a;
+        }
+
+        .budget-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #007bff;
+        }
+
+        .budget-subvalue {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #6c757d;
+        }
+    </style>
     {{-- AKHIR CONTENT --}}
 @endsection

@@ -230,11 +230,11 @@
                         <div class="card-body p-3">
                             <div class="card-body p-3 bg-white">
                                 <div class="chart">
-                                    <canvas id="chart-pie1" class="chart-canvas" height="170"></canvas>
+                                    <canvas id="myPieChart1" class="chart-canvas" height="170"></canvas>
                                 </div>
                             </div>
-                            <h6 class="ms-2 mt-4 mb-0">Projects Count Per Category</h6>
-                            <p class="text-sm ms-2">(<span class="font-weight-bolder">+23%</span>) than last week</p>
+                            <h6 class="ms-2 mt-4 mb-0">Projects Count Per Types</h6>
+                            {{-- <p class="text-sm ms-2">(<span class="font-weight-bolder">+23%</span>) than last week</p> --}}
                             <div class="container border-radius-lg">
                             </div>
                         </div>
@@ -246,11 +246,11 @@
                         <div class="card-body p-3">
                             <div class="card-body p-3 bg-white">
                                 <div class="chart">
-                                    <canvas id="chart-pie2" class="chart-canvas" height="170"></canvas>
+                                    <canvas id="myPieChart2" class="chart-canvas" height="170"></canvas>
                                 </div>
                             </div>
-                            <h6 class="ms-2 mt-4 mb-0">Count Of Task Status</h6>
-                            <p class="text-sm ms-2">(<span class="font-weight-bolder">+23%</span>) than last week</p>
+                            <h6 class="ms-2 mt-4 mb-0">Count Of Task Sbus</h6>
+                            {{-- <p class="text-sm ms-2">(<span class="font-weight-bolder">+23%</span>) than last week</p> --}}
                             <div class="container border-radius-lg">
                             </div>
                         </div>
@@ -262,11 +262,11 @@
                         <div class="card-body p-3">
                             <div class="card-body p-3 bg-white">
                                 <div class="chart">
-                                    <canvas id="chart-pie3" class="chart-canvas" height="170"></canvas>
+                                    <canvas id="myPieChart3" class="chart-canvas" height="170"></canvas>
                                 </div>
                             </div>
-                            <h6 class="ms-2 mt-4 mb-0">Task Overdue Per Project</h6>
-                            <p class="text-sm ms-2">(<span class="font-weight-bolder">+23%</span>) than last week</p>
+                            <h6 class="ms-2 mt-4 mb-0">Task Overdue Per Statuses</h6>
+                            {{-- <p class="text-sm ms-2">(<span class="font-weight-bolder">+23%</span>) than last week</p> --}}
                             <div class="container border-radius-lg">
                             </div>
                         </div>
@@ -276,94 +276,115 @@
         </div>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script>
-            var ctx1 = document.getElementById('chart-pie1').getContext('2d');
-            var myPieChart1 = new Chart(ctx1, {
-                type: 'pie',
-                data: {
-                    labels: ["Purple", "Black", "Yellow"],
-                    datasets: [{
-                        label: '# of Votes',
-                        data: [12, 19, 3],
-                        backgroundColor: [
-                            'rgba(203, 12, 159)',
-                            'rgba(20, 23, 39)',
-                            'rgba(58, 65, 111)'
-                        ],
-                        borderColor: [
-                            'rgba(203, 12, 159)',
-                            'rgba(20, 23, 39)',
-                            'rgba(58, 65, 111)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
+            document.addEventListener("DOMContentLoaded", function() {
+                var ctx = document.getElementById('myPieChart1').getContext('2d');
+
+                var pieChartData1 = @json($pieChartData1);
+
+                var labels = pieChartData1.map(function(data) {
+                    return data.label;
+                });
+
+                var data = pieChartData1.map(function(data) {
+                    return data.count;
+                });
+
+                var backgroundColor = pieChartData1.map(function(data) {
+                    return data.color;
+                });
+
+                var myPieChart1 = new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            data: data,
+                            backgroundColor: backgroundColor,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
                         }
                     }
-                }
+                });
             });
 
-            var ctx2 = document.getElementById('chart-pie2').getContext('2d');
-            var myPieChart2 = new Chart(ctx2, {
-                type: 'pie',
-                data: {
-                    labels: ["Red", "Blue", "Green"],
-                    datasets: [{
-                        label: '# of Votes',
-                        data: [8, 12, 5],
-                        backgroundColor: [
-                            'rgba(255, 99, 132)',
-                            'rgba(54, 162, 235)',
-                            'rgba(75, 192, 192)'
-                        ],
-                        borderColor: [
-                            'rgba(255, 99, 132)',
-                            'rgba(54, 162, 235)',
-                            'rgba(75, 192, 192)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
+            document.addEventListener("DOMContentLoaded", function() {
+                var ctx = document.getElementById('myPieChart2').getContext('2d');
+
+                var pieChartData2 = @json($pieChartData2);
+
+                var labels = pieChartData2.map(function(data) {
+                    return data.label;
+                });
+
+                var data = pieChartData2.map(function(data) {
+                    return data.count;
+                });
+
+                var backgroundColor = pieChartData2.map(function(data) {
+                    return data.color;
+                });
+
+                var myPieChart2 = new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            data: data,
+                            backgroundColor: backgroundColor,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
                         }
                     }
-                }
+                });
             });
 
-            var ctx3 = document.getElementById('chart-pie3').getContext('2d');
-            var myPieChart3 = new Chart(ctx3, {
-                type: 'pie',
-                data: {
-                    labels: ["Orange", "Pink", "Brown"],
-                    datasets: [{
-                        label: '# of Votes',
-                        data: [10, 15, 7],
-                        backgroundColor: [
-                            'rgba(255, 159, 64)',
-                            'rgba(255, 99, 132)',
-                            'rgba(165, 42, 42)'
-                        ],
-                        borderColor: [
-                            'rgba(255, 159, 64)',
-                            'rgba(255, 99, 132)',
-                            'rgba(165, 42, 42)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
+            document.addEventListener("DOMContentLoaded", function() {
+                var ctx = document.getElementById('myPieChart3').getContext('2d');
+
+                var pieChartData3 = @json($pieChartData3);
+
+                var labels = pieChartData3.map(function(data) {
+                    return data.label;
+                });
+
+                var data = pieChartData3.map(function(data) {
+                    return data.count;
+                });
+
+                var backgroundColor = pieChartData3.map(function(data) {
+                    return data.color;
+                });
+
+                var myPieChart3 = new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            data: data,
+                            backgroundColor: backgroundColor,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
                         }
                     }
-                }
+                });
             });
         </script>
     </div>
@@ -384,10 +405,10 @@
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Project
                                         Name</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                        Category</th>
+                                        Type</th>
                                     <th
                                         class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
-                                        Completion</th>
+                                        Progress</th>
                                     <th
                                         class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Status</th>
@@ -402,99 +423,59 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td class="align-middle text-center">
-                                        <span class="text-secondary text-xs font-weight-bold">1.</span>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex px-2">
-                                            <div>
-                                                <img src="{{ asset('ui_dashboard') }}/assets/img/small-logos/logo-spotify.svg"
-                                                    class="avatar avatar-sm rounded-circle me-2" alt="spotify">
-                                            </div>
-                                            <div class="my-auto">
-                                                <h6 class="mb-0 text-sm">Spotify</h6>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="text-sm font-weight-bold mb-0">$2,500</p>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <div class="d-flex align-items-center justify-content-center">
-                                            <span class="me-2 text-xs font-weight-bold">60%</span>
-                                            <div>
-                                                <div class="progress">
-                                                    <div class="progress-bar bg-gradient-info" role="progressbar"
-                                                        aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
-                                                        style="width: 60%;"></div>
+                                @foreach ($projects as $index => $project)
+                                    <tr>
+                                        <td class="align-middle text-center">
+                                            <span
+                                                class="text-secondary text-xs font-weight-bold">{{ $index + 1 }}</span>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex px-2">
+                                                <div class="my-auto">
+                                                    <h6 class="mb-0 text-sm">{{ $project->project_name }}</h6>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                    <td class="align-middle text-center text-sm">
-                                        <span class="badge badge-sm bg-gradient-success">Online</span>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <span class="text-secondary text-xs font-weight-bold">23/04/18</span>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <span class="text-secondary text-xs font-weight-bold">23/04/18</span>
-                                    </td>
-                                    <td class="align-middle">
-                                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs"
-                                            data-toggle="tooltip" data-original-title="Edit user">
-                                            Edit
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="align-middle text-center">
-                                        <span class="text-secondary text-xs font-weight-bold">1.</span>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex px-2">
-                                            <div>
-                                                <img src="{{ asset('ui_dashboard') }}/assets/img/small-logos/logo-spotify.svg"
-                                                    class="avatar avatar-sm rounded-circle me-2" alt="spotify">
-                                            </div>
-                                            <div class="my-auto">
-                                                <h6 class="mb-0 text-sm">Spotify</h6>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="text-sm font-weight-bold mb-0">$2,500</p>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <div class="d-flex align-items-center justify-content-center">
-                                            <span class="me-2 text-xs font-weight-bold">100%</span>
-                                            <div>
-                                                <div class="progress">
-                                                    <div class="progress-bar bg-gradient-success" role="progressbar"
-                                                        aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"
-                                                        style="width: 100%;"></div>
+                                        </td>
+                                        <td>
+                                            <p class="text-sm font-weight-bold mb-0">{{ $project->type->type_name }}
+                                            </p>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <div class="d-flex align-items-center justify-content-center">
+                                                <span
+                                                    class="me-2 text-xs font-weight-bold">{{ $project->progress }}%</span>
+                                                <div>
+                                                    <div class="progress">
+                                                        <div class="progress-bar bg-gradient-info" role="progressbar"
+                                                            aria-valuenow="{{ $project->progress }}" aria-valuemin="0"
+                                                            aria-valuemax="100" style="width: {{ $project->progress }}%;">
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                    <td class="align-middle text-center text-sm">
-                                        <span class="badge badge-sm bg-gradient-secondary">Offline</span>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <span class="text-secondary text-xs font-weight-bold">23/04/18</span>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <span class="text-secondary text-xs font-weight-bold">23/04/18</span>
-                                    </td>
-                                    <td class="align-middle">
-                                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs"
-                                            data-toggle="tooltip" data-original-title="Edit user">
-                                            Edit
-                                        </a>
-                                    </td>
-                                </tr>
+                                        </td>
+                                        <td class="align-middle text-center text-sm">
+                                            <span
+                                                class="text-secondary text-xs font-weight-bold">{{ $project->status->status_name }}</span>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <span
+                                                class="text-secondary text-xs font-weight-bold">{{ $project->created_at }}</span>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <span
+                                                class="text-secondary text-xs font-weight-bold">{{ $project->updated_at }}</span>
+                                        </td>
+                                        <td class="align-middle">
+                                            <a href="javascript:;" class="text-secondary font-weight-bold text-xs"
+                                                data-toggle="tooltip" data-original-title="Edit user">
+                                                Edit
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
+
                         </table>
                     </div>
                 </div>
