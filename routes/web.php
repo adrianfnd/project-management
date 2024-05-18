@@ -24,14 +24,7 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Main Route
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class,'dashboard']) -> name('dashboard');
+    Route::get('/dashboard_project', [DashboardController::class,'dashboard_project']) -> name('dashboard_project');
+    Route::get('/dashboard_ftth', [DashboardController::class,'dashboard_ftth']) -> name('dashboard_ftth');
+    Route::get('/dashboard_homepass', [DashboardController::class,'dashboard_homepass']) -> name('dashboard_homepass');
 });
-
-//Dashboard
-Route::get('/dashboard_ftth', [DashboardController::class,'dashboard_ftth']) -> name('dashboard_ftth');
-Route::get('/filter', function () {
-    return view('filter');
-});
-Route::get('/dashboard_homepass', [DashboardController::class,'dashboard_homepass']) -> name('dashboard_homepass');
-
-

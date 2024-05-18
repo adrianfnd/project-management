@@ -30,7 +30,9 @@ return new class extends Migration
             $table->string('progress');
             $table->unsignedBigInteger('status_id');
             $table->foreign('status_id')->references('id')->on('statuses');
-            $table->string('target');
+            $table->date('start_date');
+            $table->date('target');
+            $table->date('end_date')->nullable();
             $table->unsignedBigInteger('created_by');
             $table->foreign('created_by')->references('id')->on('users');
             $table->unsignedBigInteger('updated_by')->nullable();

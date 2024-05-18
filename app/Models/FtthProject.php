@@ -24,7 +24,9 @@ class FtthProject extends Model
         'kendala',
         'progress',
         'status_id',
+        'start_date',
         'target',
+        'end_date',
         'created_by',
         'updated_by',
     ];

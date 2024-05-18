@@ -45,19 +45,19 @@
                     </a>
                     <div class="collapse" id="navbar-dropdown">
                         <ul class="nav ms-4">
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('dashboard') }}">
+                            <li class="nav-item {{ request()->is('dashboard_project*') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('dashboard_project') }}">
                                     <span class="sidenav-mini-icon"> P </span>
                                     <span class="sidenav-normal"> Dashboard Project </span>
                                 </a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item {{ request()->is('dashboard_homepass*') ? 'active' : '' }}">
                                 <a class="nav-link" href="{{ route('dashboard_homepass') }}">
                                     <span class="sidenav-mini-icon"> </span>
                                     <span class="sidenav-normal"> Dashboard Homepass </span>
                                 </a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item {{ request()->is('dashboard_ftth*') ? 'active' : '' }}">
                                 <a class="nav-link" href="{{ route('dashboard_ftth') }}">
                                     <span class="sidenav-mini-icon"> S </span>
                                     <span class="sidenav-normal"> Dashboard FTTH </span>

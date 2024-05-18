@@ -24,7 +24,7 @@ class DashboardController extends Controller
     }
     
 
-    public function dashboard()
+    public function dashboard_project()
     {
         $projects = FtthProject::get();
         $types = Type::all();
@@ -67,14 +67,60 @@ class DashboardController extends Controller
             ];
         }
 
-        return view('dashboard.index', [
+        $total_project = FtthProject::count();
+
+        $inschedule_project = FtthProject::whereColumn('target', '=', 'end_date')->count();
+
+        $inschedule_project_percentage = round(($inschedule_project / $total_project) * 100);
+        
+        $overdue_project = FtthProject::whereNull('end_date')
+                            ->where('target', '<', now())
+                            ->count();    
+
+        $overdue_project_percentage = round(($overdue_project / $total_project) * 100);
+        
+        $beyond_project = FtthProject::whereColumn('target', '<', 'end_date')->count();   
+        
+        $beyond_project_percentage = round(($beyond_project / $total_project) * 100);
+
+        return view('dashboard.project', [
             'projects' => $projects,
             'types' => $types,
             'sbus' => $sbus,
             'statuses' => $statuses,
+            'total_project' => $total_project,
+            'inschedule_project' => $inschedule_project,
+            'inschedule_project_percentage' => $inschedule_project_percentage,
+            'overdue_project' => $overdue_project,
+            'overdue_project_percentage' => $overdue_project_percentage,
+            'beyond_project' => $beyond_project,
+            'beyond_project_percentage' => $beyond_project_percentage,
             'pieChartData1' => $pieChartData1,
             'pieChartData2' => $pieChartData2,
             'pieChartData3' => $pieChartData3
+        ]);
+    }
+
+    public function dashboard_homepass(Request $request)
+    {
+        $types = Type::all();
+        $sbus = Sbu::all();
+    
+        $typeId = $request->input('type');
+        $sbuId = $request->input('sbu');
+    
+        if ($typeId && $sbuId) {
+            $projects = FtthProject::where('type_id', $typeId)
+                      ->where('sbu_id', $sbuId)
+                      ->get();
+        } else {    
+            $projects = FtthProject::get();
+        }
+    
+        return view('dashboard.homepass', [
+            'projects' => $projects,
+            'types' => $types,
+            'sbus' => $sbus
         ]);
     }
 
@@ -90,28 +136,4 @@ class DashboardController extends Controller
             'sbus' => $sbus
         ]);
     }
-
-    public function dashboard_homepass(Request $request)
-    {
-        $types = Type::all();
-        $sbus = Sbu::all();
-    
-        $typeId = $request->input('type');
-        $sbuId = $request->input('sbu');
-    
-        if ($typeId && $sbuId) {
-            $projects = FtthProject::where('type', $typeId)
-                      ->where('sbu_id', $sbuId)
-                      ->get();
-        } else {    
-            $projects = FtthProject::get();
-        }
-    
-        return view('dashboard.homepass', [
-            'projects' => $projects,
-            'types' => $types,
-            'sbus' => $sbus
-        ]);
-    }
-    
 }
