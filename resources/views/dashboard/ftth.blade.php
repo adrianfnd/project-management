@@ -130,6 +130,78 @@
             </div>
         </div>
     </nav>
+    <style>
+        .container {
+            margin-top: 20px
+        }
+
+        .filter-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .filter-container select {
+            margin-right: 10px;
+            margin-bottom: 10px;
+            flex: 1;
+        }
+
+        .filter-container .filter-button,
+        .filter-container .camera-button {
+            background-color: #1d3557;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .filter-container .camera-button {
+            background-color: #f1faee;
+            color: #1d3557;
+            border: 1px solid #1d3557;
+        }
+
+        .dashboard-stats {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .dashboard-stats .stat {
+            margin: 10px;
+            flex: 1 1 calc(33.333% - 20px);
+            box-sizing: border-box;
+        }
+
+        .dashboard-stats .stat-number {
+            font-size: 2.5em;
+            color: #1d3557;
+            font-weight: bold;
+        }
+
+        .dashboard-stats .stat-label {
+            font-size: 1em;
+            color: #457b9d;
+            margin-top: 5px;
+        }
+
+        .dashboard-stats .stat-total {
+            font-size: 0.9em;
+            color: #8d99ae;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-stats .stat {
+                flex: 1 1 100%;
+            }
+        }
+    </style>
     {{-- Content --}}
     <div class="container">
         <div class="filter-container">
@@ -165,34 +237,6 @@
                 <i class="fas fa-camera"></i>
             </button>
         </div>
-        <style>
-            .filter-container {
-                display: flex;
-                justify-content: flex-end;
-                align-items: center;
-                margin-top: 20px;
-            }
-
-            .filter-container select {
-                margin-right: 10px;
-            }
-
-            .filter-container .filter-button {
-                background-color: #1d3557;
-                color: white;
-                border: none;
-                padding: 5px 10px;
-                cursor: pointer;
-            }
-
-            .filter-container .camera-button {
-                background-color: #f1faee;
-                color: #1d3557;
-                border: 1px solid #1d3557;
-                padding: 5px 10px;
-                cursor: pointer;
-            }
-        </style>
     </div>
 
     <div class="container-fluid py-4">

@@ -237,26 +237,34 @@
                 <i class="fas fa-camera"></i>
             </button>
         </div>
-        <div class="dashboard-stats">
-            <div class="stat">
-                <div class="stat-number">1,147,496</div>
-                <div class="stat-label">HOMEPASS BUILT</div>
-                <div class="stat-total">of total 1,147,488</div>
-            </div>
-            <div class="stat">
-                <div class="stat-number">289,255</div>
-                <div class="stat-label">HOME CONNECTED</div>
-            </div>
-            <div class="stat">
-                <div class="stat-number">25.21%</div>
-                <div class="stat-label">TUR</div>
-            </div>
-        </div>
     </div>
 
     <div class="container-fluid py-4">
-        <div class="row gx-3 gy-3">
-            <div id="map" style="height: 600px;"></div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="dashboard-stats">
+                            <div class="stat">
+                                <div class="stat-number">1,147,496</div>
+                                <div class="stat-label">HOMEPASS BUILT</div>
+                                <div class="stat-total">of total 1,147,488</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-number">289,255</div>
+                                <div class="stat-label">HOME CONNECTED</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-number">25.21%</div>
+                                <div class="stat-label">TUR</div>
+                            </div>
+                        </div>
+                        <div class="row gx-3 gy-3">
+                            <div id="map" style="height: 600px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <script>
