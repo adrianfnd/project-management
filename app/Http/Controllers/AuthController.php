@@ -11,7 +11,7 @@ class AuthController extends Controller
 {
     public function redirect()
     {
-        return redirect('/dashboard');
+        return redirect('/dashboard_project');
     }
 
     public function showLoginForm()
@@ -24,7 +24,7 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            return redirect()->intended('/dashboard');
+            return redirect()->intended('/dashboard_project');
         }
 
         return back()->withErrors(['email' => 'Password atau Email yang anda masukkan salah']);
