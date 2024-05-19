@@ -133,24 +133,31 @@
     {{-- Content --}}
     <div class="container">
         <div class="filter-container">
-            <select class="form-select" id="filterDropdown1">
-                <option value="TK4">TK4</option>
-                <option value="CB1">CB1</option>
-                <option value="CB2">CB2</option>
-                <option value="CB3">CB3</option>
-                <option value="TK1">TK1</option>
-                <option value="TK2">TK2</option>
-                <option value="TK3">TK3</option>
-                <option value="SI">SI</option>
-                <option value="POC">POC</option>
-                <option value="JI">JI</option>
+            <select class="form-select" id="filterDropdown1" name="type" form="filterForm">
+                @foreach ($types as $type)
+                    <option value="{{ $type->id }}" {{ request()->input('type') == $type->id ? 'selected' : '' }}>
+                        {{ $type->type_name }}</option>
+                @endforeach
             </select>
-            <select class="form-select" id="filterDropdown2">
-                <option value="SBU Bandung">SBU Bandung</option>
-                <option value="SBU Jakarta">SBU Jakarta</option>
-                <option value="SBU Surabaya">SBU Surabaya</option>
-                <!-- Add more options as needed -->
+            <select class="form-select" id="filterDropdown2" name="sbu" form="filterForm">
+                @foreach ($sbus as $sbu)
+                    <option value="{{ $sbu->id }}" {{ request()->input('sbu') == $sbu->id ? 'selected' : '' }}>
+                        {{ $sbu->sbu_name }}</option>
+                @endforeach
             </select>
+
+            <form id="filterForm" action="{{ url()->current() }}" method="GET">
+            </form>
+
+            <script>
+                document.getElementById('filterDropdown1').addEventListener('change', function() {
+                    document.getElementById('filterForm').submit();
+                });
+                document.getElementById('filterDropdown2').addEventListener('change', function() {
+                    document.getElementById('filterForm').submit();
+                });
+            </script>
+
             <button class="filter-button">
                 <i class="fas fa-filter"></i>
             </button>
@@ -197,7 +204,7 @@
                         <h6 class="ms-2 mt-4 mb-0">Homepass Live</h6>
                         <div class="card-body p-3 bg-white">
                             <div class="chart">
-                                <canvas id="chart-bar" class="chart-canvas"></canvas>
+                                <canvas id="chart-bar-1" class="chart-canvas"></canvas>
                             </div>
                         </div>
                         <h6 class="ms-2 mt-4 mb-0">Sales Growth</h6>
@@ -205,6 +212,26 @@
                     </div>
                 </div>
             </div>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    var chartData1 = @json($chartData1);
+                    var ctx = document.getElementById('chart-bar-1').getContext('2d');
+
+                    new Chart(ctx, {
+                        type: 'bar',
+                        data: chartData1,
+                        options: {
+                            responsive: true,
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                });
+            </script>
 
             <!-- Progress Homepass -->
             <div class="col-lg-4 col-md-6 mb-4">
