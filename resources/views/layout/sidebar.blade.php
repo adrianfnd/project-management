@@ -63,6 +63,18 @@
                                     <span class="sidenav-normal"> Dashboard FTTH </span>
                                 </a>
                             </li>
+                            <li class="nav-item {{ request()->is('dashboard_olt*') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('dashboard_olt') }}">
+                                    <span class="sidenav-mini-icon"> S </span>
+                                    <span class="sidenav-normal"> Dashboard OLT Brand </span>
+                                </a>
+                            </li>
+                            <li class="nav-item {{ request()->is('dashboard_daily*') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('dashboard_daily') }}">
+                                    <span class="sidenav-mini-icon"> S </span>
+                                    <span class="sidenav-normal"> Dashboard Daily Activity </span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </li>

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\AuthController;
 
 
@@ -27,4 +28,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard_project', [DashboardController::class,'dashboard_project']) -> name('dashboard_project');
     Route::get('/dashboard_ftth', [DashboardController::class,'dashboard_ftth']) -> name('dashboard_ftth');
     Route::get('/dashboard_homepass', [DashboardController::class,'dashboard_homepass']) -> name('dashboard_homepass');
+    Route::get('/dashboard_olt', [DashboardController::class,'dashboard_olt']) -> name('dashboard_olt');
+    Route::get('/dashboard_daily', [DashboardController::class,'dashboard_daily']) -> name('dashboard_daily');
 });
+
+Route::get('/project/create', [ProjectController::class, 'create'])->name('project.create');

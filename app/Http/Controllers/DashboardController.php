@@ -167,4 +167,10 @@ class DashboardController extends Controller
 
         return $colors;
     }
+    public function dashboard_olt(){
+        return view ("dashboard.olt");
+    }
+    public function dashboard_daily(){
+        return view ("dashboard.daily");
+    }
 }
