@@ -13,6 +13,6 @@ class DashboardOltBrand extends Controller
     {
         $page_name = 'Dashboard OLT Brand';
 
-        return view ("dashboard.olt", compact('page_name'));
+        return view ("dashboard_olt_brand.index", compact('page_name'));
     }
 }

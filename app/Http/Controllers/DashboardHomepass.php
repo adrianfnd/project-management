@@ -29,7 +29,7 @@ class DashboardHomepass extends Controller
             $projects = FtthProject::get();
         }
     
-        return view('dashboard.homepass', [
+        return view('dashboard_homepass.index', [
             'page_name' => $page_name,
             'projects' => $projects,
             'types' => $types,

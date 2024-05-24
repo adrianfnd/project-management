@@ -31,6 +31,11 @@ Route::middleware(['auth'])->group(function () {
     // Dashboard Project
     Route::get('/dashboard_project', [DashboardProject::class,'dashboard']) -> name('dashboard_project');
     Route::get('/project/create', [DashboardProject::class, 'create'])->name('project.create');
+    Route::post('/project/store', [DashboardProject::class, 'store'])->name('project.store');
+    Route::get('/project/edit/{id}', [DashboardProject::class, 'edit'])->name('project.edit');
+    Route::post('/project/update/{id}', [DashboardProject::class, 'update'])->name('project.update');
+    Route::get('/project/view/{id}', [DashboardProject::class, 'view'])->name('project.view');
+    Route::get('/project/delete/{id}', [DashboardProject::class, 'delete'])->name('project.delete');
 
     // Dashboard FTTH
     Route::get('/dashboard_ftth', [DashboardFtth::class,'dashboard']) -> name('dashboard_ftth');

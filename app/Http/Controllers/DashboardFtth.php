@@ -48,7 +48,7 @@ class DashboardFtth extends Controller
             ],
         ];
 
-        return view('dashboard.ftth', [
+        return view('dashboard_ftth.index', [
             'page_name' => $page_name,
             'projects' => $projects,
             'types' => $types,

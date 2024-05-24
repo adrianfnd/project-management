@@ -83,7 +83,7 @@ class DashboardProject extends Controller
         
         $beyond_project_percentage = round(($beyond_project / $total_project) * 100);
 
-        return view('dashboard.project', [
+        return view('dashboard_project.index', [
             'page_name' => $page_name,
             'projects' => $projects,
             'types' => $types,
@@ -102,7 +102,30 @@ class DashboardProject extends Controller
         ]);
     }
 
-    public function create(){
-        return view('project.create');
+    public function create()
+    {
+        $page_name = 'Create Project';
+
+        return view('dashboard_project.create', [
+            'page_name' => $page_name
+        ]);
+    }
+
+    public function edit()
+    {
+        $page_name = 'Edit Project';
+
+        return view('dashboard_project.edit', [
+            'page_name' => $page_name
+        ]);
+    }
+
+    public function view()
+    {
+        $page_name = 'View Project';
+
+        return view('dashboard_project.view', [
+            'page_name' => $page_name
+        ]);
     }
 }

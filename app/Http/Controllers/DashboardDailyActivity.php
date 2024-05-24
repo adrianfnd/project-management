@@ -13,6 +13,6 @@ class DashboardDailyActivity extends Controller
     {
         $page_name = 'Dashboard Daily Activity';
 
-        return view ("dashboard.daily", compact('page_name'));
+        return view ("dashboard_daily_activity.index", compact('page_name'));
     }
 }
