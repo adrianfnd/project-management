@@ -708,7 +708,11 @@ $text-gradient-text-fill: transparent !default;
 $text-gradient-position: relative !default;
 $text-gradient-zindex: 1 !default;
 $text-gradient-bg-primary: linear-gradient(310deg, #7928ca, #ff0080) !default;
-$text-gradient-bg-info: linear-gradient(310deg, #2152ff, #21d4fd) !default;
+$text-gradient-bg-info: linear-gradient(
+    310deg,
+    #1c3782 0%,
+    #3f69e6 100%
+) !default;
 $text-gradient-bg-success: linear-gradient(310deg, #17ad37, #c1e823) !default;
 $text-gradient-bg-warning: linear-gradient(310deg, #f53939, #fbcf33) !default;
 $text-gradient-bg-danger: linear-gradient(310deg, #d60808, #ff6690) !default;

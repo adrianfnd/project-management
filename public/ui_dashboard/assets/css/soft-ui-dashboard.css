@@ -25553,7 +25553,7 @@ p {
 }
 
 .text-gradient.text-info {
-    background-image: linear-gradient(310deg, #2152ff, #21d4fd);
+    background-image: linear-gradient(310deg, #1c3782 0%, #3f69e6 100%);
 }
 
 .text-gradient.text-success {
