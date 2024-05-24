@@ -2244,7 +2244,7 @@ progress {
 .form-control:focus {
     color: #495057;
     background-color: #fff;
-    border-color: #e293d3;
+    border-color: #1c3782;
     outline: 0;
     box-shadow: 0 0 0 2px #e9aede;
 }
@@ -2370,7 +2370,7 @@ textarea.form-control-sm {
     }
 }
 .form-select:focus {
-    border-color: #e293d3;
+    border-color: #1c3782;
     outline: 0;
     box-shadow: 0 0 0 2px #e9aede;
 }
@@ -4525,7 +4525,7 @@ fieldset:disabled .btn {
     --bs-accordion-btn-icon-transform: rotate(180deg);
     --bs-accordion-btn-icon-transition: transform 0.2s ease-in-out;
     --bs-accordion-btn-active-icon: none;
-    --bs-accordion-btn-focus-border-color: #e293d3;
+    --bs-accordion-btn-focus-border-color: #1c3782;
     --bs-accordion-btn-focus-box-shadow: none;
     --bs-accordion-body-padding-x: 1rem;
     --bs-accordion-body-padding-y: 1rem;
@@ -17175,8 +17175,8 @@ fieldset:disabled .btn {
     margin-left: 0;
 }
 .input-group .form-control:focus {
-    border-left: 1px solid #e293d3 !important;
-    border-right: 1px solid #e293d3 !important;
+    border-left: 1px solid #1c3782 !important;
+    border-right: 1px solid #1c3782 !important;
 }
 .input-group .form-control:not(:first-child) {
     border-left: 0;
@@ -17219,11 +17219,11 @@ fieldset:disabled .btn {
     box-shadow: none;
 }
 .focused .form-control + .input-group-text {
-    border-color: #e293d3;
-    border-right: 1px solid #e293d3 !important;
+    border-color: #1c3782;
+    border-right: 1px solid #1c3782 !important;
 }
 .focused .input-group-text {
-    border-color: #e293d3;
+    border-color: #1c3782;
 }
 .form-check:not(.form-switch) .form-check-input[type="checkbox"],
 .form-check:not(.form-switch) .form-check-input[type="radio"] {
