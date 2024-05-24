@@ -151,13 +151,12 @@
                     <div class="card-header pb-0">
                         <h6>Projects table</h6>
                     </div>
-                    <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-                        <!-- Tombol Create Data -->
-                        <a href="#" class="btn btn-primary">
-                            <i class="fa fa-plus"></i> Create Data
-                        </a>
-                    </div>
                     <div class="card-body px-0 pt-0 pb-2">
+                        <div class="d-flex justify-content-between align-items-center px-4 pb-3">
+                            <a href="#" class="btn btn-sm btn-primary">
+                                <i class="fa fa-plus"></i> Create Data
+                            </a>
+                        </div>
                         <div class="table-responsive p-0">
                             <table class="table align-items-center justify-content-center mb-0">
                                 <thead>
