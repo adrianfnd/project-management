@@ -6,11 +6,11 @@
         <div class="sidenav-header">
             <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
                 aria-hidden="true" id="iconSidenav"></i>
-            <a class="navbar-brand m-0" href="https://demos.creative-tim.com/soft-ui-dashboard/pages/dashboard.html"
-                target="_blank">
-                <img src="{{ asset('ui_dashboard') }}/assets/img/logo-ct-dark.png" class="navbar-brand-img h-100"
-                    alt="main_logo">
-                <span class="ms-1 font-weight-bold">Soft UI Dashboard</span>
+            <a class="navbar-brand m-0" href="{{ route('dashboard_project') }}">
+                <center>
+                    <img src="{{ asset('ui_dashboard') }}/assets/img/logo-ct-dark.png" class="navbar-brand-img h-100"
+                        alt="main_logo" style="width: 6rem;">
+                </center>
             </a>
         </div>
         <hr class="horizontal dark mt-0">
