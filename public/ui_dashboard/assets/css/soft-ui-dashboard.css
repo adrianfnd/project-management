@@ -21160,7 +21160,7 @@ fieldset:disabled .btn {
 }
 
 .card.card-background.card-background-mask-info:after {
-    background-image: linear-gradient(310deg, #2152ff 0%, #21d4fd 100%);
+    background-image: linear-gradient(310deg, #1c3782 0%, #3f69e6 100%);
     opacity: 0.85;
 }
 
@@ -21889,7 +21889,7 @@ label,
 }
 
 .bg-gradient-info {
-    background-image: linear-gradient(310deg, #2152ff 0%, #21d4fd 100%);
+    background-image: linear-gradient(310deg, #1c3782 0%, #3f69e6 100%);
 }
 
 .bg-gradient-warning {
@@ -24382,7 +24382,7 @@ html {
 .pagination.pagination-info .page-item.active > .page-link,
 .pagination.pagination-info .page-item.active > .page-link:focus,
 .pagination.pagination-info .page-item.active > .page-link:hover {
-    background-image: linear-gradient(310deg, #2152ff 0%, #21d4fd 100%);
+    background-image: linear-gradient(310deg, #1c3782 0%, #3f69e6 100%);
     border: none;
     color: #fff;
 }

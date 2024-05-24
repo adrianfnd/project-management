@@ -36,44 +36,6 @@
                             href="{{ asset('ui_dashboard') }}/pages/dashboard.html">
                             Project Management
                         </a>
-                        <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false"
-                            aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon mt-2">
-                                <span class="navbar-toggler-bar bar1"></span>
-                                <span class="navbar-toggler-bar bar2"></span>
-                                <span class="navbar-toggler-bar bar3"></span>
-                            </span>
-                        </button>
-                        <div class="collapse navbar-collapse" id="navigation">
-                            <ul class="navbar-nav mx-auto ms-xl-auto me-xl-7">
-                                <li class="nav-item">
-                                    <a class="nav-link d-flex align-items-center me-2 active" aria-current="page"
-                                        href="{{ asset('ui_dashboard') }}/pages/dashboard.html">
-                                        <i class="fa fa-chart-pie opacity-6 text-dark me-1"></i>
-                                        Dashboard
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link me-2" href="{{ asset('ui_dashboard') }}/pages/profile.html">
-                                        <i class="fa fa-user opacity-6 text-dark me-1"></i>
-                                        Profile
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link me-2" href="{{ route('dashboard_project') }}">
-                                        <i class="fas fa-user-circle opacity-6 text-dark me-1"></i>
-                                        Sign Up
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link me-2" href="{{ route('dashboard_project') }}">
-                                        <i class="fas fa-key opacity-6 text-dark me-1"></i>
-                                        Sign In
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
                     </div>
                 </nav>
                 <!-- End Navbar -->
@@ -130,9 +92,9 @@
 
                                 <div class="card-footer text-center pt-0 px-lg-2 px-1">
                                     <p class="mb-4 text-sm mx-auto">
-                                        Don't have an account?
-                                        <a href="javascript:;" class="text-info text-gradient font-weight-bold">Sign
-                                            up</a>
+                                        Forgot your password?
+                                        <a href="javascript:;"
+                                            class="text-info text-gradient font-weight-bold">Reset</a>
                                     </p>
                                 </div>
                             </div>
@@ -140,7 +102,7 @@
                         <div class="col-md-6">
                             <div class="oblique position-absolute top-0 h-100 d-md-block d-none me-n8">
                                 <div class="oblique-image bg-cover position-absolute fixed-top ms-auto h-100 z-index-0 ms-n6"
-                                    style="background-image:url('{{ asset('ui_dashboard') }}/assets/img/curved-images/curved6.jpg')">
+                                    style="background-image:url('{{ asset('ui_dashboard') }}/assets/img/curved-images/curved14.jpg')">
                                 </div>
                             </div>
                         </div>
@@ -153,26 +115,6 @@
     <footer class="footer py-5">
         <div class="container">
             <div class="row">
-                <div class="col-lg-8 mb-4 mx-auto text-center">
-                    <a href="javascript:;" target="_blank" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
-                        Company
-                    </a>
-                    <a href="javascript:;" target="_blank" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
-                        About Us
-                    </a>
-                    <a href="javascript:;" target="_blank" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
-                        Team
-                    </a>
-                    <a href="javascript:;" target="_blank" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
-                        Products
-                    </a>
-                    <a href="javascript:;" target="_blank" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
-                        Blog
-                    </a>
-                    <a href="javascript:;" target="_blank" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
-                        Pricing
-                    </a>
-                </div>
                 <div class="col-lg-8 mx-auto text-center mb-4 mt-2">
                     <a href="javascript:;" target="_blank" class="text-secondary me-xl-4 me-4">
                         <span class="text-lg fab fa-dribbble"></span>
@@ -197,7 +139,7 @@
                         Copyright ©
                         <script>
                             document.write(new Date().getFullYear())
-                        </script> Soft by Creative Tim.
+                        </script> Project Management System
                     </p>
                 </div>
             </div>

@@ -1,8 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\DashboardProject;
+use App\Http\Controllers\DashboardFtth;
+use App\Http\Controllers\DashboardHomepass;
+use App\Http\Controllers\DashboardOltBrand;
+use App\Http\Controllers\DashboardDailyActivity;
 use App\Http\Controllers\AuthController;
 
 
@@ -25,11 +28,19 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Main Route
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard_project', [DashboardController::class,'dashboard_project']) -> name('dashboard_project');
-    Route::get('/dashboard_ftth', [DashboardController::class,'dashboard_ftth']) -> name('dashboard_ftth');
-    Route::get('/dashboard_homepass', [DashboardController::class,'dashboard_homepass']) -> name('dashboard_homepass');
-    Route::get('/dashboard_olt', [DashboardController::class,'dashboard_olt']) -> name('dashboard_olt');
-    Route::get('/dashboard_daily', [DashboardController::class,'dashboard_daily']) -> name('dashboard_daily');
-});
+    // Dashboard Project
+    Route::get('/dashboard_project', [DashboardProject::class,'dashboard']) -> name('dashboard_project');
+    Route::get('/project/create', [DashboardProject::class, 'create'])->name('project.create');
 
-Route::get('/project/create', [ProjectController::class, 'create'])->name('project.create');
+    // Dashboard FTTH
+    Route::get('/dashboard_ftth', [DashboardFtth::class,'dashboard']) -> name('dashboard_ftth');
+
+    // Dashboard Homepass
+    Route::get('/dashboard_homepass', [DashboardHomepass::class,'dashboard']) -> name('dashboard_homepass');
+
+    // Dashboard OLT Brand
+    Route::get('/dashboard_olt', [DashboardOltBrand::class,'dashboard']) -> name('dashboard_olt');
+
+    // Dashboard Daily Activity
+    Route::get('/dashboard_daily', [DashboardDailyActivity::class,'dashboard']) -> name('dashboard_daily');
+});
