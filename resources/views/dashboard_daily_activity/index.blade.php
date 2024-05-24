@@ -3,42 +3,39 @@
 @extends('main')
 
 @section('content')
-    {{-- Content --}}
-    <div class="container">
-        <div class="filter-container">
-            <div class="row">
-                <div class="col-md-12">
-                    <h5>1. SBU Bandung</h5>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <canvas id="homepassChart"></canvas>
-                        </div>
-                        <div class="col-md-4">
-                            <canvas id="fatChart"></canvas>
-                        </div>
-                        <div class="col-md-4">
-                            <canvas id="progressChart"></canvas>
-                        </div>
+    <div class="container-fluid py-4">
+        <div class="row mb-4 justify-content-between">
+            <div class="col-md-12">
+                <h5>1. SBU Bandung</h5>
+                <div class="row">
+                    <div class="col-md-4">
+                        <canvas id="homepassChart"></canvas>
+                    </div>
+                    <div class="col-md-4">
+                        <canvas id="fatChart"></canvas>
+                    </div>
+                    <div class="col-md-4">
+                        <canvas id="progressChart"></canvas>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <label for="cb1">CB1</label>
-                    <select id="cb1" class="form-control">
-                        <option value="CB1">CB1</option>
-                        <!-- Add more options as needed -->
-                    </select>
-                </div>
-                <div class="col-md-4">
-                    <label for="startDate">Start Date</label>
-                    <input type="date" id="startDate" class="form-control" value="2024-05-12">
-                </div>
-                <div class="col-md-4">
-                    <label for="endDate">End Date</label>
-                    <input type="date" id="endDate" class="form-control" value="2024-05-19">
-                </div>
-                <div class="col-md-12">
-                    <button class="btn btn-primary mt-2" onclick="filterData()">Filter</button>
-                </div>
+            </div>
+            <div class="col-md-4">
+                <label for="cb1">CB1</label>
+                <select id="cb1" class="form-control">
+                    <option value="CB1">CB1</option>
+                    <!-- Add more options as needed -->
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="startDate">Start Date</label>
+                <input type="date" id="startDate" class="form-control" value="2024-05-12">
+            </div>
+            <div class="col-md-4">
+                <label for="endDate">End Date</label>
+                <input type="date" id="endDate" class="form-control" value="2024-05-19">
+            </div>
+            <div class="col-md-12">
+                <button class="btn btn-primary mt-2" onclick="filterData()">Filter</button>
             </div>
         </div>
     </div>
@@ -130,5 +127,4 @@
             );
         };
     </script>
-    {{-- AKHIR CONTENT --}}
 @endsection

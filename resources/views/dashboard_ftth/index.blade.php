@@ -75,6 +75,7 @@
             }
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     {{-- Content --}}
     <div class="container">
         <div class="filter-container">
@@ -103,10 +104,7 @@
                 });
             </script>
 
-            <button class="filter-button">
-                <i class="fas fa-filter"></i>
-            </button>
-            <button class="camera-button">
+            <button class="camera-button" id="downloadButton">
                 <i class="fas fa-camera"></i>
             </button>
         </div>
@@ -371,6 +369,19 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.getElementById('downloadButton').addEventListener('click', function() {
+            html2canvas(document.querySelector('.container-fluid.py-4')).then(canvas => {
+                let link = document.createElement('a');
+                link.download = 'dashboard_ftth.png';
+                link.href = canvas.toDataURL();
+                link.click();
+            }).catch(function(error) {
+                console.error('Error capturing the dashboard_ftth:', error);
+            });
+        });
+    </script>
 
     {{-- AKHIR CONTENT --}}
 @endsection

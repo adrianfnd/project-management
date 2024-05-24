@@ -74,7 +74,53 @@
                 flex: 1 1 100%;
             }
         }
+
+        .progress-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .progress-item {
+
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e9ecef;
+            border-radius: 25px;
+            color: white;
+        }
+
+        .progress-item span {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .budget-summary {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .budget-label {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #4a4a4a;
+        }
+
+        .budget-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #007bff;
+        }
+
+        .budget-subvalue {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #6c757d;
+        }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://unpkg.com/leaflet-image/leaflet-image.js"></script>
     {{-- Content --}}
     <div class="container">
         <div class="filter-container">
@@ -103,10 +149,7 @@
                 });
             </script>
 
-            <button class="filter-button">
-                <i class="fas fa-filter"></i>
-            </button>
-            <button class="camera-button">
+            <button class="camera-button" id="downloadButton">
                 <i class="fas fa-camera"></i>
             </button>
         </div>
@@ -117,59 +160,28 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <div class="dashboard-stats">
-                            <div class="stat">
-                                <div class="stat-number">1,147,496</div>
-                                <div class="stat-label">HOMEPASS BUILT</div>
-                                <div class="stat-total">of total 1,147,488</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-number">289,255</div>
-                                <div class="stat-label">HOME CONNECTED</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-number">25.21%</div>
-                                <div class="stat-label">TUR</div>
-                            </div>
-                        </div>
-                        <div class="row gx-3 gy-3">
-                            <div id="map" style="height: 600px;"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var map = L.map('map').setView([-6.200000, 106.816666], 10);
-
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(map);
-
-            var projects = @json($projects);
-
-            projects.forEach(function(project) {
-                var popupContent = `
-                    <b>${project.project_name}</b><br>
-                    Progress: ${project.progress}<br>
-                    Kendala: ${project.kendala}<br><br>
-                    <center><img src="${project.image}" alt="${project.name}" style="width:175px;height:auto;"></center>
-                `;
-                L.marker([project.latitude, project.longitude])
-                    .addTo(map)
-                    .bindPopup(popupContent);
-            });
-        });
-    </script>
-
-    <div class="container-fluid py-4">
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
                         <div class="d-flex flex-column">
+                            <div class="dashboard-stats">
+                                <div class="stat">
+                                    <div class="stat-number">1,147,496</div>
+                                    <div class="stat-label">HOMEPASS BUILT</div>
+                                    <div class="stat-total">of total 1,147,488</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-number">289,255</div>
+                                    <div class="stat-label">HOME CONNECTED</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-number">25.21%</div>
+                                    <div class="stat-label">TUR</div>
+                                </div>
+                            </div>
+                            <div class="row gx-3 gy-3">
+                                <div id="map" style="height: 600px;"></div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex flex-column mt-4">
                             <h5 class="mb-4">PER SBU ACHIEVEMENT</h5>
                             <div class="progress-group">
                                 <div class="progress-item" style="background-color: #203A84;">
@@ -237,50 +249,64 @@
         </div>
     </div>
 
-    <style>
-        .progress-group {
-            display: flex;
-            flex-direction: column;
-        }
+    <script>
+        var map;
 
-        .progress-item {
+        document.addEventListener('DOMContentLoaded', function() {
+            map = L.map('map').setView([-6.200000, 106.816666], 10);
 
-            display: flex;
-            justify-content: space-between;
-            padding: 0.5rem 0;
-            border-bottom: 1px solid #e9ecef;
-            border-radius: 25px;
-            color: white;
-        }
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
 
-        .progress-item span {
-            font-size: 1rem;
-            font-weight: 500;
-        }
+            var projects = @json($projects);
+            projects.forEach(function(project) {
+                var popupContent = `
+                    <b>${project.project_name}</b><br>
+                    Progress: ${project.progress}<br>
+                    Kendala: ${project.kendala}<br><br>
+                    <center><img src="${project.image}" alt="${project.name}" style="width:175px;height:auto;"></center>
+                `;
+                L.marker([project.latitude, project.longitude])
+                    .addTo(map)
+                    .bindPopup(popupContent);
+            });
+        });
 
-        .budget-summary {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-        }
+        document.getElementById('downloadButton').addEventListener('click', function() {
+            html2canvas(document.querySelector('.container-fluid.py-4')).then(function(dashboardCanvas) {
+                leafletImage(map, function(err, mapCanvas) {
+                    if (err) {
+                        console.error('Error capturing the map:', err);
+                        return;
+                    }
 
-        .budget-label {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #4a4a4a;
-        }
+                    var finalCanvas = document.createElement('canvas');
+                    finalCanvas.width = dashboardCanvas.width;
+                    finalCanvas.height = dashboardCanvas.height;
 
-        .budget-value {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #007bff;
-        }
+                    var ctx = finalCanvas.getContext('2d');
+                    ctx.drawImage(dashboardCanvas, 0, 0);
 
-        .budget-subvalue {
-            font-size: 1rem;
-            font-weight: 400;
-            color: #6c757d;
-        }
-    </style>
+                    var mapContainer = document.getElementById('map');
+                    var mapRect = mapContainer.getBoundingClientRect();
+                    var dashboardRect = document.querySelector('.container-fluid.py-4')
+                        .getBoundingClientRect();
+                    var mapOffsetX = mapRect.left - dashboardRect.left;
+                    var mapOffsetY = mapRect.top - dashboardRect.top;
+
+                    ctx.drawImage(mapCanvas, mapOffsetX, mapOffsetY);
+
+                    var link = document.createElement('a');
+                    link.download = 'dashboard_homepass.png';
+                    link.href = finalCanvas.toDataURL();
+                    link.click();
+                });
+            }).catch(function(error) {
+                console.error('Error capturing the dashboard_homepass:', error);
+            });
+        });
+    </script>
+
     {{-- AKHIR CONTENT --}}
 @endsection
