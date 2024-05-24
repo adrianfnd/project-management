@@ -18,7 +18,8 @@
                 <div class="ms-md-auto pe-md-3 d-flex align-items-center">
                     <ul class="navbar-nav  justify-content-end">
                         <li class="nav-item dropdown d-flex align-items-center">
-                            <a href="javascript:;" class="nav-link text-body font-weight-bold px-0 dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a href="javascript:;" class="nav-link text-body font-weight-bold px-0 dropdown-toggle"
+                                id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fa fa-user me-sm-1"></i>
                                 <span class="d-sm-inline d-none"></span>
                             </a>
@@ -176,7 +177,7 @@
             right: 0;
             height: 100%;
             border: none;
-            background: #cb0c9f;
+            background: #1c3782;
         }
     </style>
 
