@@ -36,8 +36,6 @@ class DashboardProject extends Controller
         $pieChartData2 = [];
         $pieChartData3 = [];
 
-        $statusData = [];
-
         foreach ($statuses as $status) {
             $projectsCount = $status->ftthProjects()->count();
 
@@ -70,21 +68,29 @@ class DashboardProject extends Controller
 
         $total_project = FtthProject::count();
 
-        $inschedule_project = FtthProject::whereColumn('target', '=', 'end_date')->count();
+        if ($total_project > 0) {
+            $inschedule_project = FtthProject::whereColumn('target', '=', 'end_date')->count();
+            $inschedule_project_percentage = round(($inschedule_project / $total_project) * 100);
 
-        $inschedule_project_percentage = round(($inschedule_project / $total_project) * 100);
-        
-        $overdue_project = FtthProject::whereNull('end_date')
-                            ->where('target', '<', now())
-                            ->count();    
+            $overdue_project = FtthProject::whereNull('end_date')
+                                ->where('target', '<', now())
+                                ->count();
+            $overdue_project_percentage = round(($overdue_project / $total_project) * 100);
 
-        $overdue_project_percentage = round(($overdue_project / $total_project) * 100);
-        
-        $beyond_project = FtthProject::whereColumn('target', '<', 'end_date')->count();   
-        
-        $beyond_project_percentage = round(($beyond_project / $total_project) * 100);
+            $beyond_project = FtthProject::whereColumn('target', '<', 'end_date')->count();
+            $beyond_project_percentage = round(($beyond_project / $total_project) * 100);
+        } else {
+            $inschedule_project = 0;
+            $inschedule_project_percentage = 0;
 
-        return view('dashboard_project.index', [
+            $overdue_project = 0;
+            $overdue_project_percentage = 0;
+
+            $beyond_project = 0;
+            $beyond_project_percentage = 0;
+        }
+
+        return view('staff.dashboard_project.index', [
             'page_name' => $page_name,
             'projects' => $projects,
             'types' => $types,
@@ -107,7 +113,7 @@ class DashboardProject extends Controller
     {
         $page_name = 'Create Project';
 
-        return view('dashboard_project.create', [
+        return view('staff.dashboard_project.create', [
             'page_name' => $page_name
         ]);
     }
@@ -116,7 +122,7 @@ class DashboardProject extends Controller
     {
         $page_name = 'Edit Project';
 
-        return view('dashboard_project.edit', [
+        return view('staff.dashboard_project.edit', [
             'page_name' => $page_name
         ]);
     }
@@ -125,7 +131,7 @@ class DashboardProject extends Controller
     {
         $page_name = 'View Project';
 
-        return view('dashboard_project.view', [
+        return view('staff.dashboard_project.view', [
             'page_name' => $page_name
         ]);
     }
