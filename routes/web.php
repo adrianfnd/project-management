@@ -1,12 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DashboardProject;
-use App\Http\Controllers\DashboardFtth;
-use App\Http\Controllers\DashboardHomepass;
-use App\Http\Controllers\DashboardOltBrand;
-use App\Http\Controllers\DashboardDailyActivity;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\technician\DashboardProject;
+use App\Http\Controllers\technician\DashboardFtth;
+use App\Http\Controllers\technician\DashboardHomepass;
+use App\Http\Controllers\technician\DashboardOltBrand;
+use App\Http\Controllers\technician\DashboardDailyActivity;
+use App\Http\Controllers\technician\AuthController;
+
+use App\Http\Controllers\superadmin\StaffController;
+use App\Http\Controllers\superadmin\TechnicianController;
 
 
 /*
@@ -26,7 +29,22 @@ Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.action');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::middleware(['auth', 'role:Superadmin'])->prefix('superadmin')->group(function () {   
+Route::middleware(['auth', 'role:Superadmin'])->prefix('superadmin')->group(function () {
+   // Staff
+   Route::get('/staff', [StaffController::class, 'index'])->name('staff.index');
+   Route::get('/staff/create', [StaffController::class, 'create'])->name('staff.create');
+   Route::post('/staff', [StaffController::class, 'store'])->name('staff.store');
+   Route::get('/staff/{id}/edit', [StaffController::class, 'edit'])->name('staff.edit');
+   Route::put('/staff/{id}', [StaffController::class, 'update'])->name('staff.update');
+   Route::delete('/staff/{id}', [StaffController::class, 'destroy'])->name('staff.destroy');
+
+   // Technician
+   Route::get('/technician', [TechnicianController::class, 'index'])->name('technician.index');
+   Route::get('/technician/create', [TechnicianController::class, 'create'])->name('technician.create');
+   Route::post('/technician', [TechnicianController::class, 'store'])->name('technician.store');
+   Route::get('/technician/{id}/edit', [TechnicianController::class, 'edit'])->name('technician.edit');
+   Route::put('/technician/{id}', [TechnicianController::class, 'update'])->name('technician.update');
+   Route::delete('/technician/{id}', [TechnicianController::class, 'destroy'])->name('technician.destroy');
 });
 
 Route::middleware(['auth', 'role:Staff'])->prefix('staff')->group(function () {
