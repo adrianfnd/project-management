@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('ftth_projects', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('type');
+            $table->unsignedBigInteger('type_id');
             $table->foreign('type_id')->references('id')->on('types');
             $table->string('project_name');
             $table->string('olt_hostname');
