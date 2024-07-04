@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\superadmin;
 
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Role;
 use Illuminate\Http\Request;
@@ -11,13 +12,17 @@ class StaffController extends Controller
 {
     public function index()
     {
+        $page_name = 'Staff';
+
         $staffUsers = User::where('role_id', Role::where('role_name', 'Staff')->first()->id)->get();
-        return view('superadmin.staff.index', compact('staffUsers'));
+        return view('superadmin.staff.index', compact('page_name', 'staffUsers'));
     }
 
     public function create()
     {
-        return view('superadmin.staff.create');
+        $page_name = 'Staff';
+
+        return view('superadmin.staff.create', compact('page_name'));
     }
 
     public function store(Request $request)
@@ -42,8 +47,10 @@ class StaffController extends Controller
 
     public function edit($id)
     {
+        $page_name = 'Staff';
+
         $user = User::findOrFail($id);
-        return view('superadmin.staff.edit', compact('user'));
+        return view('superadmin.staff.edit', compact('page_name', 'user'));
     }
 
     public function update(Request $request, $id)

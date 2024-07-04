@@ -36,12 +36,11 @@ class AuthController extends Controller
             $user = Auth::user()->load('role');
     
             if ($user->role->role_name == 'Superadmin') {
-                dd($user->role->role_name);
-                return redirect()->route('admin.operator.index');
+                return redirect()->route('staff.index');
             } elseif ($user->role->role_name == 'Staff') {
-                dd($user->role->role_name);
-                return redirect()->route('operator.dashboard');
+                return redirect()->route('dashboard_project');
             } elseif ($user->role->role_name == 'Technician') {
+                dd($user->role->role_name);
                 return redirect()->route('dashboard_project');
             }
         }

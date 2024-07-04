@@ -1,15 +1,17 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\technician\DashboardProject;
-use App\Http\Controllers\technician\DashboardFtth;
-use App\Http\Controllers\technician\DashboardHomepass;
-use App\Http\Controllers\technician\DashboardOltBrand;
-use App\Http\Controllers\technician\DashboardDailyActivity;
-use App\Http\Controllers\technician\AuthController;
+
+use App\Http\Controllers\AuthController;
 
 use App\Http\Controllers\superadmin\StaffController;
 use App\Http\Controllers\superadmin\TechnicianController;
+
+use App\Http\Controllers\staff\DashboardProject;
+use App\Http\Controllers\staff\DashboardFtth;
+use App\Http\Controllers\staff\DashboardHomepass;
+use App\Http\Controllers\staff\DashboardOltBrand;
+use App\Http\Controllers\staff\DashboardDailyActivity;
 
 
 /*
@@ -48,9 +50,6 @@ Route::middleware(['auth', 'role:Superadmin'])->prefix('superadmin')->group(func
 });
 
 Route::middleware(['auth', 'role:Staff'])->prefix('staff')->group(function () {
-});
-
- Route::middleware(['auth', 'role:Technician'])->prefix('technician')->group(function () {   
     // Dashboard Project
     Route::get('/dashboard_project', [DashboardProject::class,'dashboard']) -> name('dashboard_project');
     Route::get('/project/create', [DashboardProject::class, 'create'])->name('project.create');
@@ -71,4 +70,7 @@ Route::middleware(['auth', 'role:Staff'])->prefix('staff')->group(function () {
  
     // Dashboard Daily Activity
     Route::get('/dashboard_daily', [DashboardDailyActivity::class,'dashboard']) -> name('dashboard_daily');
+});
+
+ Route::middleware(['auth', 'role:Technician'])->prefix('technician')->group(function () {
  });
