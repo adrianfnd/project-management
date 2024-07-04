@@ -26,8 +26,13 @@ Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.action');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// Main Route
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'role:Superadmin'])->prefix('superadmin')->group(function () {   
+});
+
+Route::middleware(['auth', 'role:Staff'])->prefix('staff')->group(function () {
+});
+
+ Route::middleware(['auth', 'role:Technician'])->prefix('technician')->group(function () {   
     // Dashboard Project
     Route::get('/dashboard_project', [DashboardProject::class,'dashboard']) -> name('dashboard_project');
     Route::get('/project/create', [DashboardProject::class, 'create'])->name('project.create');
@@ -36,16 +41,16 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/project/update/{id}', [DashboardProject::class, 'update'])->name('project.update');
     Route::get('/project/view/{id}', [DashboardProject::class, 'view'])->name('project.view');
     Route::get('/project/delete/{id}', [DashboardProject::class, 'delete'])->name('project.delete');
-
+ 
     // Dashboard FTTH
     Route::get('/dashboard_ftth', [DashboardFtth::class,'dashboard']) -> name('dashboard_ftth');
-
+ 
     // Dashboard Homepass
     Route::get('/dashboard_homepass', [DashboardHomepass::class,'dashboard']) -> name('dashboard_homepass');
-
+ 
     // Dashboard OLT Brand
     Route::get('/dashboard_olt', [DashboardOltBrand::class,'dashboard']) -> name('dashboard_olt');
-
+ 
     // Dashboard Daily Activity
     Route::get('/dashboard_daily', [DashboardDailyActivity::class,'dashboard']) -> name('dashboard_daily');
-});
+ });
