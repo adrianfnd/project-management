@@ -29,6 +29,7 @@ class FtthProject extends Model
         'end_date',
         'latitude',
         'longitude',
+        'radius',
         'created_by',
         'updated_by',
     ];

@@ -166,6 +166,15 @@
                         </div>
 
                         <div class="form-group">
+                            <label for="radius">Radius (meters)</label>
+                            <input type="number" class="form-control" id="radius" name="radius"
+                                value="{{ old('radius', $ftthProject->radius) }}" required>
+                            @if ($errors->has('radius'))
+                                <span class="text-danger">{{ $errors->first('radius') }}</span>
+                            @endif
+                        </div>
+
+                        <div class="form-group">
                             <label for="mapid">Lokasi Project</label>
                             <div class="input-group mb-2">
                                 <input type="text" id="searchbox" placeholder="Cari lokasi" class="form-control">
@@ -201,6 +210,8 @@
         document.addEventListener('DOMContentLoaded', function() {
             var initialLat = {{ old('latitude', $ftthProject->latitude) }};
             var initialLng = {{ old('longitude', $ftthProject->longitude) }};
+            var initialRadius =
+                {{ old('radius', $ftthProject->radius ?? 1000) }};
 
             var map = L.map('mapid').setView([initialLat, initialLng], 13);
 
@@ -209,7 +220,7 @@
             }).addTo(map);
 
             var customIcon = L.icon({
-                iconUrl: 'path/to/your/custom-icon.png',
+                iconUrl: '{{ asset('ui_dashboard/assets/img/map-icons/pole.png') }}',
                 iconSize: [32, 32],
                 iconAnchor: [16, 32],
                 popupAnchor: [0, -32]
@@ -218,6 +229,13 @@
             var marker = L.marker([initialLat, initialLng], {
                 draggable: true,
                 icon: customIcon
+            }).addTo(map);
+
+            var circle = L.circle([initialLat, initialLng], {
+                color: '#1c3782',
+                fillColor: '#aaf',
+                fillOpacity: 0.5,
+                radius: initialRadius
             }).addTo(map);
 
             function updateLocationInfo(lat, lon) {
@@ -232,9 +250,14 @@
                     .catch(error => console.error('Error:', error));
             }
 
+            function updateCircleRadius(radius) {
+                circle.setRadius(radius);
+            }
+
             marker.on('dragend', function(event) {
                 var position = marker.getLatLng();
                 updateLocationInfo(position.lat, position.lng);
+                circle.setLatLng([position.lat, position.lng]);
             });
 
             document.getElementById('searchbutton').addEventListener('click', function() {
@@ -248,6 +271,7 @@
                             marker.setLatLng([lat, lon]);
                             map.setView([lat, lon], 13);
                             updateLocationInfo(lat, lon);
+                            circle.setLatLng([lat, lon]);
                         } else {
                             alert('Lokasi tidak ditemukan');
                         }
@@ -262,9 +286,16 @@
                 marker.setLatLng([lat, lon]);
                 map.setView([lat, lon], 13);
                 updateLocationInfo(lat, lon);
+                circle.setLatLng([lat, lon]);
+            });
+
+            document.getElementById('radius').addEventListener('input', function() {
+                var radius = parseFloat(this.value);
+                updateCircleRadius(radius);
             });
 
             updateLocationInfo(initialLat, initialLng);
+            updateCircleRadius(initialRadius);
         });
     </script>
 @endsection

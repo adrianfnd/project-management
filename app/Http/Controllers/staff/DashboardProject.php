@@ -143,6 +143,7 @@ class DashboardProject extends Controller
             'end_date' => 'nullable|date',
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
+            'radius' => 'nullable|numeric',
         ]);
 
         $project = FtthProject::create([
@@ -165,6 +166,7 @@ class DashboardProject extends Controller
             'end_date' => $request->end_date,
             'latitude' => $request->latitude,
             'longitude' => $request->longitude,
+            'radius' => $request->radius,
             'created_by' => auth()->user()->id
         ]);
 
@@ -215,6 +217,7 @@ class DashboardProject extends Controller
             'end_date' => 'nullable|date',
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
+            'radius' => 'nullable|numeric',
         ]);
 
         $ftthProject->update([
@@ -237,6 +240,7 @@ class DashboardProject extends Controller
             'end_date' => $request->end_date,
             'latitude' => $request->latitude,
             'longitude' => $request->longitude,
+            'radius' => $request->radius,
             'updated_by' => auth()->user()->id
         ]);
 
