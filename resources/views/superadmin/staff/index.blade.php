@@ -60,7 +60,7 @@
                                             </td>
                                             <td class="align-middle text-center">
                                                 <a href="{{ route('staff.edit', $staff->id) }}"
-                                                    class="btn btn-xs btn-primary btn-sm me-2" role="button"
+                                                    class="btn btn-xs btn-primary btn-sm" role="button"
                                                     data-bs-toggle="tooltip" data-bs-placement="top" title="Edit staff">
                                                     <i class="fas fa-edit"></i>
                                                 </a>

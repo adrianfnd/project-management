@@ -144,7 +144,49 @@ class DashboardProject extends Controller
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
             'radius' => 'required|numeric',
+        ], [
+            'type_id.required' => 'Kolom Tipe Project wajib diisi.',
+            'type_id.exists' => 'Tipe Project yang dipilih tidak valid.',
+            'project_name.required' => 'Kolom Nama Project wajib diisi.',
+            'project_name.max' => 'Kolom Nama Project tidak boleh lebih dari :max karakter.',
+            'olt_hostname.required' => 'Kolom OLT Hostname wajib diisi.',
+            'olt_hostname.max' => 'Kolom OLT Hostname tidak boleh lebih dari :max karakter.',
+            'no_sp2k_spa.required' => 'Kolom No SP2K/SPA wajib diisi.',
+            'no_sp2k_spa.max' => 'Kolom No SP2K/SPA tidak boleh lebih dari :max karakter.',
+            'sbu_id.required' => 'Kolom SBU wajib diisi.',
+            'sbu_id.exists' => 'SBU yang dipilih tidak valid.',
+            'hp_plan.required' => 'Kolom HP Plan wajib diisi.',
+            'hp_plan.max' => 'Kolom HP Plan tidak boleh lebih dari :max karakter.',
+            'hp_built.required' => 'Kolom HP Built wajib diisi.',
+            'hp_built.max' => 'Kolom HP Built tidak boleh lebih dari :max karakter.',
+            'fat_total.required' => 'Kolom FAT Total wajib diisi.',
+            'fat_total.max' => 'Kolom FAT Total tidak boleh lebih dari :max karakter.',
+            'fat_progress.required' => 'Kolom FAT Progress wajib diisi.',
+            'fat_progress.max' => 'Kolom FAT Progress tidak boleh lebih dari :max karakter.',
+            'fat_built.required' => 'Kolom FAT Built wajib diisi.',
+            'fat_built.max' => 'Kolom FAT Built tidak boleh lebih dari :max karakter.',
+            'ip_olt.required' => 'Kolom IP OLT wajib diisi.',
+            'ip_olt.max' => 'Kolom IP OLT tidak boleh lebih dari :max karakter.',
+            'kendala.required' => 'Kolom Kendala wajib diisi.',
+            'progress.required' => 'Kolom Progress wajib diisi.',
+            'progress.max' => 'Kolom Progress tidak boleh lebih dari :max karakter.',
+            'status_id.required' => 'Kolom Status wajib diisi.',
+            'status_id.exists' => 'Status yang dipilih tidak valid.',
+            'start_date.required' => 'Kolom Tanggal Mulai wajib diisi.',
+            'start_date.date' => 'Kolom Tanggal Mulai harus berupa tanggal yang valid.',
+            'target.required' => 'Kolom Target Selesai wajib diisi.',
+            'target.date' => 'Kolom Target Selesai harus berupa tanggal yang valid.',
+            'target.after' => 'Kolom Target Selesai harus setelah Tanggal Mulai.',
+            'end_date.date' => 'Kolom Tanggal Selesai harus berupa tanggal yang valid.',
+            'end_date.after' => 'Kolom Tanggal Selesai harus setelah Tanggal Mulai.',
+            'latitude.required' => 'Kolom Latitude wajib diisi.',
+            'latitude.numeric' => 'Kolom Latitude harus berupa angka.',
+            'longitude.required' => 'Kolom Longitude wajib diisi.',
+            'longitude.numeric' => 'Kolom Longitude harus berupa angka.',
+            'radius.required' => 'Kolom Radius (meters) wajib diisi.',
+            'radius.numeric' => 'Kolom Radius (meters) harus berupa angka.',
         ]);
+        
 
         $project = FtthProject::create([
             'type_id' => $request->type_id,
@@ -170,7 +212,7 @@ class DashboardProject extends Controller
             'created_by' => auth()->user()->id
         ]);
 
-        return redirect()->route('dashboard_project')->with('success', 'Project created successfully');
+        return redirect()->route('dashboard_project')->with('success', 'Project telah ditambahkan');
     }
 
     public function view(FtthProject $ftthProject)
@@ -218,33 +260,51 @@ class DashboardProject extends Controller
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
             'radius' => 'required|numeric',
+        ], [
+            'type_id.required' => 'Kolom Tipe Project wajib diisi.',
+            'type_id.exists' => 'Tipe Project yang dipilih tidak valid.',
+            'project_name.required' => 'Kolom Nama Project wajib diisi.',
+            'project_name.max' => 'Kolom Nama Project tidak boleh lebih dari :max karakter.',
+            'olt_hostname.required' => 'Kolom OLT Hostname wajib diisi.',
+            'olt_hostname.max' => 'Kolom OLT Hostname tidak boleh lebih dari :max karakter.',
+            'no_sp2k_spa.required' => 'Kolom No SP2K/SPA wajib diisi.',
+            'no_sp2k_spa.max' => 'Kolom No SP2K/SPA tidak boleh lebih dari :max karakter.',
+            'sbu_id.required' => 'Kolom SBU wajib diisi.',
+            'sbu_id.exists' => 'SBU yang dipilih tidak valid.',
+            'hp_plan.required' => 'Kolom HP Plan wajib diisi.',
+            'hp_plan.max' => 'Kolom HP Plan tidak boleh lebih dari :max karakter.',
+            'hp_built.required' => 'Kolom HP Built wajib diisi.',
+            'hp_built.max' => 'Kolom HP Built tidak boleh lebih dari :max karakter.',
+            'fat_total.required' => 'Kolom FAT Total wajib diisi.',
+            'fat_total.max' => 'Kolom FAT Total tidak boleh lebih dari :max karakter.',
+            'fat_progress.required' => 'Kolom FAT Progress wajib diisi.',
+            'fat_progress.max' => 'Kolom FAT Progress tidak boleh lebih dari :max karakter.',
+            'fat_built.required' => 'Kolom FAT Built wajib diisi.',
+            'fat_built.max' => 'Kolom FAT Built tidak boleh lebih dari :max karakter.',
+            'ip_olt.required' => 'Kolom IP OLT wajib diisi.',
+            'ip_olt.max' => 'Kolom IP OLT tidak boleh lebih dari :max karakter.',
+            'kendala.required' => 'Kolom Kendala wajib diisi.',
+            'progress.required' => 'Kolom Progress wajib diisi.',
+            'progress.max' => 'Kolom Progress tidak boleh lebih dari :max karakter.',
+            'status_id.required' => 'Kolom Status wajib diisi.',
+            'status_id.exists' => 'Status yang dipilih tidak valid.',
+            'start_date.required' => 'Kolom Tanggal Mulai wajib diisi.',
+            'start_date.date' => 'Kolom Tanggal Mulai harus berupa tanggal yang valid.',
+            'target.required' => 'Kolom Target Selesai wajib diisi.',
+            'target.date' => 'Kolom Target Selesai harus berupa tanggal yang valid.',
+            'target.after' => 'Kolom Target Selesai harus setelah Tanggal Mulai.',
+            'end_date.date' => 'Kolom Tanggal Selesai harus berupa tanggal yang valid.',
+            'end_date.after' => 'Kolom Tanggal Selesai harus setelah Tanggal Mulai.',
+            'latitude.required' => 'Kolom Latitude wajib diisi.',
+            'latitude.numeric' => 'Kolom Latitude harus berupa angka.',
+            'longitude.required' => 'Kolom Longitude wajib diisi.',
+            'longitude.numeric' => 'Kolom Longitude harus berupa angka.',
+            'radius.required' => 'Kolom Radius (meters) wajib diisi.',
+            'radius.numeric' => 'Kolom Radius (meters) harus berupa angka.',
         ]);
+        
 
-        $ftthProject->update([
-            'type_id' => $request->type_id,
-            'project_name' => 'TK-' . $request->project_name,
-            'olt_hostname' => $request->olt_hostname,
-            'no_sp2k_spa' => $request->no_sp2k_spa,
-            'sbu_id' => $request->sbu_id,
-            'hp_plan' => $request->hp_plan,
-            'hp_built' => $request->hp_built,
-            'fat_total' => $request->fat_total,
-            'fat_progress' => $request->fat_progress,
-            'fat_built' => $request->fat_built,
-            'ip_olt' => $request->ip_olt,
-            'kendala' => $request->kendala,
-            'progress' => $request->progress,
-            'status_id' => $request->status_id,
-            'start_date' => $request->start_date,
-            'target' => $request->target,
-            'end_date' => $request->end_date,
-            'latitude' => $request->latitude,
-            'longitude' => $request->longitude,
-            'radius' => $request->radius,
-            'updated_by' => auth()->user()->id
-        ]);
-
-        return redirect()->route('dashboard_project')->with('success', 'Project updated successfully');
+        return redirect()->route('dashboard_project')->with('success', 'Project telah diperbarui');
     }
     
 
@@ -252,6 +312,6 @@ class DashboardProject extends Controller
     {
         $ftthProject->delete();
 
-        return redirect()->route('dashboard_project')->with('success', 'Project deleted successfully');
+        return redirect()->route('dashboard_project')->with('success', 'Project telah dihapus');
     }
 }

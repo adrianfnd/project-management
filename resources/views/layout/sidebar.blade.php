@@ -71,7 +71,7 @@
                                         </g>
                                 </svg>
                             </div>
-                            <span class="nav-link-text ms-1">Dashboard</span>
+                            <span class="nav-link-text ms-1">Project Management</span>
                         </a>
                         <div class="collapse" id="navbar-dropdown">
                             <ul class="nav ms-4">

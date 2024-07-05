@@ -4,11 +4,9 @@
     <div class="container-fluid py-4">
         <div class="row mb-4">
             <div class="col-12">
-                <div class="card mb-4">
-                    <div class="card-header pb-0">
-                        <h6>Create Technician</h6>
-                    </div>
-                    <div class="card-body px-0 pt-0 pb-2">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Form Tambah Technician</h4>
                         <form action="{{ route('technician.store') }}" method="POST" class="p-4">
                             @csrf
                             <div class="mb-3">
@@ -42,7 +40,9 @@
                                     <span class="text-danger text-sm">{{ $errors->first('password') }}</span>
                                 @endif
                             </div>
-                            <button type="submit" class="btn btn-primary">Create Technician</button>
+                            <button type="submit" class="btn btn-primary mr-2" style="margin-right: 10px">Create
+                                Technician</button>
+                            <a href="{{ route('technician.index') }}" class="btn btn-light">Cancel</a>
                         </form>
                     </div>
                 </div>
