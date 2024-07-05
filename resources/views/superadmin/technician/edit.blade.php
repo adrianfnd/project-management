@@ -15,22 +15,34 @@
                             <div class="mb-3">
                                 <label for="name" class="form-label">Name</label>
                                 <input type="text" class="form-control" id="name" name="name"
-                                    value="{{ $technician->name }}" required>
+                                    value="{{ old('name', $technician->name) }}" required>
+                                @if ($errors->has('name'))
+                                    <span class="text-danger text-sm">{{ $errors->first('name') }}</span>
+                                @endif
                             </div>
                             <div class="mb-3">
                                 <label for="username" class="form-label">Username</label>
                                 <input type="text" class="form-control" id="username" name="username"
-                                    value="{{ $technician->username }}" required>
+                                    value="{{ old('username', $technician->username) }}" required>
+                                @if ($errors->has('username'))
+                                    <span class="text-danger text-sm">{{ $errors->first('username') }}</span>
+                                @endif
                             </div>
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email</label>
                                 <input type="email" class="form-control" id="email" name="email"
-                                    value="{{ $technician->email }}" required>
+                                    value="{{ old('email', $technician->email) }}" required>
+                                @if ($errors->has('email'))
+                                    <span class="text-danger text-sm">{{ $errors->first('email') }}</span>
+                                @endif
                             </div>
                             <div class="mb-3">
                                 <label for="password" class="form-label">Password (biarkan kosong apabila anda tidak ingin
                                     merubah password)</label>
                                 <input type="password" class="form-control" id="password" name="password">
+                                @if ($errors->has('password'))
+                                    <span class="text-danger text-sm">{{ $errors->first('password') }}</span>
+                                @endif
                             </div>
                             <button type="submit" class="btn btn-primary">Update Technician</button>
                         </form>

@@ -65,15 +65,16 @@
                                                     title="Edit technician">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
-                                                <form action="{{ route('technician.destroy', $technician->id) }}"
+                                                <button class="btn btn-xs btn-danger btn-sm" role="button"
+                                                    onclick="confirmDelete({{ $technician->id }})" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" title="Delete technician">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                                <form id="delete-form-{{ $technician->id }}"
+                                                    action="{{ route('technician.destroy', $technician->id) }}"
                                                     method="POST" style="display: inline-block;">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-xs btn-danger btn-sm"
-                                                        onclick="return confirm('Are you sure?')" data-bs-toggle="tooltip"
-                                                        data-bs-placement="top" title="Delete technician">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
                                                 </form>
                                             </td>
                                         </tr>
@@ -86,4 +87,46 @@
             </div>
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function confirmDelete(technicianId) {
+            Swal.fire({
+                title: 'Apakan anda yakin?',
+                text: "Anda tidak akan dapat mengembalikan ini!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Iya, hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('delete-form-' + technicianId).submit();
+                }
+            })
+        }
+
+        var successMessage = '{{ session('success') }}';
+        var errorMessage = '{{ session('error') }}';
+        if (successMessage) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: successMessage,
+                showConfirmButton: false,
+                timer: 2000
+            });
+        }
+
+        if (errorMessage) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal!',
+                text: errorMessage,
+                showConfirmButton: false,
+                timer: 2000
+            });
+        }
+    </script>
 @endsection
