@@ -12,6 +12,8 @@ class Sbu extends Model
     protected $fillable = [
         'sbu_name',
         'location',
+        'latitude',
+        'longitude',
     ];
 
     public function ftthProjects()

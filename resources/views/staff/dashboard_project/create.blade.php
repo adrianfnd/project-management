@@ -52,8 +52,11 @@
                             <select class="form-control" id="sbu_id" name="sbu_id" value="{{ old('sbu_id') }}"
                                 required>
                                 @foreach ($sbus as $sbu)
-                                    <option value="{{ $sbu->id }}" {{ old('sbu_id') == $sbu->id ? 'selected' : '' }}>
-                                        {{ $sbu->sbu_name }}</option>
+                                    <option value="{{ $sbu['id'] }}" data-latitude="{{ $sbu['latitude'] }}"
+                                        data-longitude="{{ $sbu['longitude'] }}"
+                                        {{ old('sbu_id') == $sbu['id'] ? 'selected' : '' }}>
+                                        {{ $sbu['sbu_name'] }}
+                                    </option>
                                 @endforeach
                             </select>
                             @if ($errors->has('sbu_id'))
@@ -194,8 +197,8 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            var initialLat = {{ old('latitude', -6.2) }};
-            var initialLng = {{ old('longitude', 106.816666) }};
+            var initialLat = {{ old('latitude', -2.990934) }};
+            var initialLng = {{ old('longitude', 104.756555) }};
 
             var map = L.map('mapid').setView([initialLat, initialLng], 13);
 
@@ -248,6 +251,15 @@
                         }
                     })
                     .catch(error => console.error('Error:', error));
+            });
+
+            document.getElementById('sbu_id').addEventListener('change', function() {
+                var selectedOption = this.options[this.selectedIndex];
+                var lat = parseFloat(selectedOption.getAttribute('data-latitude'));
+                var lon = parseFloat(selectedOption.getAttribute('data-longitude'));
+                marker.setLatLng([lat, lon]);
+                map.setView([lat, lon], 13);
+                updateLocationInfo(lat, lon);
             });
 
             updateLocationInfo(initialLat, initialLng);

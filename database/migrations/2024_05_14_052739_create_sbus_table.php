@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('sbu_name');
             $table->string('location');
+            $table->string('latitude');
+            $table->string('longitude');
             $table->timestamps();
         });
     }

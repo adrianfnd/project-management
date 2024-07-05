@@ -52,7 +52,8 @@
                             <label for="sbu_id">SBU</label>
                             <select class="form-control" id="sbu_id" name="sbu_id" required>
                                 @foreach ($sbus as $sbu)
-                                    <option value="{{ $sbu->id }}"
+                                    <option value="{{ $sbu->id }}" data-latitude="{{ $sbu['latitude'] }}"
+                                        data-longitude="{{ $sbu['longitude'] }}"
                                         {{ old('sbu_id', $ftthProject->sbu_id) == $sbu->id ? 'selected' : '' }}>
                                         {{ $sbu->sbu_name }}
                                     </option>
@@ -252,6 +253,15 @@
                         }
                     })
                     .catch(error => console.error('Error:', error));
+            });
+
+            document.getElementById('sbu_id').addEventListener('change', function() {
+                var selectedOption = this.options[this.selectedIndex];
+                var lat = parseFloat(selectedOption.getAttribute('data-latitude'));
+                var lon = parseFloat(selectedOption.getAttribute('data-longitude'));
+                marker.setLatLng([lat, lon]);
+                map.setView([lat, lon], 13);
+                updateLocationInfo(lat, lon);
             });
 
             updateLocationInfo(initialLat, initialLng);
