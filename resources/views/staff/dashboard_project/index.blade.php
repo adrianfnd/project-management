@@ -238,7 +238,7 @@
                                             </td>
                                             <td class="align-middle text-center">
                                                 <a href="{{ route('project.edit', $project->id) }}"
-                                                    class="btn btn-xs btn-primary btn-sm me-2" role="button"
+                                                    class="btn btn-xs btn-primary btn-sm" role="button"
                                                     data-bs-toggle="tooltip" data-bs-placement="top"
                                                     title="Edit project">
                                                     <i class="fas fa-edit"></i>

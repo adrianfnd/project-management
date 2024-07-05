@@ -139,16 +139,16 @@ class DashboardProject extends Controller
             'progress' => 'required|string|max:255',
             'status_id' => 'required|exists:statuses,id',
             'start_date' => 'required|date',
-            'target' => 'required|date',
-            'end_date' => 'nullable|date',
+            'target' => 'required|date|after:start_date',
+            'end_date' => 'nullable|date|after:start_date',
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
-            'radius' => 'nullable|numeric',
+            'radius' => 'required|numeric',
         ]);
 
         $project = FtthProject::create([
             'type_id' => $request->type_id,
-            'project_name' => $request->project_name,
+            'project_name' => 'TK-' . $request->project_name,
             'olt_hostname' => $request->olt_hostname,
             'no_sp2k_spa' => $request->no_sp2k_spa,
             'sbu_id' => $request->sbu_id,
@@ -213,16 +213,16 @@ class DashboardProject extends Controller
             'progress' => 'required|string|max:255',
             'status_id' => 'required|exists:statuses,id',
             'start_date' => 'required|date',
-            'target' => 'required|date',
-            'end_date' => 'nullable|date',
+            'target' => 'required|date|after:start_date',
+            'end_date' => 'nullable|date|after:start_date',
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
-            'radius' => 'nullable|numeric',
+            'radius' => 'required|numeric',
         ]);
 
         $ftthProject->update([
             'type_id' => $request->type_id,
-            'project_name' => $request->project_name,
+            'project_name' => 'TK-' . $request->project_name,
             'olt_hostname' => $request->olt_hostname,
             'no_sp2k_spa' => $request->no_sp2k_spa,
             'sbu_id' => $request->sbu_id,
