@@ -249,9 +249,18 @@
                                                     title="View project">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
+                                                <button class="btn btn-xs btn-danger btn-sm" role="button"
+                                                    data-bs-toggle="tooltip" data-bs-placement="top"
+                                                    title="Delete project" onclick="confirmDelete({{ $project->id }})">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                                <form id="delete-form-{{ $project->id }}"
+                                                    action="{{ route('project.destroy', $project->id) }}" method="POST"
+                                                    style="display: none;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                </form>
                                             </td>
-
-
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -375,5 +384,47 @@
                 }
             });
         });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function confirmDelete(projectId) {
+            Swal.fire({
+                title: 'Apakan anda yakin?',
+                text: "Anda tidak akan dapat mengembalikan ini!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Iya, hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('delete-form-' + projectId).submit();
+                }
+            })
+        }
+
+        var successMessage = '{{ session('success') }}';
+        var errorMessage = '{{ session('error') }}';
+        if (successMessage) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: successMessage,
+                showConfirmButton: false,
+                timer: 2000
+            });
+        }
+
+        if (errorMessage) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal!',
+                text: errorMessage,
+                showConfirmButton: false,
+                timer: 2000
+            });
+        }
     </script>
 @endsection

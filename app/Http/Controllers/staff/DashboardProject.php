@@ -109,30 +109,145 @@ class DashboardProject extends Controller
         ]);
     }
 
+
     public function create()
     {
         $page_name = 'Create Project';
 
-        return view('staff.dashboard_project.create', [
-            'page_name' => $page_name
-        ]);
+        $statuses = Status::all();
+        $types = Type::all();
+        $sbus = Sbu::all();
+
+        return view('staff.dashboard_project.create', compact('page_name', 'statuses', 'types', 'sbus'));
     }
 
-    public function edit()
+    public function store(Request $request)
     {
-        $page_name = 'Edit Project';
-
-        return view('staff.dashboard_project.edit', [
-            'page_name' => $page_name
+        $request->validate([
+            'type_id' => 'required|exists:types,id',
+            'project_name' => 'required|string|max:255',
+            'olt_hostname' => 'required|string|max:255',
+            'no_sp2k_spa' => 'required|string|max:255',
+            'sbu_id' => 'required|exists:sbus,id',
+            'hp_plan' => 'required|string|max:255',
+            'hp_built' => 'required|string|max:255',
+            'fat_total' => 'required|string|max:255',
+            'fat_progress' => 'required|string|max:255',
+            'fat_built' => 'required|string|max:255',
+            'ip_olt' => 'required|string|max:255',
+            'kendala' => 'required|string',
+            'progress' => 'required|string|max:255',
+            'status_id' => 'required|exists:statuses,id',
+            'start_date' => 'required|date',
+            'target' => 'required|date',
+            'end_date' => 'nullable|date',
+            'latitude' => 'required|numeric',
+            'longitude' => 'required|numeric',
         ]);
+
+        $project = FtthProject::create([
+            'type_id' => $request->type_id,
+            'project_name' => $request->project_name,
+            'olt_hostname' => $request->olt_hostname,
+            'no_sp2k_spa' => $request->no_sp2k_spa,
+            'sbu_id' => $request->sbu_id,
+            'hp_plan' => $request->hp_plan,
+            'hp_built' => $request->hp_built,
+            'fat_total' => $request->fat_total,
+            'fat_progress' => $request->fat_progress,
+            'fat_built' => $request->fat_built,
+            'ip_olt' => $request->ip_olt,
+            'kendala' => $request->kendala,
+            'progress' => $request->progress,
+            'status_id' => $request->status_id,
+            'start_date' => $request->start_date,
+            'target' => $request->target,
+            'end_date' => $request->end_date,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
+            'created_by' => auth()->user()->id
+        ]);
+
+        return redirect()->route('dashboard_project')->with('success', 'Project created successfully');
     }
 
-    public function view()
+    public function view(FtthProject $ftthProject)
     {
         $page_name = 'View Project';
 
-        return view('staff.dashboard_project.view', [
-            'page_name' => $page_name
+        $statuses = Status::all();
+        $types = Type::all();
+        $sbus = Sbu::all();
+
+        return view('staff.dashboard_project.view', compact('page_name', 'ftthProject', 'statuses', 'types', 'sbus'));
+    }
+
+    public function edit(FtthProject $ftthProject)
+    {
+        $page_name = 'Edit Project';
+
+        $statuses = Status::all();
+        $types = Type::all();
+        $sbus = Sbu::all();
+
+        return view('staff.dashboard_project.edit', compact('page_name', 'ftthProject', 'statuses', 'types', 'sbus'));
+    }
+
+    public function update(Request $request, FtthProject $ftthProject)
+    {
+        $request->validate([
+            'type_id' => 'required|exists:types,id',
+            'project_name' => 'required|string|max:255',
+            'olt_hostname' => 'required|string|max:255',
+            'no_sp2k_spa' => 'required|string|max:255',
+            'sbu_id' => 'required|exists:sbus,id',
+            'hp_plan' => 'required|string|max:255',
+            'hp_built' => 'required|string|max:255',
+            'fat_total' => 'required|string|max:255',
+            'fat_progress' => 'required|string|max:255',
+            'fat_built' => 'required|string|max:255',
+            'ip_olt' => 'required|string|max:255',
+            'kendala' => 'required|string',
+            'progress' => 'required|string|max:255',
+            'status_id' => 'required|exists:statuses,id',
+            'start_date' => 'required|date',
+            'target' => 'required|date',
+            'end_date' => 'nullable|date',
+            'latitude' => 'required|numeric',
+            'longitude' => 'required|numeric',
         ]);
+
+        $ftthProject->update([
+            'type_id' => $request->type_id,
+            'project_name' => $request->project_name,
+            'olt_hostname' => $request->olt_hostname,
+            'no_sp2k_spa' => $request->no_sp2k_spa,
+            'sbu_id' => $request->sbu_id,
+            'hp_plan' => $request->hp_plan,
+            'hp_built' => $request->hp_built,
+            'fat_total' => $request->fat_total,
+            'fat_progress' => $request->fat_progress,
+            'fat_built' => $request->fat_built,
+            'ip_olt' => $request->ip_olt,
+            'kendala' => $request->kendala,
+            'progress' => $request->progress,
+            'status_id' => $request->status_id,
+            'start_date' => $request->start_date,
+            'target' => $request->target,
+            'end_date' => $request->end_date,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
+            'updated_by' => auth()->user()->id
+        ]);
+
+        return redirect()->route('dashboard_project')->with('success', 'Project updated successfully');
+    }
+    
+
+    public function destroy(FtthProject $ftthProject)
+    {
+        $ftthProject->delete();
+
+        return redirect()->route('dashboard_project')->with('success', 'Project deleted successfully');
     }
 }

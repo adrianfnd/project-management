@@ -27,6 +27,8 @@ class FtthProject extends Model
         'start_date',
         'target',
         'end_date',
+        'latitude',
+        'longitude',
         'created_by',
         'updated_by',
     ];

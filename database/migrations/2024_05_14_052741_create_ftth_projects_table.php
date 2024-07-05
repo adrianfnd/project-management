@@ -33,6 +33,8 @@ return new class extends Migration
             $table->date('start_date');
             $table->date('target');
             $table->date('end_date')->nullable();
+            $table->string('latitude');
+            $table->string('longitude');
             $table->unsignedBigInteger('created_by');
             $table->foreign('created_by')->references('id')->on('users');
             $table->unsignedBigInteger('updated_by')->nullable();
