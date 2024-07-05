@@ -11,7 +11,7 @@ class AuthController extends Controller
 {
     public function redirect()
     {
-        return redirect('/dashboard_project');
+        return redirect('/staff/dashboard_project');
     }
 
     public function showLoginForm()
