@@ -207,8 +207,16 @@
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             }).addTo(map);
 
+            var customIcon = L.icon({
+                iconUrl: 'path/to/your/custom-icon.png',
+                iconSize: [32, 32],
+                iconAnchor: [16, 32],
+                popupAnchor: [0, -32]
+            });
+
             var marker = L.marker([initialLat, initialLng], {
-                draggable: true
+                draggable: true,
+                icon: customIcon
             }).addTo(map);
 
             function updateLocationInfo(lat, lon) {
