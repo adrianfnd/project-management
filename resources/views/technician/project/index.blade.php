@@ -165,8 +165,7 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <p class="text-sm font-weight-bold mb-0">
-                                                    {{ $project->type->type_name }}
+                                                <p class="text-sm font-weight-bold mb-0">{{ $project->type->type_name }}
                                                 </p>
                                             </td>
                                             <td class="align-middle text-center">
@@ -203,6 +202,14 @@
                                                     title="View project">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
+                                                @if ($project->status->status_name === 'INSTALASI')
+                                                    <button onclick="handleInstallation({{ $project->id }})"
+                                                        class="btn btn-xs btn-primary btn-sm" role="button"
+                                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="Start Installation">
+                                                        <i class="fas fa-tools"></i>
+                                                    </button>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach
