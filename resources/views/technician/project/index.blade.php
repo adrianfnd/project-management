@@ -151,7 +151,8 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($selected_projects as $index => $project)
-                                        <tr>
+                                        <tr data-project-id="{{ $project->id }}" data-lat="{{ $project->latitude }}"
+                                            data-lng="{{ $project->longitude }}">
                                             <td class="align-middle text-center">
                                                 <span
                                                     class="text-secondary text-xs font-weight-bold">{{ $index + 1 }}</span>
@@ -258,8 +259,16 @@
 
     <script>
         var map;
+        var markers = {};
+        var selectedRow = null;
+        var selectedMarker = null;
 
         document.addEventListener('DOMContentLoaded', function() {
+            initializeMap();
+            initializeTableListeners();
+        });
+
+        function initializeMap() {
             map = L.map('map').setView([-6.200000, 106.816666], 10);
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -274,10 +283,74 @@
             Kendala: ${project.kendala}<br><br>
             <center><img src="${project.image}" alt="${project.name}" style="width:175px;height:auto;"></center>
         `;
-                L.marker([project.latitude, project.longitude])
+                var marker = L.marker([project.latitude, project.longitude])
                     .addTo(map)
                     .bindPopup(popupContent);
+
+                markers[project.id] = marker;
+
+                marker.on('click', function() {
+                    selectProjectFromMap(project.id);
+                });
+
+                marker.on('popupclose', function() {
+                    unselectProject();
+                });
             });
-        });
+        }
+
+        function initializeTableListeners() {
+            var tableRows = document.querySelectorAll('table tbody tr');
+            tableRows.forEach(function(row) {
+                row.addEventListener('click', function() {
+                    var projectId = this.getAttribute('data-project-id');
+                    var lat = parseFloat(this.getAttribute('data-lat'));
+                    var lng = parseFloat(this.getAttribute('data-lng'));
+                    selectProjectFromTable(projectId, lat, lng);
+                });
+            });
+        }
+
+        function selectProjectFromTable(projectId, lat, lng) {
+            map.panTo([lat, lng]);
+
+            if (markers[projectId]) {
+                markers[projectId].openPopup();
+                selectedMarker = markers[projectId];
+            }
+
+            highlightTableRow(projectId);
+        }
+
+        function selectProjectFromMap(projectId) {
+            highlightTableRow(projectId);
+
+            selectedMarker = markers[projectId];
+        }
+
+        function unselectProject() {
+            if (selectedRow) {
+                selectedRow.style.backgroundColor = '';
+                selectedRow = null;
+            }
+
+            selectedMarker = null;
+        }
+
+        function highlightTableRow(projectId) {
+            if (selectedRow) {
+                selectedRow.style.backgroundColor = '';
+            }
+
+            selectedRow = document.querySelector(`tr[data-project-id="${projectId}"]`);
+            if (selectedRow) {
+                selectedRow.style.backgroundColor = '#e0e0e0';
+
+                selectedRow.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center'
+                });
+            }
+        }
     </script>
 @endsection
