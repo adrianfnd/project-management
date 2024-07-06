@@ -228,9 +228,9 @@
 
             var customIcon = L.icon({
                 iconUrl: '{{ asset('ui_dashboard/assets/img/map-icons/pole.png') }}',
-                iconSize: [32, 32],
-                iconAnchor: [16, 32],
-                popupAnchor: [0, -32]
+                iconSize: [64, 64],
+                iconAnchor: [32, 64],
+                popupAnchor: [16, -64]
             });
 
             var marker = L.marker([initialLat, initialLng], {

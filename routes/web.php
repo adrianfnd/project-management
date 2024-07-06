@@ -13,6 +13,8 @@ use App\Http\Controllers\staff\DashboardHomepass;
 use App\Http\Controllers\staff\DashboardOltBrand;
 use App\Http\Controllers\staff\DashboardDailyActivity;
 
+use App\Http\Controllers\technician\ProjectController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -73,4 +75,5 @@ Route::middleware(['auth', 'role:Staff'])->prefix('staff')->group(function () {
 });
 
  Route::middleware(['auth', 'role:Technician'])->prefix('technician')->group(function () {
+    Route::get('/project', [ProjectController::class,'index']) -> name('project.index');
  });

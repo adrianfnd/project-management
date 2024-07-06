@@ -110,6 +110,29 @@
                     </li>
                 @endif
 
+                <!-- Technician Menu Items -->
+                @if (auth()->user()->role->role_name === 'Technician')
+                    <li class="nav-item">
+                        <a class="nav-link" href="#navbar-technician" data-bs-toggle="collapse" role="button"
+                            aria-expanded="false" aria-controls="navbar-technician">
+                            <div
+                                class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
+                            </div>
+                            <span class="nav-link-text ms-1">Technician</span>
+                        </a>
+                        <div class="collapse" id="navbar-technician">
+                            <ul class="nav ms-4">
+                                <li class="nav-item {{ request()->is('technician/project*') ? 'active' : '' }}">
+                                    <a class="nav-link" href="{{ route('project.index') }}">
+                                        <span class="sidenav-mini-icon"> P </span>
+                                        <span class="sidenav-normal"> Project </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                @endif
             </ul>
         </div>
     </aside>
