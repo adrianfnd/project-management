@@ -36,6 +36,8 @@ return new class extends Migration
             $table->string('latitude');
             $table->string('longitude');
             $table->string('radius')->nullable();
+            $table->unsignedBigInteger('technician_id')->nullable();
+            $table->foreign('technician_id')->references('id')->on('users');
             $table->unsignedBigInteger('created_by');
             $table->foreign('created_by')->references('id')->on('users');
             $table->unsignedBigInteger('updated_by')->nullable();

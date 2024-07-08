@@ -12,6 +12,7 @@ class Project extends Model
     protected $fillable = [
         'project_type_id',
         'project_id',
+        'technician_id',
         'created_by',
         'updated_by',
     ];
@@ -24,6 +25,11 @@ class Project extends Model
     public function ftthProject()
     {
         return $this->belongsTo(FtthProject::class, 'project_id');
+    }
+
+    public function technician()
+    {
+        return $this->belongsTo(User::class, 'technician_id');
     }
 
     public function creator()

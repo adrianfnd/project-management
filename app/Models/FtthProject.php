@@ -30,6 +30,7 @@ class FtthProject extends Model
         'latitude',
         'longitude',
         'radius',
+        'technician_id',
         'created_by',
         'updated_by',
     ];
@@ -47,6 +48,11 @@ class FtthProject extends Model
     public function status()
     {
         return $this->belongsTo(Status::class, 'status_id');
+    }
+
+    public function technician()
+    {
+        return $this->belongsTo(User::class, 'technician_id');
     }
 
     public function creator()

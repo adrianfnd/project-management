@@ -19,6 +19,8 @@ return new class extends Migration
             $table->foreign('ftth_project_id')->references('id')->on('ftth_projects')->onDelete('cascade');
             $table->text('keterangan');
             $table->date('tanggal');
+            $table->unsignedBigInteger('technician_id');
+            $table->foreign('technician_id')->references('id')->on('users');
             $table->unsignedBigInteger('created_by');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

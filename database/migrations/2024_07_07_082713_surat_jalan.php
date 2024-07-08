@@ -17,6 +17,8 @@ return new class extends Migration
             $table->foreign('ftth_project_id')->references('id')->on('ftth_projects')->onDelete('cascade');
             $table->string('nomor_surat');
             $table->text('deskripsi')->nullable();
+            $table->unsignedBigInteger('technician_id');
+            $table->foreign('technician_id')->references('id')->on('users');
             $table->unsignedBigInteger('created_by');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('updated_by')->nullable();

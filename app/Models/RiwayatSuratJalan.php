@@ -16,6 +16,7 @@ class RiwayatSuratJalan extends Model
         'ftth_project_id',
         'keterangan',
         'tanggal',
+        'technician_id',
         'created_by',
     ];
 
@@ -29,7 +30,12 @@ class RiwayatSuratJalan extends Model
         return $this->belongsTo(FtthProject::class, 'ftth_project_id');
     }
 
-    public function createdBy()
+    public function technician()
+    {
+        return $this->belongsTo(User::class, 'technician_id');
+    }
+
+    public function creator()
     {
         return $this->belongsTo(User::class, 'created_by');
     }
