@@ -8,7 +8,6 @@ use App\Models\User;
 use App\Models\Type;
 use App\Models\Sbu;
 use App\Models\Project;
-use App\Models\FtthProject;
 
 class DashboardFtth extends Controller
 {
@@ -33,7 +32,7 @@ class DashboardFtth extends Controller
     public function dashboard()
     {
         $page_name = 'Dashboard FTTH';
-        $projects = FtthProject::get();
+        $projects = Project::get();
         $types = Type::all();
         $sbus = Sbu::all();
 

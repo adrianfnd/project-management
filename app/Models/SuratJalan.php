@@ -12,7 +12,7 @@ class SuratJalan extends Model
     protected $table = 'surat_jalan';
 
     protected $fillable = [
-        'ftth_project_id',
+        'project_id',
         'nomor_surat',
         'deskripsi',
         'technician_id',
@@ -20,9 +20,9 @@ class SuratJalan extends Model
         'updated_by',
     ];
 
-    public function ftthProject()
+    public function project()
     {
-        return $this->belongsTo(FtthProject::class, 'ftth_project_id');
+        return $this->belongsTo(Project::class, 'project_id');
     }
 
     public function technician()

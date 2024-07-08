@@ -9,7 +9,6 @@ use App\Models\Type;
 use App\Models\Sbu;
 use App\Models\Status;
 use App\Models\Project;
-use App\Models\FtthProject;
 
 class DashboardHomepass extends Controller
 {
@@ -23,11 +22,11 @@ class DashboardHomepass extends Controller
         $sbuId = $request->input('sbu');
     
         if ($typeId && $sbuId) {
-            $projects = FtthProject::where('type_id', $typeId)
+            $projects = Project::where('type_id', $typeId)
                       ->where('sbu_id', $sbuId)
                       ->get();
         } else {    
-            $projects = FtthProject::get();
+            $projects = Project::get();
         }
     
         return view('staff.dashboard_homepass.index', [

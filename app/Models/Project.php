@@ -10,21 +10,44 @@ class Project extends Model
     use HasFactory;
 
     protected $fillable = [
-        'project_type_id',
-        'project_id',
+        'type_id',
+        'project_name',
+        'olt_hostname',
+        'no_sp2k_spa',
+        'sbu_id',
+        'hp_plan',
+        'hp_built',
+        'fat_total',
+        'fat_progress',
+        'fat_built',
+        'ip_olt',
+        'kendala',
+        'progress',
+        'status_id',
+        'start_date',
+        'target',
+        'end_date',
+        'latitude',
+        'longitude',
+        'radius',
         'technician_id',
         'created_by',
         'updated_by',
     ];
 
-    public function projectType()
+    public function type()
     {
-        return $this->belongsTo(ProjectType::class);
+        return $this->belongsTo(Type::class, 'type_id');
     }
 
-    public function ftthProject()
+    public function sbu()
     {
-        return $this->belongsTo(FtthProject::class, 'project_id');
+        return $this->belongsTo(Sbu::class, 'sbu_id');
+    }
+
+    public function status()
+    {
+        return $this->belongsTo(Status::class, 'status_id');
     }
 
     public function technician()

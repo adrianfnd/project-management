@@ -14,8 +14,8 @@ class Status extends Model
         'description',
     ];
 
-    public function ftthProjects()
+    public function projects()
     {
-        return $this->hasMany(FtthProject::class, 'status_id');
+        return $this->hasMany(Project::class, 'status_id');
     }
 }

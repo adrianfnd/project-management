@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('surat_jalan_id');
             $table->foreign('surat_jalan_id')->references('id')->on('surat_jalan')->onDelete('cascade');
-            $table->unsignedBigInteger('ftth_project_id');
-            $table->foreign('ftth_project_id')->references('id')->on('ftth_projects')->onDelete('cascade');
+            $table->unsignedBigInteger('project_id');
+            $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
             $table->text('keterangan');
             $table->date('tanggal');
             $table->unsignedBigInteger('technician_id');

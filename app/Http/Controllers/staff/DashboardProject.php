@@ -9,7 +9,6 @@ use App\Models\Type;
 use App\Models\Sbu;
 use App\Models\Status;
 use App\Models\Project;
-use App\Models\FtthProject;
 
 class DashboardProject extends Controller
 {
@@ -27,7 +26,7 @@ class DashboardProject extends Controller
     public function dashboard(Request $request)
     {
         $page_name = 'Dashboard Project';
-        $projects = FtthProject::get();
+        $projects = Project::get();
         $types = Type::all();
         $sbus = Sbu::all();
         $statuses = Status::all();
@@ -37,7 +36,7 @@ class DashboardProject extends Controller
         $pieChartData3 = [];
 
         foreach ($statuses as $status) {
-            $projectsCount = $status->ftthProjects()->count();
+            $projectsCount = $status->projects()->count();
 
             $pieChartData3[] = [
                 'label' => $status->status_name,
@@ -47,7 +46,7 @@ class DashboardProject extends Controller
         }
 
         foreach ($sbus as $sbu) {
-            $projectsCount = $sbu->ftthProjects()->count();
+            $projectsCount = $sbu->projects()->count();
 
             $pieChartData2[] = [
                 'label' => $sbu->sbu_name,
@@ -57,7 +56,7 @@ class DashboardProject extends Controller
         }
         
         foreach ($types as $type) {
-            $projectsCount = $type->ftthProjects()->count();
+            $projectsCount = $type->projects()->count();
 
             $pieChartData1[] = [
                 'label' => $type->type_name,
@@ -66,18 +65,18 @@ class DashboardProject extends Controller
             ];
         }
 
-        $total_project = FtthProject::count();
+        $total_project = Project::count();
 
         if ($total_project > 0) {
-            $inschedule_project = FtthProject::whereColumn('target', '=', 'end_date')->count();
+            $inschedule_project = Project::whereColumn('target', '=', 'end_date')->count();
             $inschedule_project_percentage = round(($inschedule_project / $total_project) * 100);
 
-            $overdue_project = FtthProject::whereNull('end_date')
+            $overdue_project = Project::whereNull('end_date')
                                 ->where('target', '<', now())
                                 ->count();
             $overdue_project_percentage = round(($overdue_project / $total_project) * 100);
 
-            $beyond_project = FtthProject::whereColumn('target', '<', 'end_date')->count();
+            $beyond_project = Project::whereColumn('target', '<', 'end_date')->count();
             $beyond_project_percentage = round(($beyond_project / $total_project) * 100);
         } else {
             $inschedule_project = 0;
@@ -188,7 +187,7 @@ class DashboardProject extends Controller
         ]);
         
 
-        $project = FtthProject::create([
+        $project = Project::create([
             'type_id' => $request->type_id,
             'project_name' => 'TK-' . $request->project_name,
             'olt_hostname' => $request->olt_hostname,
@@ -215,7 +214,7 @@ class DashboardProject extends Controller
         return redirect()->route('dashboard_project')->with('success', 'Project telah ditambahkan');
     }
 
-    public function view(FtthProject $ftthProject)
+    public function view(Project $project)
     {
         $page_name = 'View Project';
 
@@ -223,10 +222,10 @@ class DashboardProject extends Controller
         $types = Type::all();
         $sbus = Sbu::all();
 
-        return view('staff.dashboard_project.view', compact('page_name', 'ftthProject', 'statuses', 'types', 'sbus'));
+        return view('staff.dashboard_project.view', compact('page_name', 'project', 'statuses', 'types', 'sbus'));
     }
 
-    public function edit(FtthProject $ftthProject)
+    public function edit(Project $project)
     {
         $page_name = 'Edit Project';
 
@@ -234,10 +233,10 @@ class DashboardProject extends Controller
         $types = Type::all();
         $sbus = Sbu::all();
 
-        return view('staff.dashboard_project.edit', compact('page_name', 'ftthProject', 'statuses', 'types', 'sbus'));
+        return view('staff.dashboard_project.edit', compact('page_name', 'project', 'statuses', 'types', 'sbus'));
     }
 
-    public function update(Request $request, FtthProject $ftthProject)
+    public function update(Request $request, Project $project)
     {
         $request->validate([
             'type_id' => 'required|exists:types,id',
@@ -308,9 +307,9 @@ class DashboardProject extends Controller
     }
     
 
-    public function destroy(FtthProject $ftthProject)
+    public function destroy(Project $project)
     {
-        $ftthProject->delete();
+        $project->delete();
 
         return redirect()->route('dashboard_project')->with('success', 'Project telah dihapus');
     }

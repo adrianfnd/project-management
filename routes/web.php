@@ -56,10 +56,10 @@ Route::middleware(['auth', 'role:Staff'])->prefix('staff')->group(function () {
     Route::get('/dashboard_project', [DashboardProject::class,'dashboard']) -> name('dashboard_project');
     Route::get('/project/create', [DashboardProject::class, 'create'])->name('project.create');
     Route::post('/project', [DashboardProject::class, 'store'])->name('project.store');
-    Route::get('project/view-{ftthProject}', [DashboardProject::class, 'view'])->name('project.view');
-    Route::get('/project/edit-{ftthProject}', [DashboardProject::class, 'edit'])->name('project.edit');
-    Route::put('/project-{ftthProject}', [DashboardProject::class, 'update'])->name('project.update');
-    Route::delete('/project-{ftthProject}', [DashboardProject::class, 'destroy'])->name('project.destroy');
+    Route::get('project/view-{project}', [DashboardProject::class, 'view'])->name('project.view');
+    Route::get('/project/edit-{project}', [DashboardProject::class, 'edit'])->name('project.edit');
+    Route::put('/project-{project}', [DashboardProject::class, 'update'])->name('project.update');
+    Route::delete('/project-{project}', [DashboardProject::class, 'destroy'])->name('project.destroy');
  
     // Dashboard FTTH
     Route::get('/dashboard_ftth', [DashboardFtth::class,'dashboard']) -> name('dashboard_ftth');
@@ -76,4 +76,5 @@ Route::middleware(['auth', 'role:Staff'])->prefix('staff')->group(function () {
 
  Route::middleware(['auth', 'role:Technician'])->prefix('technician')->group(function () {
     Route::get('/project', [ProjectController::class,'index']) -> name('project.index');
+    Route::post('/project/start-{id}', [ProjectController::class, 'startProject'])->name('project.start');
  });

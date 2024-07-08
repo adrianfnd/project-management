@@ -7,7 +7,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">Form Tambah Project FTTH</h4>
-                        <form id="ftthProjectForm" class="forms-sample" method="POST" action="{{ route('project.store') }}">
+                        <form id="projectForm" class="forms-sample" method="POST" action="{{ route('project.store') }}">
                             @csrf
                             <div class="form-group">
                                 <label for="type_id">Tipe Project</label>

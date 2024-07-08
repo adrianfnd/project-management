@@ -59,14 +59,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(Project::class, 'updated_by');
     }
-
-    public function createdFtthProjects()
-    {
-        return $this->hasMany(FtthProject::class, 'created_by');
-    }
-
-    public function updatedFtthProjects()
-    {
-        return $this->hasMany(FtthProject::class, 'updated_by');
-    }
 }

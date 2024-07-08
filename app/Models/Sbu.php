@@ -16,9 +16,9 @@ class Sbu extends Model
         'longitude',
     ];
 
-    public function ftthProjects()
+    public function projects()
     {
-        return $this->hasMany(FtthProject::class, 'sbu_id');
+        return $this->hasMany(Project::class, 'sbu_id');
     }
 }
 

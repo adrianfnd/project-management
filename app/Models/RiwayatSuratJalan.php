@@ -13,7 +13,7 @@ class RiwayatSuratJalan extends Model
 
     protected $fillable = [
         'surat_jalan_id',
-        'ftth_project_id',
+        'project_id',
         'keterangan',
         'tanggal',
         'technician_id',
@@ -25,9 +25,9 @@ class RiwayatSuratJalan extends Model
         return $this->belongsTo(SuratJalan::class, 'surat_jalan_id');
     }
 
-    public function ftthProject()
+    public function project()
     {
-        return $this->belongsTo(FtthProject::class, 'ftth_project_id');
+        return $this->belongsTo(Project::class, 'project_id');
     }
 
     public function technician()

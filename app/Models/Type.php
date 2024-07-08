@@ -14,8 +14,8 @@ class Type extends Model
         'description',
     ];
 
-    public function ftthProjects()
+    public function projects()
     {
-        return $this->hasMany(FtthProject::class, 'type_id');
+        return $this->hasMany(Project::class, 'type_id');
     }
 }

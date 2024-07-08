@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('surat_jalan', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('ftth_project_id');
-            $table->foreign('ftth_project_id')->references('id')->on('ftth_projects')->onDelete('cascade');
+            $table->unsignedBigInteger('project_id');
+            $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
             $table->string('nomor_surat');
             $table->text('deskripsi')->nullable();
             $table->unsignedBigInteger('technician_id');
