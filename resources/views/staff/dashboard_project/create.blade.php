@@ -9,6 +9,7 @@
                         <h4 class="card-title">Form Tambah Project FTTH</h4>
                         <form id="projectForm" class="forms-sample" method="POST" action="{{ route('project.store') }}">
                             @csrf
+
                             <div class="form-group">
                                 <label for="type_id">Tipe Project</label>
                                 <select class="form-control" id="type_id" name="type_id" value="{{ old('type_id') }}"
@@ -23,6 +24,7 @@
                                     <span class="text-danger">{{ $errors->first('type_id') }}</span>
                                 @endif
                             </div>
+
                             <div class="form-group">
                                 <label for="project_name">Nama Project</label>
                                 <input type="text" class="form-control" id="project_name" name="project_name"
@@ -31,6 +33,7 @@
                                     <span class="text-danger">{{ $errors->first('project_name') }}</span>
                                 @endif
                             </div>
+
                             <div class="form-group">
                                 <label for="olt_hostname">OLT Hostname</label>
                                 <input type="text" class="form-control" id="olt_hostname" name="olt_hostname"
@@ -39,6 +42,7 @@
                                     <span class="text-danger">{{ $errors->first('olt_hostname') }}</span>
                                 @endif
                             </div>
+
                             <div class="form-group">
                                 <label for="no_sp2k_spa">No SP2K/SPA</label>
                                 <input type="text" class="form-control" id="no_sp2k_spa" name="no_sp2k_spa"
@@ -47,6 +51,7 @@
                                     <span class="text-danger">{{ $errors->first('no_sp2k_spa') }}</span>
                                 @endif
                             </div>
+
                             <div class="form-group">
                                 <label for="sbu_id">SBU</label>
                                 <select class="form-control" id="sbu_id" name="sbu_id" value="{{ old('sbu_id') }}"
@@ -63,84 +68,7 @@
                                     <span class="text-danger">{{ $errors->first('sbu_id') }}</span>
                                 @endif
                             </div>
-                            <div class="form-group">
-                                <label for="hp_plan">HP Plan</label>
-                                <input type="text" class="form-control" id="hp_plan" name="hp_plan"
-                                    value="{{ old('hp_plan') }}" required>
-                                @if ($errors->has('hp_plan'))
-                                    <span class="text-danger">{{ $errors->first('hp_plan') }}</span>
-                                @endif
-                            </div>
-                            <div class="form-group">
-                                <label for="hp_built">HP Built</label>
-                                <input type="text" class="form-control" id="hp_built" name="hp_built"
-                                    value="{{ old('hp_built') }}" required>
-                                @if ($errors->has('hp_built'))
-                                    <span class="text-danger">{{ $errors->first('hp_built') }}</span>
-                                @endif
-                            </div>
-                            <div class="form-group">
-                                <label for="fat_total">FAT Total</label>
-                                <input type="text" class="form-control" id="fat_total" name="fat_total"
-                                    value="{{ old('fat_total') }}" required>
-                                @if ($errors->has('fat_total'))
-                                    <span class="text-danger">{{ $errors->first('fat_total') }}</span>
-                                @endif
-                            </div>
-                            <div class="form-group">
-                                <label for="fat_progress">FAT Progress</label>
-                                <input type="text" class="form-control" id="fat_progress" name="fat_progress"
-                                    value="{{ old('fat_progress') }}" required>
-                                @if ($errors->has('fat_progress'))
-                                    <span class="text-danger">{{ $errors->first('fat_progress') }}</span>
-                                @endif
-                            </div>
-                            <div class="form-group">
-                                <label for="fat_built">FAT Built</label>
-                                <input type="text" class="form-control" id="fat_built" name="fat_built"
-                                    value="{{ old('fat_built') }}" required>
-                                @if ($errors->has('fat_built'))
-                                    <span class="text-danger">{{ $errors->first('fat_built') }}</span>
-                                @endif
-                            </div>
-                            <div class="form-group">
-                                <label for="ip_olt">IP OLT</label>
-                                <input type="text" class="form-control" id="ip_olt" name="ip_olt"
-                                    value="{{ old('ip_olt') }}" required>
-                                @if ($errors->has('ip_olt'))
-                                    <span class="text-danger">{{ $errors->first('ip_olt') }}</span>
-                                @endif
-                            </div>
-                            <div class="form-group">
-                                <label for="kendala">Kendala</label>
-                                <textarea class="form-control" id="kendala" name="kendala" rows="3" required>{{ old('kendala') }}</textarea>
-                                @if ($errors->has('kendala'))
-                                    <span class="text-danger">{{ $errors->first('kendala') }}</span>
-                                @endif
-                            </div>
-                            <div class="form-group">
-                                <label for="progress">Progress</label>
-                                <input type="text" class="form-control" id="progress" name="progress"
-                                    value="{{ old('progress') }}" required>
-                                @if ($errors->has('progress'))
-                                    <span class="text-danger">{{ $errors->first('progress') }}</span>
-                                @endif
-                            </div>
-                            <div class="form-group">
-                                <label for="status_id">Status</label>
-                                <select class="form-control" id="status_id" name="status_id"
-                                    value="{{ old('status_id') }}" required>
-                                    @foreach ($statuses as $status)
-                                        <option value="{{ $status->id }}"
-                                            {{ old('status_id') == $status->id ? 'selected' : '' }}>
-                                            {{ $status->status_name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                @if ($errors->has('status_id'))
-                                    <span class="text-danger">{{ $errors->first('status_id') }}</span>
-                                @endif
-                            </div>
+
                             <div class="form-group">
                                 <label for="start_date">Tanggal Mulai</label>
                                 <input type="date" class="form-control" id="start_date" name="start_date"
@@ -149,20 +77,13 @@
                                     <span class="text-danger">{{ $errors->first('start_date') }}</span>
                                 @endif
                             </div>
+
                             <div class="form-group">
                                 <label for="target">Target Selesai</label>
                                 <input type="date" class="form-control" id="target" name="target"
                                     value="{{ old('target') }}" required>
                                 @if ($errors->has('target'))
                                     <span class="text-danger">{{ $errors->first('target') }}</span>
-                                @endif
-                            </div>
-                            <div class="form-group">
-                                <label for="end_date">Tanggal Selesai</label>
-                                <input type="date" class="form-control" id="end_date" name="end_date"
-                                    value="{{ old('end_date') }}">
-                                @if ($errors->has('end_date'))
-                                    <span class="text-danger">{{ $errors->first('end_date') }}</span>
                                 @endif
                             </div>
 
@@ -184,8 +105,7 @@
                                     </div>
                                     <div class="col-md-2">
                                         <center>
-                                            <button class="btn btn-primary" type="button"
-                                                id="searchbutton">Search</button>
+                                            <button class="btn btn-primary" type="button" id="searchbutton">Search</button>
                                         </center>
                                     </div>
                                 </div>

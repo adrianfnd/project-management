@@ -151,8 +151,9 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($selected_projects as $index => $project)
-                                        <tr data-project-id="{{ $project->id }}" data-lat="{{ $project->latitude }}"
-                                            data-lng="{{ $project->longitude }}">
+                                        <tr data-project-id="{{ $project->project->id }}"
+                                            data-lat="{{ $project->project->latitude }}"
+                                            data-lng="{{ $project->project->longitude }}">
                                             <td class="align-middle text-center">
                                                 <span
                                                     class="text-secondary text-xs font-weight-bold">{{ $index + 1 }}</span>
@@ -160,24 +161,26 @@
                                             <td>
                                                 <div class="d-flex px-2">
                                                     <div class="my-auto">
-                                                        <h6 class="mb-0 text-sm">{{ $project->project_name }}</h6>
+                                                        <h6 class="mb-0 text-sm">{{ $project->project->project_name }}
+                                                        </h6>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td>
-                                                <p class="text-sm font-weight-bold mb-0">{{ $project->type->type_name }}
+                                                <p class="text-sm font-weight-bold mb-0">
+                                                    {{ $project->project->type->type_name }}
                                                 </p>
                                             </td>
                                             <td class="align-middle text-center">
                                                 <div class="d-flex align-items-center justify-content-center">
                                                     <span
-                                                        class="me-2 text-xs font-weight-bold">{{ $project->progress }}%</span>
+                                                        class="me-2 text-xs font-weight-bold">{{ $project->project->progress }}%</span>
                                                     <div>
                                                         <div class="progress">
                                                             <div class="progress-bar bg-gradient-info" role="progressbar"
-                                                                aria-valuenow="{{ $project->progress }}" aria-valuemin="0"
-                                                                aria-valuemax="100"
-                                                                style="width: {{ $project->progress }}%;">
+                                                                aria-valuenow="{{ $project->project->progress }}"
+                                                                aria-valuemin="0" aria-valuemax="100"
+                                                                style="width: {{ $project->project->progress }}%;">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -185,25 +188,25 @@
                                             </td>
                                             <td class="align-middle text-center text-sm">
                                                 <span
-                                                    class="text-secondary text-xs font-weight-bold">{{ $project->status->status_name }}</span>
+                                                    class="text-secondary text-xs font-weight-bold">{{ $project->project->status->status_name }}</span>
                                             </td>
                                             <td class="align-middle text-center">
                                                 <span
-                                                    class="text-secondary text-xs font-weight-bold">{{ $project->start_date }}</span>
+                                                    class="text-secondary text-xs font-weight-bold">{{ $project->project->start_date }}</span>
                                             </td>
                                             <td class="align-middle text-center">
                                                 <span
-                                                    class="text-secondary text-xs font-weight-bold">{{ $project->end_date }}</span>
+                                                    class="text-secondary text-xs font-weight-bold">{{ $project->project->end_date }}</span>
                                             </td>
                                             <td class="align-middle text-center">
-                                                <a href="{{ route('project.view', $project->id) }}"
+                                                <a href="{{ route('technician.project.view', $project->project->id) }}"
                                                     class="btn btn-xs btn-success btn-sm" role="button"
                                                     data-bs-toggle="tooltip" data-bs-placement="top"
                                                     title="View project">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
-                                                @if ($project->status->status_name === 'INSTALASI')
-                                                    <button onclick="handleInstallation({{ $project->id }})"
+                                                @if ($project->project->status->status_name === 'INSTALASI')
+                                                    <button onclick="handleInstallation({{ $project->project->id }})"
                                                         class="btn btn-xs btn-primary btn-sm" role="button"
                                                         data-bs-toggle="tooltip" data-bs-placement="top"
                                                         title="Start Installation">
@@ -263,6 +266,7 @@
             });
         }
     </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
         var map;
@@ -284,25 +288,41 @@
 
             var projects = @json($projects);
             projects.forEach(function(project) {
+                var installationButton = '';
+                if (project.status.status_name === 'INSTALASI') {
+                    installationButton = `<button onclick="handleInstallation(${project.id})" class="btn btn-xs btn-primary btn-sm" role="button" title="Start Installation">
+                <i class="fas fa-tools"></i> Start Installation
+            </button>`;
+                }
+
                 var popupContent = `
-            <b>${project.project_name}</b><br>
-            Progress: ${project.progress}<br>
-            Kendala: ${project.kendala}<br><br>
-            <center><img src="${project.image}" alt="${project.name}" style="width:175px;height:auto;"></center>
+            <b>${project.project_name || 'Unnamed Project'}</b><br>
+            Progress: ${project.progress || 'N/A'}<br>
+            Kendala: ${project.kendala || 'None'}<br><br>
+            ${project.image ? `<center><img src="${project.image}" alt="${project.project_name || 'Project Image'}" style="width:175px;height:auto;"></center><br>` : ''}
+            <center><a href="/project/view/${project.id}" class="btn btn-xs btn-success btn-sm" role="button" title="View project">
+                <i class="fas fa-eye"></i> View Project
+            </a>
+            ${installationButton}</center>
         `;
-                var marker = L.marker([project.latitude, project.longitude])
-                    .addTo(map)
-                    .bindPopup(popupContent);
 
-                markers[project.id] = marker;
+                if (project.latitude && project.longitude) {
+                    var marker = L.marker([project.latitude, project.longitude])
+                        .addTo(map)
+                        .bindPopup(popupContent);
 
-                marker.on('click', function() {
-                    selectProjectFromMap(project.id);
-                });
+                    markers[project.id] = marker;
 
-                marker.on('popupclose', function() {
-                    unselectProject();
-                });
+                    marker.on('click', function() {
+                        selectProjectFromMap(project.id);
+                    });
+
+                    marker.on('popupclose', function() {
+                        unselectProject();
+                    });
+                } else {
+                    console.warn(`Project ${project.id} has invalid coordinates`);
+                }
             });
         }
 
@@ -319,6 +339,11 @@
         }
 
         function selectProjectFromTable(projectId, lat, lng) {
+            if (isNaN(lat) || isNaN(lng)) {
+                console.warn(`Invalid coordinates for project ${projectId}`);
+                return;
+            }
+
             map.panTo([lat, lng]);
 
             if (markers[projectId]) {
@@ -331,7 +356,6 @@
 
         function selectProjectFromMap(projectId) {
             highlightTableRow(projectId);
-
             selectedMarker = markers[projectId];
         }
 
@@ -359,5 +383,65 @@
                 });
             }
         }
+
+        function handleInstallation(projectId) {
+            $.ajax({
+                url: `/technician/project/start-${projectId}`,
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                },
+                success: function(response) {
+                    Swal.fire({
+                        icon: response.success ? 'success' : 'error',
+                        title: response.success ? 'Installation Started' : 'Error',
+                        text: response.message,
+                        showConfirmButton: false,
+                        timer: 2000
+                    }).then(() => {
+                        location.reload();
+                    });
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: xhr.responseJSON.message ||
+                            'Failed to start installation. Please try again.',
+                        showConfirmButton: false,
+                        timer: 2000
+                    }).then(() => {
+                        location.reload();
+                    });
+                }
+            });
+        }
+
+
+
+        // SweetAlert2 initialization (if you're using it)
+        $(document).ready(function() {
+            var successMessage = '{{ session('success') }}';
+            var errorMessage = '{{ session('error') }}';
+            if (successMessage) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: successMessage,
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+            }
+
+            if (errorMessage) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal!',
+                    text: errorMessage,
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+            }
+        });
     </script>
 @endsection

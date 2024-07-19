@@ -124,7 +124,7 @@
                         <div class="collapse" id="navbar-technician">
                             <ul class="nav ms-4">
                                 <li class="nav-item {{ request()->is('technician/project*') ? 'active' : '' }}">
-                                    <a class="nav-link" href="{{ route('project.index') }}">
+                                    <a class="nav-link" href="{{ route('technician.project.index') }}">
                                         <span class="sidenav-mini-icon"> P </span>
                                         <span class="sidenav-normal"> Project </span>
                                     </a>
