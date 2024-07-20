@@ -62,7 +62,8 @@ Route::middleware(['auth', 'role:Staff'])->prefix('staff')->group(function () {
 
 Route::middleware(['auth', 'role:Maintenance'])->prefix('maintenance')->group(function () {
    Route::get('/pengajuan', [MaintenancePengajuanController::class,'index']) -> name('maintenance.pengajuan.index');
-   Route::get('/pengajuan/create', [MaintenancePengajuanController::class, 'create'])->name('maintenance.engajuan.create');
+   Route::get('/pengajuan/create-{project}', [MaintenancePengajuanController::class, 'create'])->name('maintenance.pengajuan.create');
+   Route::post('/pengajuan/store-{project}', [MaintenancePengajuanController::class, 'store'])->name('maintenance.pengajuan.store');
    Route::post('/pengajuan', [MaintenancePengajuanController::class, 'store'])->name('maintenance.pengajuan.store');
    Route::get('pengajuan/view-{project}', [MaintenancePengajuanController::class, 'view'])->name('maintenance.pengajuan.view');
 
@@ -70,6 +71,7 @@ Route::middleware(['auth', 'role:Maintenance'])->prefix('maintenance')->group(fu
    Route::post('/pemasangan/{project}/approve', [MaintenancePemasanganController::class, 'approve'])->name('maintenance.pemasangan.approve');
    Route::post('/pemasangan/{project}/decline', [MaintenancePemasanganController::class, 'decline'])->name('maintenance.pemasangan.decline');
 });
+
 
 Route::middleware(['auth', 'role:Technician'])->prefix('technician')->group(function () {
    Route::get('/pengajuan', [TechnicianPengajuanController::class,'index']) -> name('technician.pengajuan.index');

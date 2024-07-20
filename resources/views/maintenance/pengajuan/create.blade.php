@@ -51,7 +51,18 @@
 
                             <div class="form-group">
                                 <label for="nomor_surat">Nomor Surat Jalan</label>
-                                <input type="text" class="form-control" id="nomor_surat" name="nomor_surat" required>
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <input type="text" class="form-control mb-3" id="nomor_surat" name="nomor_surat"
+                                            required>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <center>
+                                            <button class="btn btn-primary" type="button"
+                                                id="generateNomor">Generate</button>
+                                        </center>
+                                    </div>
+                                </div>
                                 @error('nomor_surat')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -73,4 +84,21 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const generateButton = document.getElementById('generateNomor');
+            const nomorSuratInput = document.getElementById('nomor_surat');
+
+            generateButton.addEventListener('click', function() {
+                const randomNumber = Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000;
+
+                const currentDate = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+
+                const nomorSurat = `SJ-${currentDate}-${randomNumber}`;
+
+                nomorSuratInput.value = nomorSurat;
+            });
+        });
+    </script>
 @endsection

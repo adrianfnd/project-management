@@ -8,16 +8,19 @@ use App\Models\Project;
 use App\Models\Vendor;
 use App\Models\User;
 use App\Models\SuratJalan;
+use App\Models\Status;
+use App\Models\Customer;
+use App\Models\Role;
 
 class MaintenancePengajuanController extends Controller
 {
     public function index()
     {
-        $page_name = 'Daftar Surat Jalan';
+        $page_name = 'Daftar Pengajuan Pemasangan';
 
-        $surat_jalans = SuratJalan::with(['project', 'vendor', 'technician'])->get();
-
-        return view('maintenance.pengajuan.index', compact('page_name', 'surat_jalans'));
+        $projects = Project::where('status_id', Status::where('status_name', 'PENGAJUAN')->first()->id)->get();
+        
+        return view('maintenance.pengajuan.index', compact('page_name', 'projects'));
     }
 
     public function create()
@@ -26,7 +29,7 @@ class MaintenancePengajuanController extends Controller
 
         $projects = Project::all();
         $vendors = Vendor::all();
-        $technicians = User::where('role_id', 3)->get();
+        $technicians = User::where('role_id', Role::where('role_name', 'TECHNICIAN')->first()->id)->get();
         
         return view('maintenance.pengajuan.create', compact('page_name', 'projects', 'vendors', 'technicians'));
     }
@@ -48,9 +51,12 @@ class MaintenancePengajuanController extends Controller
             'deskripsi.required' => 'Deskripsi wajib diisi.',
         ]);
 
+        $customer = Customer::where('project_id', $request->project_id)->first();
+
         $surat_jalan = SuratJalan::create([
             'project_id' => $request->project_id,
             'vendor_id' => $request->vendor_id,
+            'customer_id' => $customer->id,
             'technician_id' => $request->technician_id,
             'nomor_surat' => $request->nomor_surat,
             'deskripsi' => $request->deskripsi,
@@ -58,6 +64,15 @@ class MaintenancePengajuanController extends Controller
         ]);
 
         return redirect()->route('maintenance.pengajuan.index')->with('success', 'Surat Jalan berhasil dibuat');
+    }
+
+    public function view(Project $project)
+    {
+        $page_name = 'View Project';
+
+        $customer = Customer::where('project_id', $project->id)->first();
+
+        return view('maintenance.pengajuan.view', compact('page_name', 'project', 'customer'));
     }
 
 }

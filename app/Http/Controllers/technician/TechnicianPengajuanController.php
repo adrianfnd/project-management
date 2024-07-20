@@ -13,9 +13,9 @@ class TechnicianPengajuanController extends Controller
     {
         $page_name = 'Daftar Surat Jalan';
         $surat_jalans = SuratJalan::where('technician_id', auth()->user()->id)
-                                   ->where('status', 'pending')
                                    ->with(['project', 'vendor'])
                                    ->get();
+
         return view('technician.pengajuan.index', compact('page_name', 'surat_jalans'));
     }
 

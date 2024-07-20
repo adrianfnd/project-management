@@ -4,30 +4,71 @@
     <div class="container-fluid py-4">
         <div class="row mb-4">
             <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title">Daftar Pengajuan Pemasangan</h4>
-                        <div class="table-responsive">
-                            <table class="table table-hover">
+                <div class="card mb-4">
+                    <div class="card-header pb-0">
+                        <h6>Projects table</h6>
+                    </div>
+                    <div class="card-body px-0 pt-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <table class="table align-items-center justify-content-center mb-0">
                                 <thead>
                                     <tr>
-                                        <th>Nama Project</th>
-                                        <th>Tanggal Pengajuan</th>
-                                        <th>Customer</th>
-                                        <th>Aksi</th>
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            No.</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Project Name</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            Type</th>
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Status</th>
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Start</th>
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($surat_jalans as $project)
+                                    @foreach ($projects as $index => $item)
                                         <tr>
-                                            <td>{{ $project->project_name }}</td>
-                                            <td>{{ $project->created_at->format('d-m-Y') }}</td>
-                                            <td>{{ $project->customers->first()->name }}</td>
+                                            <td class="align-middle text-center">
+                                                <span
+                                                    class="text-secondary text-xs font-weight-bold">{{ $index + 1 }}</span>
+                                            </td>
                                             <td>
-                                                <button class="btn btn-success btn-sm approve-btn"
-                                                    data-id="{{ $project->id }}">Setujui</button>
-                                                <button class="btn btn-danger btn-sm decline-btn"
-                                                    data-id="{{ $project->id }}">Tolak</button>
+                                                <div class="d-flex px-2">
+                                                    <div class="my-auto">
+                                                        <h6 class="mb-0 text-sm">{{ $item->project_name }}</h6>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm font-weight-bold mb-0">{{ $item->type->type_name }}</p>
+                                            </td>
+                                            <td class="align-middle text-center text-sm">
+                                                <span
+                                                    class="text-secondary text-xs font-weight-bold">{{ $item->status->status_name }}</span>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <span
+                                                    class="text-secondary text-xs font-weight-bold">{{ $item->start_date }}</span>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <a href="{{ route('maintenance.pengajuan.view', $item->id) }}"
+                                                    class="btn btn-xs btn-success btn-sm" role="button"
+                                                    data-bs-toggle="tooltip" data-bs-placement="top" title="View project">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <a href="{{ route('maintenance.pengajuan.create', $item->id) }}"
+                                                    class="btn btn-xs btn-primary btn-sm" role="button"
+                                                    data-bs-toggle="tooltip" data-bs-placement="top"
+                                                    title="Create Surat Jalan">
+                                                    <i class="fas fa-plus"></i>
+                                                </a>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -40,76 +81,3 @@
         </div>
     </div>
 @endsection
-
-@push('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        $(document).ready(function() {
-            $('.approve-btn').click(function() {
-                var projectId = $(this).data('id');
-                Swal.fire({
-                    title: 'Apakah Anda yakin?',
-                    text: "Anda akan menyetujui pengajuan ini!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Ya, setujui!',
-                    cancelButtonText: 'Batal'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            url: '/maintenance/pemasangan/' + projectId + '/approve',
-                            type: 'POST',
-                            data: {
-                                _token: '{{ csrf_token() }}'
-                            },
-                            success: function(response) {
-                                Swal.fire(
-                                    'Disetujui!',
-                                    response.message,
-                                    'success'
-                                ).then(() => {
-                                    location.reload();
-                                });
-                            }
-                        });
-                    }
-                });
-            });
-
-            $('.decline-btn').click(function() {
-                var projectId = $(this).data('id');
-                Swal.fire({
-                    title: 'Apakah Anda yakin?',
-                    text: "Anda akan menolak pengajuan ini!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Ya, tolak!',
-                    cancelButtonText: 'Batal'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            url: '/maintenance/pemasangan/' + projectId + '/decline',
-                            type: 'POST',
-                            data: {
-                                _token: '{{ csrf_token() }}'
-                            },
-                            success: function(response) {
-                                Swal.fire(
-                                    'Ditolak!',
-                                    response.message,
-                                    'success'
-                                ).then(() => {
-                                    location.reload();
-                                });
-                            }
-                        });
-                    }
-                });
-            });
-        });
-    </script>
-@endpush
