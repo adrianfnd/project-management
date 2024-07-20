@@ -6,29 +6,31 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">Form Tambah Project FTTH</h4>
-                        <form id="projectForm" class="forms-sample" method="POST" action="{{ route('project.store') }}">
+                        <h4 class="card-title">Form Edit Project FTTH</h4>
+                        <form id="projectForm" class="forms-sample" method="POST"
+                            action="{{ route('pengajuan.update', $project->id) }}">
                             @csrf
+                            @method('PUT')
 
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                                 <label for="type_id">Tipe Project</label>
-                                <select class="form-control" id="type_id" name="type_id" value="{{ old('type_id') }}"
-                                    required>
+                                <select class="form-control" id="type_id" name="type_id" required>
                                     @foreach ($types as $type)
                                         <option value="{{ $type->id }}"
-                                            {{ old('type_id') == $type->id ? 'selected' : '' }}>
-                                            {{ $type->type_name }}</option>
+                                            {{ old('type_id', $project->type_id) == $type->id ? 'selected' : '' }}>
+                                            {{ $type->type_name }}
+                                        </option>
                                     @endforeach
                                 </select>
                                 @if ($errors->has('type_id'))
                                     <span class="text-danger">{{ $errors->first('type_id') }}</span>
                                 @endif
-                            </div>
+                            </div> --}}
 
                             <div class="form-group">
                                 <label for="project_name">Nama Project</label>
                                 <input type="text" class="form-control" id="project_name" name="project_name"
-                                    value="{{ old('project_name') }}" required>
+                                    value="{{ old('project_name', $project->project_name) }}" required>
                                 @if ($errors->has('project_name'))
                                     <span class="text-danger">{{ $errors->first('project_name') }}</span>
                                 @endif
@@ -37,7 +39,7 @@
                             <div class="form-group">
                                 <label for="olt_hostname">OLT Hostname</label>
                                 <input type="text" class="form-control" id="olt_hostname" name="olt_hostname"
-                                    value="{{ old('olt_hostname') }}" required>
+                                    value="{{ old('olt_hostname', $project->olt_hostname) }}" required>
                                 @if ($errors->has('olt_hostname'))
                                     <span class="text-danger">{{ $errors->first('olt_hostname') }}</span>
                                 @endif
@@ -46,7 +48,7 @@
                             <div class="form-group">
                                 <label for="no_sp2k_spa">No SP2K/SPA</label>
                                 <input type="text" class="form-control" id="no_sp2k_spa" name="no_sp2k_spa"
-                                    value="{{ old('no_sp2k_spa') }}" required>
+                                    value="{{ old('no_sp2k_spa', $project->no_sp2k_spa) }}" required>
                                 @if ($errors->has('no_sp2k_spa'))
                                     <span class="text-danger">{{ $errors->first('no_sp2k_spa') }}</span>
                                 @endif
@@ -54,13 +56,12 @@
 
                             <div class="form-group">
                                 <label for="sbu_id">SBU</label>
-                                <select class="form-control" id="sbu_id" name="sbu_id" value="{{ old('sbu_id') }}"
-                                    required>
+                                <select class="form-control" id="sbu_id" name="sbu_id" required>
                                     @foreach ($sbus as $sbu)
-                                        <option value="{{ $sbu['id'] }}" data-latitude="{{ $sbu['latitude'] }}"
+                                        <option value="{{ $sbu->id }}" data-latitude="{{ $sbu['latitude'] }}"
                                             data-longitude="{{ $sbu['longitude'] }}"
-                                            {{ old('sbu_id') == $sbu['id'] ? 'selected' : '' }}>
-                                            {{ $sbu['sbu_name'] }}
+                                            {{ old('sbu_id', $project->sbu_id) == $sbu->id ? 'selected' : '' }}>
+                                            {{ $sbu->sbu_name }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -72,7 +73,7 @@
                             <div class="form-group">
                                 <label for="start_date">Tanggal Mulai</label>
                                 <input type="date" class="form-control" id="start_date" name="start_date"
-                                    value="{{ old('start_date') }}" required>
+                                    value="{{ old('start_date', $project->start_date) }}" required>
                                 @if ($errors->has('start_date'))
                                     <span class="text-danger">{{ $errors->first('start_date') }}</span>
                                 @endif
@@ -81,7 +82,7 @@
                             <div class="form-group">
                                 <label for="target">Target Selesai</label>
                                 <input type="date" class="form-control" id="target" name="target"
-                                    value="{{ old('target') }}" required>
+                                    value="{{ old('target', $project->target) }}" required>
                                 @if ($errors->has('target'))
                                     <span class="text-danger">{{ $errors->first('target') }}</span>
                                 @endif
@@ -90,7 +91,7 @@
                             <div class="form-group">
                                 <label for="radius">Radius (meters)</label>
                                 <input type="number" class="form-control" id="radius" name="radius"
-                                    value="{{ old('radius', 1000) }}" required>
+                                    value="{{ old('radius', $project->radius) }}" required>
                                 @if ($errors->has('radius'))
                                     <span class="text-danger">{{ $errors->first('radius') }}</span>
                                 @endif
@@ -100,31 +101,65 @@
                                 <label for="mapid">Lokasi Project</label>
                                 <div class="row">
                                     <div class="col-md-10">
-                                        <input type="text" id="searchbox" class="form-control mb-3"
-                                            placeholder="Cari lokasi">
+                                        <input type="text" id="searchbox" placeholder="Cari lokasi"
+                                            class="form-control mb-3">
                                     </div>
                                     <div class="col-md-2">
-                                        <center>
-                                            <button class="btn btn-primary" type="button" id="searchbutton">Search</button>
-                                        </center>
+                                        <button type="button" id="searchbutton" class="btn btn-primary">Search</button>
                                     </div>
                                 </div>
                                 <div id="mapid" style="height: 400px;"></div>
-                                <input type="hidden" id="latitude" name="latitude" value="{{ old('latitude') }}"
-                                    required>
+                                <input type="hidden" id="latitude" name="latitude"
+                                    value="{{ old('latitude', $project->latitude) }}" required>
                                 @if ($errors->has('latitude'))
                                     <span class="text-danger">{{ $errors->first('latitude') }}</span>
                                 @endif
-                                <input type="hidden" id="longitude" name="longitude" value="{{ old('longitude') }}"
-                                    required>
+                                <input type="hidden" id="longitude" name="longitude"
+                                    value="{{ old('longitude', $project->longitude) }}" required>
                                 @if ($errors->has('longitude'))
                                     <span class="text-danger">{{ $errors->first('longitude') }}</span>
                                 @endif
                             </div>
 
+                            <h5 class="mt-4">Informasi Customer</h5>
+                            <div class="form-group">
+                                <label for="customer_name">Nama Customer</label>
+                                <input type="text" class="form-control" id="customer_name" name="customer_name"
+                                    value="{{ old('customer_name', $customer->name) }}" required>
+                                @if ($errors->has('customer_name'))
+                                    <span class="text-danger">{{ $errors->first('customer_name') }}</span>
+                                @endif
+                            </div>
+
+                            <div class="form-group">
+                                <label for="customer_phone">Nomor Telepon Customer</label>
+                                <input type="text" class="form-control" id="customer_phone" name="customer_phone"
+                                    value="{{ old('customer_phone', $customer->phone) }}">
+                                @if ($errors->has('customer_phone'))
+                                    <span class="text-danger">{{ $errors->first('customer_phone') }}</span>
+                                @endif
+                            </div>
+
+                            <div class="form-group">
+                                <label for="customer_email">Email Customer</label>
+                                <input type="email" class="form-control" id="customer_email" name="customer_email"
+                                    value="{{ old('customer_email', $customer->email) }}">
+                                @if ($errors->has('customer_email'))
+                                    <span class="text-danger">{{ $errors->first('customer_email') }}</span>
+                                @endif
+                            </div>
+
+                            <div class="form-group">
+                                <label for="customer_address">Alamat Customer</label>
+                                <textarea class="form-control" id="customer_address" name="customer_address" rows="3" required>{{ old('customer_address', $customer->address) }}</textarea>
+                                @if ($errors->has('customer_address'))
+                                    <span class="text-danger">{{ $errors->first('customer_address') }}</span>
+                                @endif
+                            </div>
+
                             <button type="submit" class="btn btn-primary mr-2"
-                                style="margin-right: 10px">Submit</button>
-                            <a href="{{ route('dashboard_project') }}" class="btn btn-light">Cancel</a>
+                                style="margin-right: 10px">Update</button>
+                            <a href="{{ route('pengajuan.index') }}" class="btn btn-light">Cancel</a>
                         </form>
                     </div>
                 </div>
@@ -134,11 +169,13 @@
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            var initialLat = {{ old('latitude', -2.990934) }};
-            var initialLng = {{ old('longitude', 104.756555) }};
-            var initialRadius = {{ old('radius', 1000) }};
+            var initialLat = {{ old('latitude', $project->latitude) }};
+            var initialLng = {{ old('longitude', $project->longitude) }};
+            var initialRadius =
+                {{ old('radius', $project->radius ?? 1000) }};
 
             var map = L.map('mapid').setView([initialLat, initialLng], 13);
 

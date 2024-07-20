@@ -7,10 +7,10 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">Detail Project FTTH</h4>
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label for="type_id">Tipe Project</label>
                             <p>{{ $project->type->type_name }}</p>
-                        </div>
+                        </div> --}}
                         <div class="form-group">
                             <label for="project_name">Nama Project</label>
                             <p>{{ $project->project_name }}</p>
@@ -83,7 +83,25 @@
                             <label for="mapid">Lokasi Project</label>
                             <div id="mapid" style="height: 400px;"></div>
                         </div>
-                        <a href="{{ route('dashboard_project') }}" class="btn btn-light">Kembali</a>
+                        <h5 class="mt-4">Informasi Customer</h5>
+                        <div class="form-group">
+                            <label for="customer_name">Nama Customer</label>
+                            <p>{{ $customer->name }}</p>
+                        </div>
+                        <div class="form-group">
+                            <label for="customer_phone">Nomor Telepon Customer</label>
+                            <p>{{ $customer->phone }}</p>
+                        </div>
+                        <div class="form-group">
+                            <label for="customer_email">Email Customer</label>
+                            <p>{{ $customer->email }}</p>
+                        </div>
+                        <div class="form-group">
+                            <label for="customer_address">Alamat Customer</label>
+                            <p>{{ $customer->address }}</p>
+                        </div>
+
+                        <a href="{{ route('pengajuan.index') }}" class="btn btn-light">Kembali</a>
                     </div>
                 </div>
             </div>

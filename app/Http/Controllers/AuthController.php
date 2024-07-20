@@ -11,7 +11,7 @@ class AuthController extends Controller
 {
     public function redirect()
     {
-        return redirect('/staff/dashboard_project');
+        return redirect('/login');
     }
 
     public function showLoginForm()
@@ -38,9 +38,11 @@ class AuthController extends Controller
             if ($user->role->role_name == 'Superadmin') {
                 return redirect()->route('staff.index');
             } elseif ($user->role->role_name == 'Staff') {
-                return redirect()->route('dashboard_project');
+                return redirect()->route('staff.pengajuan.index');
+            } elseif ($user->role->role_name == 'Maintenance') {
+                return redirect()->route('maintenance.pengajuan.index');
             } elseif ($user->role->role_name == 'Technician') {
-                return redirect()->route('technician.project.index');
+                return redirect()->route('technician.pengajuan.index');
             }
         }
     

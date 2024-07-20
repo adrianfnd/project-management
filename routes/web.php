@@ -7,13 +7,13 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\superadmin\StaffController;
 use App\Http\Controllers\superadmin\TechnicianController;
 
-use App\Http\Controllers\staff\DashboardProject;
-use App\Http\Controllers\staff\DashboardFtth;
-use App\Http\Controllers\staff\DashboardHomepass;
-use App\Http\Controllers\staff\DashboardOltBrand;
-use App\Http\Controllers\staff\DashboardDailyActivity;
+use App\Http\Controllers\staff\StaffPengajuanController;
 
-use App\Http\Controllers\technician\ProjectController;
+use App\Http\Controllers\maintenance\MaintenancePengajuanController;
+use App\Http\Controllers\maintenance\MaintenancePemasanganController;
+
+use App\Http\Controllers\technician\TechnicianPengajuanController;
+use App\Http\Controllers\technician\TechnicianPemasangController;
 
 
 /*
@@ -34,7 +34,6 @@ Route::post('/login', [AuthController::class, 'login'])->name('login.action');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth', 'role:Superadmin'])->prefix('superadmin')->group(function () {
-   // Staff
    Route::get('/staff', [StaffController::class, 'index'])->name('staff.index');
    Route::get('/staff/create', [StaffController::class, 'create'])->name('staff.create');
    Route::post('/staff', [StaffController::class, 'store'])->name('staff.store');
@@ -42,7 +41,6 @@ Route::middleware(['auth', 'role:Superadmin'])->prefix('superadmin')->group(func
    Route::put('/staff/{id}', [StaffController::class, 'update'])->name('staff.update');
    Route::delete('/staff/{id}', [StaffController::class, 'destroy'])->name('staff.destroy');
 
-   // Technician
    Route::get('/technician', [TechnicianController::class, 'index'])->name('technician.index');
    Route::get('/technician/create', [TechnicianController::class, 'create'])->name('technician.create');
    Route::post('/technician', [TechnicianController::class, 'store'])->name('technician.store');
@@ -52,30 +50,34 @@ Route::middleware(['auth', 'role:Superadmin'])->prefix('superadmin')->group(func
 });
 
 Route::middleware(['auth', 'role:Staff'])->prefix('staff')->group(function () {
-   // Dashboard Project
-   Route::get('/dashboard_project', [DashboardProject::class,'dashboard']) -> name('dashboard_project');
-   Route::get('/project/create', [DashboardProject::class, 'create'])->name('project.create');
-   Route::post('/project', [DashboardProject::class, 'store'])->name('project.store');
-   Route::get('project/view-{project}', [DashboardProject::class, 'view'])->name('project.view');
-   Route::get('/project/edit-{project}', [DashboardProject::class, 'edit'])->name('project.edit');
-   Route::put('/project-{project}', [DashboardProject::class, 'update'])->name('project.update');
-   Route::delete('/project-{project}', [DashboardProject::class, 'destroy'])->name('project.destroy');
+   Route::get('/pengajuan', [PengajuanController::class,'index']) -> name('staff.pengajuan.index');
+   Route::get('/pengajuan/create', [PengajuanController::class, 'create'])->name('staff.engajuan.create');
+   Route::post('/pengajuan', [PengajuanController::class, 'store'])->name('staff.pengajuan.store');
+   Route::get('pengajuan/view-{project}', [PengajuanController::class, 'view'])->name('staff.pengajuan.view');
 
-   // Dashboard FTTH
-   Route::get('/dashboard_ftth', [DashboardFtth::class,'dashboard']) -> name('dashboard_ftth');
-
-   // Dashboard Homepass
-   Route::get('/dashboard_homepass', [DashboardHomepass::class,'dashboard']) -> name('dashboard_homepass');
-
-   // Dashboard OLT Brand
-   Route::get('/dashboard_olt', [DashboardOltBrand::class,'dashboard']) -> name('dashboard_olt');
-
-   // Dashboard Daily Activity
-   Route::get('/dashboard_daily', [DashboardDailyActivity::class,'dashboard']) -> name('dashboard_daily');
+   // Route::get('/pengajuan/edit-{project}', [PengajuanController::class, 'edit'])->name('staff.pengajuan.edit');
+   // Route::put('/pengajuan-{project}', [PengajuanController::class, 'update'])->name('staff.pengajuan.update');
+   // Route::delete('/pengajuan-{project}', [PengajuanController::class, 'destroy'])->name('staff.pengajuan.destroy');
 });
 
- Route::middleware(['auth', 'role:Technician'])->prefix('technician')->group(function () {
-   Route::get('/project', [ProjectController::class,'index']) -> name('technician.project.index');
-   Route::post('/project/start-{id}', [ProjectController::class, 'startProject'])->name('technician.project.start');
-   Route::get('/project/view-{id}', [ProjectController::class, 'view'])->name('technician.project.view');
+Route::middleware(['auth', 'role:Maintenance'])->prefix('maintenance')->group(function () {
+   Route::get('/pengajuan', [MaintenancePengajuanController::class,'index']) -> name('staff.pengajuan.index');
+   Route::get('/pengajuan/create', [MaintenancePengajuanController::class, 'create'])->name('staff.engajuan.create');
+   Route::post('/pengajuan', [MaintenancePengajuanController::class, 'store'])->name('staff.pengajuan.store');
+   Route::get('pengajuan/view-{project}', [MaintenancePengajuanController::class, 'view'])->name('staff.pengajuan.view');
+
+   Route::get('/pemasangan', [MaintenancePemasanganController::class, 'index'])->name('maintenance.pemasangan.index');
+   Route::post('/pemasangan/{project}/approve', [MaintenancePemasanganController::class, 'approve'])->name('maintenance.pemasangan.approve');
+   Route::post('/pemasangan/{project}/decline', [MaintenancePemasanganController::class, 'decline'])->name('maintenance.pemasangan.decline');
+});
+
+Route::middleware(['auth', 'role:Technician'])->prefix('technician')->group(function () {
+   Route::get('/pengajuan', [TechnicianPengajuanController::class,'index']) -> name('staff.pengajuan.index');
+   Route::get('/pengajuan/create', [TechnicianPengajuanController::class, 'create'])->name('staff.engajuan.create');
+   Route::post('/pengajuan', [TechnicianPengajuanController::class, 'store'])->name('staff.pengajuan.store');
+   Route::get('pengajuan/view-{project}', [TechnicianPengajuanController::class, 'view'])->name('staff.pengajuan.view');
+
+   Route::get('/pemasangan', [TechnicianPemasangController::class,'index']) -> name('technician.pemasangan.index');
+   Route::post('/pemasangan/start-{id}', [TechnicianPemasangController::class, 'startProject'])->name('technician.pemasangan.start');
+   Route::get('/pemasangan/view-{id}', [TechnicianPemasangController::class, 'view'])->name('technician.pemasangan.view');
 });

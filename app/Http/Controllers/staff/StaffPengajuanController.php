@@ -9,8 +9,9 @@ use App\Models\Type;
 use App\Models\Sbu;
 use App\Models\Status;
 use App\Models\Project;
+use App\Models\Customer;
 
-class DashboardProject extends Controller
+class StaffPengajuanController extends Controller
 {
     private function generateColors()
     {
@@ -23,7 +24,7 @@ class DashboardProject extends Controller
         return $color;
     }
 
-    public function dashboard(Request $request)
+    public function index(Request $request)
     {
         $page_name = 'Dashboard Project';
         $projects = Project::get();
@@ -89,7 +90,7 @@ class DashboardProject extends Controller
             $beyond_project_percentage = 0;
         }
 
-        return view('staff.dashboard_project.index', [
+        return view('staff.pengajuan.index', [
             'page_name' => $page_name,
             'projects' => $projects,
             'types' => $types,
@@ -108,7 +109,6 @@ class DashboardProject extends Controller
         ]);
     }
 
-
     public function create()
     {
         $page_name = 'Create Project';
@@ -117,7 +117,7 @@ class DashboardProject extends Controller
         $types = Type::all();
         $sbus = Sbu::all();
 
-        return view('staff.dashboard_project.create', compact('page_name', 'statuses', 'types', 'sbus'));
+        return view('staff.pengajuan.create', compact('page_name', 'statuses', 'types', 'sbus'));
     }
 
     public function store(Request $request)
@@ -133,6 +133,10 @@ class DashboardProject extends Controller
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
             'radius' => 'required|numeric',
+            'customer_name' => 'required|string|max:255',
+            'customer_phone' => 'nullable|string|max:20',
+            'customer_email' => 'nullable|email|max:255',
+            'customer_address' => 'required|string',
         ], [
             'type_id.required' => 'Kolom Tipe Project wajib diisi.',
             'type_id.exists' => 'Tipe Project yang dipilih tidak valid.',
@@ -155,6 +159,12 @@ class DashboardProject extends Controller
             'longitude.numeric' => 'Kolom Longitude harus berupa angka.',
             'radius.required' => 'Kolom Radius (meters) wajib diisi.',
             'radius.numeric' => 'Kolom Radius (meters) harus berupa angka.',
+            'customer_name.required' => 'Kolom Nama Customer wajib diisi.',
+            'customer_name.max' => 'Kolom Nama Customer tidak boleh lebih dari :max karakter.',
+            'customer_phone.max' => 'Kolom Nomor Telepon Customer tidak boleh lebih dari :max karakter.',
+            'customer_email.max' => 'Kolom Email Customer tidak boleh lebih dari :max karakter.',
+            'customer_address.required' => 'Kolom Alamat Customer wajib diisi.',
+            'customer_address.max' => 'Kolom Alamat Customer tidak boleh lebih dari :max karakter.',
         ]);
         
 
@@ -173,29 +183,37 @@ class DashboardProject extends Controller
             'created_by' => auth()->user()->id
         ]);
 
-        return redirect()->route('dashboard_project')->with('success', 'Project telah ditambahkan');
+        $customer = Customer::create([
+            'name' => $request->customer_name,
+            'phone' => $request->customer_phone,
+            'email' => $request->customer_email,
+            'address' => $request->customer_address,
+            'project_id' => $project->id
+        ]);
+
+        return redirect()->route('pengajuan.index')->with('success', 'Project telah ditambahkan');
     }
 
     public function view(Project $project)
     {
         $page_name = 'View Project';
 
-        $statuses = Status::all();
-        $types = Type::all();
-        $sbus = Sbu::all();
+        $customer = Customer::where('project_id', $project->id)->first();
 
-        return view('staff.dashboard_project.view', compact('page_name', 'project', 'statuses', 'types', 'sbus'));
+        return view('staff.pengajuan.view', compact('page_name', 'project', 'customer'));
     }
 
     public function edit(Project $project)
     {
         $page_name = 'Edit Project';
-
         $statuses = Status::all();
         $types = Type::all();
         $sbus = Sbu::all();
 
-        return view('staff.dashboard_project.edit', compact('page_name', 'project', 'statuses', 'types', 'sbus'));
+
+        $customer = Customer::where('project_id', $project->id)->first();
+
+        return view('staff.pengajuan.edit', compact('page_name', 'project', 'statuses', 'types', 'sbus', 'customer'));
     }
 
     public function update(Request $request, Project $project)
@@ -211,6 +229,10 @@ class DashboardProject extends Controller
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
             'radius' => 'required|numeric',
+            'customer_name' => 'required|string|max:255',
+            'customer_phone' => 'nullable|string|max:255',
+            'customer_email' => 'nullable|string|max:255',
+            'customer_address' => 'required|string|max:255',
         ], [
             'type_id.required' => 'Kolom Tipe Project wajib diisi.',
             'type_id.exists' => 'Tipe Project yang dipilih tidak valid.',
@@ -233,6 +255,12 @@ class DashboardProject extends Controller
             'longitude.numeric' => 'Kolom Longitude harus berupa angka.',
             'radius.required' => 'Kolom Radius (meters) wajib diisi.',
             'radius.numeric' => 'Kolom Radius (meters) harus berupa angka.',
+            'customer_name.required' => 'Kolom Nama Customer wajib diisi.',
+            'customer_name.max' => 'Kolom Nama Customer tidak boleh lebih dari :max karakter.',
+            'customer_phone.max' => 'Kolom Nomor Telepon Customer tidak boleh lebih dari :max karakter.',
+            'customer_email.max' => 'Kolom Email Customer tidak boleh lebih dari :max karakter.',
+            'customer_address.required' => 'Kolom Alamat Customer wajib diisi.',
+            'customer_address.max' => 'Kolom Alamat Customer tidak boleh lebih dari :max karakter.',
         ]);
 
         $project->update([
@@ -249,7 +277,17 @@ class DashboardProject extends Controller
             'updated_by' => auth()->user()->id
         ]);
 
-        return redirect()->route('dashboard_project')->with('success', 'Project telah diperbarui');
+        $customer = Customer::where('project_id', $project->id)->first();
+
+        $customer->update([
+            'name' => $request->customer_name,
+            'phone' => $request->customer_phone,
+            'email' => $request->customer_email,
+            'address' => $request->customer_address,
+            'updated_by' => auth()->user()->id
+        ]);
+
+        return redirect()->route('pengajuan.index')->with('success', 'Project telah diperbarui');
     }
     
 
@@ -257,6 +295,6 @@ class DashboardProject extends Controller
     {
         $project->delete();
 
-        return redirect()->route('dashboard_project')->with('success', 'Project telah dihapus');
+        return redirect()->route('pengajuan.index')->with('success', 'Project telah dihapus');
     }
 }

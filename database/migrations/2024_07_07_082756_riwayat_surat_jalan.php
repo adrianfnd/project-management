@@ -21,6 +21,10 @@ return new class extends Migration
             $table->date('tanggal');
             $table->unsignedBigInteger('technician_id');
             $table->foreign('technician_id')->references('id')->on('users');
+            $table->unsignedBigInteger('vendor_id');
+            $table->foreign('vendor_id')->references('id')->on('vendors');
+            $table->unsignedBigInteger('customer_id');
+            $table->foreign('customer_id')->references('id')->on('customers');
             $table->unsignedBigInteger('created_by');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
