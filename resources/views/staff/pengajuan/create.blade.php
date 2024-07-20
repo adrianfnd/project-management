@@ -7,7 +7,8 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">Form Tambah Project FTTH</h4>
-                        <form id="projectForm" class="forms-sample" method="POST" action="{{ route('pengajuan.store') }}">
+                        <form id="projectForm" class="forms-sample" method="POST"
+                            action="{{ route('staff.pengajuan.store') }}">
                             @csrf
 
                             {{-- <div class="form-group">
@@ -160,7 +161,7 @@
 
                             <button type="submit" class="btn btn-primary mr-2"
                                 style="margin-right: 10px">Submit</button>
-                            <a href="{{ route('pengajuan.index') }}" class="btn btn-light">Cancel</a>
+                            <a href="{{ route('staff.pengajuan.index') }}" class="btn btn-light">Cancel</a>
                         </form>
                     </div>
                 </div>

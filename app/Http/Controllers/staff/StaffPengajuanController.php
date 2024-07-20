@@ -123,7 +123,6 @@ class StaffPengajuanController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'type_id' => 'required|exists:types,id',
             'project_name' => 'required|string|max:255',
             'olt_hostname' => 'required|string|max:255',
             'no_sp2k_spa' => 'required|string|max:255',
@@ -138,8 +137,6 @@ class StaffPengajuanController extends Controller
             'customer_email' => 'nullable|email|max:255',
             'customer_address' => 'required|string',
         ], [
-            'type_id.required' => 'Kolom Tipe Project wajib diisi.',
-            'type_id.exists' => 'Tipe Project yang dipilih tidak valid.',
             'project_name.required' => 'Kolom Nama Project wajib diisi.',
             'project_name.max' => 'Kolom Nama Project tidak boleh lebih dari :max karakter.',
             'olt_hostname.required' => 'Kolom OLT Hostname wajib diisi.',
@@ -169,12 +166,12 @@ class StaffPengajuanController extends Controller
         
 
         $project = Project::create([
-            'type_id' => $request->type_id,
+            'type_id' => Type::where('type_name', 'TK4')->first()->id,
             'project_name' => 'TK-' . $request->project_name,
             'olt_hostname' => $request->olt_hostname,
             'no_sp2k_spa' => $request->no_sp2k_spa,
             'sbu_id' => $request->sbu_id,
-            'status_id' => Status::where('status_name', 'INSTALASI')->first()->id,
+            'status_id' => Status::where('status_name', 'PENGAJUAN')->first()->id,
             'start_date' => $request->start_date,
             'target' => $request->target,
             'latitude' => $request->latitude,
@@ -191,7 +188,7 @@ class StaffPengajuanController extends Controller
             'project_id' => $project->id
         ]);
 
-        return redirect()->route('pengajuan.index')->with('success', 'Project telah ditambahkan');
+        return redirect()->route('staff.pengajuan.index')->with('success', 'Project telah ditambahkan');
     }
 
     public function view(Project $project)
@@ -219,7 +216,6 @@ class StaffPengajuanController extends Controller
     public function update(Request $request, Project $project)
     {
         $request->validate([
-            'type_id' => 'required|exists:types,id',
             'project_name' => 'required|string|max:255',
             'olt_hostname' => 'required|string|max:255',
             'no_sp2k_spa' => 'required|string|max:255',
@@ -234,8 +230,6 @@ class StaffPengajuanController extends Controller
             'customer_email' => 'nullable|string|max:255',
             'customer_address' => 'required|string|max:255',
         ], [
-            'type_id.required' => 'Kolom Tipe Project wajib diisi.',
-            'type_id.exists' => 'Tipe Project yang dipilih tidak valid.',
             'project_name.required' => 'Kolom Nama Project wajib diisi.',
             'project_name.max' => 'Kolom Nama Project tidak boleh lebih dari :max karakter.',
             'olt_hostname.required' => 'Kolom OLT Hostname wajib diisi.',
@@ -264,7 +258,7 @@ class StaffPengajuanController extends Controller
         ]);
 
         $project->update([
-            'type_id' => $request->type_id,
+            'type_id' => Type::where('type_name', 'TK4')->first()->id,
             'project_name' => $request->project_name,
             'olt_hostname' => $request->olt_hostname,
             'no_sp2k_spa' => $request->no_sp2k_spa,
@@ -287,7 +281,7 @@ class StaffPengajuanController extends Controller
             'updated_by' => auth()->user()->id
         ]);
 
-        return redirect()->route('pengajuan.index')->with('success', 'Project telah diperbarui');
+        return redirect()->route('staff.pengajuan.index')->with('success', 'Project telah diperbarui');
     }
     
 
@@ -295,6 +289,6 @@ class StaffPengajuanController extends Controller
     {
         $project->delete();
 
-        return redirect()->route('pengajuan.index')->with('success', 'Project telah dihapus');
+        return redirect()->route('staff.pengajuan.index')->with('success', 'Project telah dihapus');
     }
 }

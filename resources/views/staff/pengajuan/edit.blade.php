@@ -8,7 +8,7 @@
                     <div class="card-body">
                         <h4 class="card-title">Form Edit Project FTTH</h4>
                         <form id="projectForm" class="forms-sample" method="POST"
-                            action="{{ route('pengajuan.update', $project->id) }}">
+                            action="{{ route('staff.pengajuan.update', $project->id) }}">
                             @csrf
                             @method('PUT')
 
@@ -159,7 +159,7 @@
 
                             <button type="submit" class="btn btn-primary mr-2"
                                 style="margin-right: 10px">Update</button>
-                            <a href="{{ route('pengajuan.index') }}" class="btn btn-light">Cancel</a>
+                            <a href="{{ route('staff.pengajuan.index') }}" class="btn btn-light">Cancel</a>
                         </form>
                     </div>
                 </div>

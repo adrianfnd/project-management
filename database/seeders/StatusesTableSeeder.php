@@ -14,11 +14,10 @@ class StatusesTableSeeder extends Seeder
     public function run(): void
     {
         $statuses = [
+            'PENGAJUAN' => 'Status for PENGAJUAN',
             'CANCEL' => 'Status for CANCEL',
             'FINISHED' => 'Status for FINISHED',
-            'INSTALASI' => 'Status for INSTALASI',
-            'ON PROGRESS' => 'Status for ON PROGRESS',
-            'QC' => 'Status for QC'
+            'INSTALASI' => 'Status for INSTALASI'
         ];
 
         // $statuses = [

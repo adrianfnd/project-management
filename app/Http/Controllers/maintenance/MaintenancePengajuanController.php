@@ -14,16 +14,20 @@ class MaintenancePengajuanController extends Controller
     public function index()
     {
         $page_name = 'Daftar Surat Jalan';
+
         $surat_jalans = SuratJalan::with(['project', 'vendor', 'technician'])->get();
+
         return view('maintenance.pengajuan.index', compact('page_name', 'surat_jalans'));
     }
 
     public function create()
     {
         $page_name = 'Buat Surat Jalan';
+
         $projects = Project::all();
         $vendors = Vendor::all();
         $technicians = User::where('role_id', 3)->get();
+        
         return view('maintenance.pengajuan.create', compact('page_name', 'projects', 'vendors', 'technicians'));
     }
 

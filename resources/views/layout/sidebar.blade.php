@@ -83,7 +83,7 @@
                         <div class="collapse" id="navbar-maintenance">
                             <ul class="nav ms-4">
                                 <li class="nav-item {{ request()->is('maintenance/pengajuan*') ? 'active' : '' }}">
-                                    <a class="nav-link" href="{{ route('staff.pengajuan.index') }}">
+                                    <a class="nav-link" href="{{ route('maintenance.pengajuan.index') }}">
                                         <span class="sidenav-mini-icon"> P </span>
                                         <span class="sidenav-normal"> Pengajuan </span>
                                     </a>
@@ -113,7 +113,7 @@
                         <div class="collapse" id="navbar-technician">
                             <ul class="nav ms-4">
                                 <li class="nav-item {{ request()->is('technician/pengajuan*') ? 'active' : '' }}">
-                                    <a class="nav-link" href="{{ route('staff.pengajuan.index') }}">
+                                    <a class="nav-link" href="{{ route('technician.pengajuan.index') }}">
                                         <span class="sidenav-mini-icon"> P </span>
                                         <span class="sidenav-normal"> Pengajuan </span>
                                     </a>

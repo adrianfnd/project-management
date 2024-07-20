@@ -50,21 +50,21 @@ Route::middleware(['auth', 'role:Superadmin'])->prefix('superadmin')->group(func
 });
 
 Route::middleware(['auth', 'role:Staff'])->prefix('staff')->group(function () {
-   Route::get('/pengajuan', [PengajuanController::class,'index']) -> name('staff.pengajuan.index');
-   Route::get('/pengajuan/create', [PengajuanController::class, 'create'])->name('staff.engajuan.create');
-   Route::post('/pengajuan', [PengajuanController::class, 'store'])->name('staff.pengajuan.store');
-   Route::get('pengajuan/view-{project}', [PengajuanController::class, 'view'])->name('staff.pengajuan.view');
+   Route::get('/pengajuan', [StaffPengajuanController::class,'index']) -> name('staff.pengajuan.index');
+   Route::get('/pengajuan/create', [StaffPengajuanController::class, 'create'])->name('staff.pengajuan.create');
+   Route::post('/pengajuan', [StaffPengajuanController::class, 'store'])->name('staff.pengajuan.store');
+   Route::get('pengajuan/view-{project}', [StaffPengajuanController::class, 'view'])->name('staff.pengajuan.view');
 
-   // Route::get('/pengajuan/edit-{project}', [PengajuanController::class, 'edit'])->name('staff.pengajuan.edit');
-   // Route::put('/pengajuan-{project}', [PengajuanController::class, 'update'])->name('staff.pengajuan.update');
-   // Route::delete('/pengajuan-{project}', [PengajuanController::class, 'destroy'])->name('staff.pengajuan.destroy');
+   // Route::get('/pengajuan/edit-{project}', [StaffPengajuanController::class, 'edit'])->name('staff.pengajuan.edit');
+   // Route::put('/pengajuan-{project}', [StaffPengajuanController::class, 'update'])->name('staff.pengajuan.update');
+   // Route::delete('/pengajuan-{project}', [StaffPengajuanController::class, 'destroy'])->name('staff.pengajuan.destroy');
 });
 
 Route::middleware(['auth', 'role:Maintenance'])->prefix('maintenance')->group(function () {
-   Route::get('/pengajuan', [MaintenancePengajuanController::class,'index']) -> name('staff.pengajuan.index');
-   Route::get('/pengajuan/create', [MaintenancePengajuanController::class, 'create'])->name('staff.engajuan.create');
-   Route::post('/pengajuan', [MaintenancePengajuanController::class, 'store'])->name('staff.pengajuan.store');
-   Route::get('pengajuan/view-{project}', [MaintenancePengajuanController::class, 'view'])->name('staff.pengajuan.view');
+   Route::get('/pengajuan', [MaintenancePengajuanController::class,'index']) -> name('maintenance.pengajuan.index');
+   Route::get('/pengajuan/create', [MaintenancePengajuanController::class, 'create'])->name('maintenance.engajuan.create');
+   Route::post('/pengajuan', [MaintenancePengajuanController::class, 'store'])->name('maintenance.pengajuan.store');
+   Route::get('pengajuan/view-{project}', [MaintenancePengajuanController::class, 'view'])->name('maintenance.pengajuan.view');
 
    Route::get('/pemasangan', [MaintenancePemasanganController::class, 'index'])->name('maintenance.pemasangan.index');
    Route::post('/pemasangan/{project}/approve', [MaintenancePemasanganController::class, 'approve'])->name('maintenance.pemasangan.approve');
@@ -72,10 +72,10 @@ Route::middleware(['auth', 'role:Maintenance'])->prefix('maintenance')->group(fu
 });
 
 Route::middleware(['auth', 'role:Technician'])->prefix('technician')->group(function () {
-   Route::get('/pengajuan', [TechnicianPengajuanController::class,'index']) -> name('staff.pengajuan.index');
-   Route::get('/pengajuan/create', [TechnicianPengajuanController::class, 'create'])->name('staff.engajuan.create');
-   Route::post('/pengajuan', [TechnicianPengajuanController::class, 'store'])->name('staff.pengajuan.store');
-   Route::get('pengajuan/view-{project}', [TechnicianPengajuanController::class, 'view'])->name('staff.pengajuan.view');
+   Route::get('/pengajuan', [TechnicianPengajuanController::class,'index']) -> name('technician.pengajuan.index');
+   Route::get('/pengajuan/create', [TechnicianPengajuanController::class, 'create'])->name('technician.engajuan.create');
+   Route::post('/pengajuan', [TechnicianPengajuanController::class, 'store'])->name('technician.pengajuan.store');
+   Route::get('pengajuan/view-{project}', [TechnicianPengajuanController::class, 'view'])->name('technician.pengajuan.view');
 
    Route::get('/pemasangan', [TechnicianPemasangController::class,'index']) -> name('technician.pemasangan.index');
    Route::post('/pemasangan/start-{id}', [TechnicianPemasangController::class, 'startProject'])->name('technician.pemasangan.start');

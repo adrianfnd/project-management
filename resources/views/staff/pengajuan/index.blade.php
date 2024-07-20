@@ -154,7 +154,7 @@
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="d-flex justify-content-between align-items-center px-4 pb-3">
                             <div></div>
-                            <a href="{{ route('pengajuan.create') }}" class="btn btn-sm btn-primary" role="button"
+                            <a href="{{ route('staff.pengajuan.create') }}" class="btn btn-sm btn-primary" role="button"
                                 data-bs-toggle="tooltip" data-bs-placement="top" title="Create project">
                                 <i class="fa fa-plus" style="margin-right: 5px; vertical-align: middle;"></i>
                                 <span style="vertical-align: middle;">Create Project</span>
@@ -237,29 +237,29 @@
                                                     class="text-secondary text-xs font-weight-bold">{{ $project->end_date }}</span>
                                             </td>
                                             <td class="align-middle text-center">
-                                                <a href="{{ route('pengajuan.edit', $project->id) }}"
+                                                {{-- <a href="{{ route('staff.pengajuan.edit', $project->id) }}"
                                                     class="btn btn-xs btn-primary btn-sm" role="button"
                                                     data-bs-toggle="tooltip" data-bs-placement="top"
                                                     title="Edit project">
                                                     <i class="fas fa-edit"></i>
-                                                </a>
-                                                <a href="{{ route('pengajuan.view', $project->id) }}"
+                                                </a> --}}
+                                                <a href="{{ route('staff.pengajuan.view', $project->id) }}"
                                                     class="btn btn-xs btn-success btn-sm" role="button"
                                                     data-bs-toggle="tooltip" data-bs-placement="top"
                                                     title="View project">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
-                                                <button class="btn btn-xs btn-danger btn-sm" role="button"
+                                                {{-- <button class="btn btn-xs btn-danger btn-sm" role="button"
                                                     data-bs-toggle="tooltip" data-bs-placement="top"
                                                     title="Delete project" onclick="confirmDelete({{ $project->id }})">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
                                                 <form id="delete-form-{{ $project->id }}"
-                                                    action="{{ route('pengajuan.destroy', $project->id) }}"
+                                                    action="{{ route('staff.pengajuan.destroy', $project->id) }}"
                                                     method="POST" style="display: none;">
                                                     @csrf
                                                     @method('DELETE')
-                                                </form>
+                                                </form> --}}
                                             </td>
                                         </tr>
                                     @endforeach

@@ -13,7 +13,9 @@ class MaintenancePemasanganController extends Controller
     public function index()
     {
         $page_name = 'Daftar Pengajuan Pemasangan';
+
         $projects = Project::where('status_id', Status::where('status_name', 'PENGAJUAN')->first()->id)->get();
+        
         return view('maintenance.pemasangan.index', compact('page_name', 'projects'));
     }
 

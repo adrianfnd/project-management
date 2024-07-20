@@ -101,7 +101,7 @@
                             <p>{{ $customer->address }}</p>
                         </div>
 
-                        <a href="{{ route('pengajuan.index') }}" class="btn btn-light">Kembali</a>
+                        <a href="{{ route('staff.pengajuan.index') }}" class="btn btn-light">Kembali</a>
                     </div>
                 </div>
             </div>
