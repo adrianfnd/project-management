@@ -16,6 +16,8 @@ class SuratJalan extends Model
         'nomor_surat',
         'deskripsi',
         'technician_id',
+        'vendor_id',
+        'customer_id',
         'created_by',
         'updated_by',
     ];
@@ -28,6 +30,16 @@ class SuratJalan extends Model
     public function technician()
     {
         return $this->belongsTo(User::class, 'technician_id');
+    }
+
+    public function vendor()
+    {
+        return $this->belongsTo(Vendor::class, 'vendor_id');
+    }
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class, 'customer_id');
     }
 
     public function creator()
