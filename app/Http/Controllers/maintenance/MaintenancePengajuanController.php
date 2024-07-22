@@ -51,7 +51,15 @@ class MaintenancePengajuanController extends Controller
             'deskripsi.required' => 'Deskripsi wajib diisi.',
         ]);
 
-        $customer = Customer::where('project_id', $request->project_id)->first();
+        $project = Project::where('id', $request->project_id)
+                        ->where('status_id', Status::where('status_name', 'PENGAJUAN')->first()->id)
+                        ->firstOrFail();
+
+        $project->update([
+            'status_id' => Status::where('status_name', 'SURAT JALAN CHECK')->first()->id
+        ]);
+
+        $customer = Customer::where('project_id', $project->id)->first();
 
         $surat_jalan = SuratJalan::create([
             'project_id' => $request->project_id,
@@ -70,7 +78,9 @@ class MaintenancePengajuanController extends Controller
     {
         $page_name = 'View Project';
 
-        $customer = Customer::where('project_id', $project->id)->first();
+        $customer = Customer::where('project_id', $project->id)
+                        ->where('status_id', Status::where('status_name', 'PENGAJUAN')->first()->id)
+                        ->firstOrFail();
 
         return view('maintenance.pengajuan.view', compact('page_name', 'project', 'customer'));
     }
