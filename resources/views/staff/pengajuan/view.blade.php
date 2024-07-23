@@ -6,7 +6,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">Detail Project FTTH</h4>
+                        <h4 class="card-title">Detail Project</h4>
                         @if ($project->project_name)
                             <div class="form-group">
                                 <label for="project_name">Nama Project</label>
@@ -136,6 +136,14 @@
                             <div class="form-group">
                                 <label for="customer_address">Alamat Customer</label>
                                 <p>{{ $customer->address }}</p>
+                            </div>
+                        @endif
+
+                        @if ($suratJalan !== null && $suratJalan->link_file !== null)
+                            <h5 class="mt-4">Surat Jalan Check</h5>
+                            <div class="pdf-container">
+                                <embed src="{{ url('/staff/pengajuan/pdf-' . $project->id) }}" type="application/pdf"
+                                    width="100%" height="750px" />
                             </div>
                         @endif
 

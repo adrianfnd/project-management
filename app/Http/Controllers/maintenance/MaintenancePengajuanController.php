@@ -40,7 +40,10 @@ class MaintenancePengajuanController extends Controller
         $project = Project::where('id', $project->id)
                         ->firstOrFail();
 
-        return view('maintenance.pengajuan.view', compact('page_name', 'project', 'customer'));
+        $suratJalan = SuratJalan::where('project_id', $project->id)
+                        ->first();
+
+        return view('maintenance.pengajuan.view', compact('page_name', 'project', 'customer', 'suratJalan'));
     }
 
     public function showPdf($id)

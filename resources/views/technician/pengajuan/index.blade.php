@@ -291,10 +291,9 @@
         function focusOnMarker(projectId, lat, lng) {
             const marker = markers[projectId];
             if (marker) {
-                map.setView([lat, lng], 15); // Zoom level 15, adjust as needed
+                map.setView([lat, lng], 15);
                 marker.openPopup();
 
-                // Highlight the clicked row
                 if (selectedRow) {
                     selectedRow.classList.remove('selected-row');
                 }
@@ -305,7 +304,6 @@
             }
         }
 
-        // Call this function after the map and table are initialized
         document.addEventListener('DOMContentLoaded', function() {
             initializeMap();
             initializeTableListeners();
@@ -365,7 +363,7 @@
 
         function addToSelectedProjects(projectId) {
             $.ajax({
-                url: `/technician/project/${projectId}/add-to-selected`,
+                url: `/staff/project/${projectId}/add-to-selected`,
                 type: 'POST',
                 data: {
                     _token: '{{ csrf_token() }}',
@@ -373,8 +371,8 @@
                 success: function(response) {
                     Swal.fire({
                         icon: 'success',
-                        title: 'Project Added',
-                        text: 'The project has been added to selected projects.',
+                        title: 'Success',
+                        text: 'Surat Jalan berhasil ditambahkan.',
                         showConfirmButton: false,
                         timer: 2000
                     }).then(() => {
@@ -385,7 +383,7 @@
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: xhr.responseJSON.message || 'Failed to add project. Please try again.',
+                        text: xhr.responseJSON.message || 'Gagal menambahkan. Silakan coba kembali.',
                         showConfirmButton: false,
                         timer: 2000
                     });

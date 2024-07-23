@@ -80,7 +80,7 @@ class TechnicianPengajuanController extends Controller
 
             $suratJalan->update(['is_active' => 'Y']);
 
-            return response()->json(['success' => true, 'message' => 'Surat Jalan berhasil ditambahkan..']);
+            return response()->json(['success' => true, 'message' => 'Surat Jalan berhasil ditambahkan.']);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
         }
@@ -90,9 +90,35 @@ class TechnicianPengajuanController extends Controller
     {
         $page_name = 'View Project';
 
-        $customer = Customer::where('project_id', $project->id)->first();
+        $customer = Customer::where('project_id', $project->id)
+                        ->firstOrFail();
 
-        return view('technician.pengajuan.view', compact('page_name', 'project', 'customer'));
+        $project = Project::where('id', $project->id)
+                        ->firstOrFail();
+
+        $suratJalan = SuratJalan::where('project_id', $project->id)
+                        ->first();
+
+        return view('technician.pengajuan.view', compact('page_name', 'project', 'customer', 'suratJalan'));
+    }
+
+    public function showPdf($id)
+    {
+        $project = Project::where('id', $id)
+                        ->firstOrFail();
+
+        $suratJalan = SuratJalan::where('project_id', $project->id)
+                        ->firstOrFail();
+                            
+        $path = str_replace('public/', 'app/public/', $suratJalan->link_file);
+
+        $pdfPath = storage_path($path);
+
+        if (!$pdfPath) {
+            abort(404, 'PDF tidak ditemukan');
+        }
+
+        return response()->file($pdfPath);
     }
 
     public function complete(Request $request, SuratJalan $suratJalan)

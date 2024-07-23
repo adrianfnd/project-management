@@ -54,7 +54,8 @@ Route::middleware(['auth', 'role:Staff'])->prefix('staff')->group(function () {
    Route::get('/pengajuan/create', [StaffPengajuanController::class, 'create'])->name('staff.pengajuan.create');
    Route::post('/pengajuan', [StaffPengajuanController::class, 'store'])->name('staff.pengajuan.store');
    Route::get('pengajuan/view-{project}', [StaffPengajuanController::class, 'view'])->name('staff.pengajuan.view');
-
+   Route::get('pengajuan/pdf-{id}', [StaffPengajuanController::class, 'showPdf'])->name('staff.spengajuan.pdf');
+   
    // Route::get('/pengajuan/edit-{project}', [StaffPengajuanController::class, 'edit'])->name('staff.pengajuan.edit');
    // Route::put('/pengajuan-{project}', [StaffPengajuanController::class, 'update'])->name('staff.pengajuan.update');
    // Route::delete('/pengajuan-{project}', [StaffPengajuanController::class, 'destroy'])->name('staff.pengajuan.destroy');
@@ -79,6 +80,7 @@ Route::middleware(['auth', 'role:Technician'])->prefix('technician')->group(func
    Route::get('/pengajuan/create', [TechnicianPengajuanController::class, 'create'])->name('technician.engajuan.create');
    Route::post('/pengajuan', [TechnicianPengajuanController::class, 'store'])->name('technician.pengajuan.store');
    Route::get('pengajuan/view-{project}', [TechnicianPengajuanController::class, 'view'])->name('technician.pengajuan.view');
+   Route::get('pengajuan/pdf-{id}', [TechnicianPengajuanController::class, 'showPdf'])->name('technician.spengajuan.pdf');
    Route::post('/project/{project}/add-to-selected', [TechnicianPengajuanController::class, 'addToSelectedProjects'])->name('technician.project.add-to-selected');
 
    Route::get('/pemasangan', [TechnicianPemasangController::class,'index']) -> name('technician.pemasangan.index');

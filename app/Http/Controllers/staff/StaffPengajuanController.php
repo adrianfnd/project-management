@@ -10,6 +10,7 @@ use App\Models\Sbu;
 use App\Models\Status;
 use App\Models\Project;
 use App\Models\Customer;
+use App\Models\SuratJalan;
 
 class StaffPengajuanController extends Controller
 {
@@ -28,7 +29,13 @@ class StaffPengajuanController extends Controller
     {
         $page_name = 'Daftar Pengajuan Pemasangan';
 
-        $projects = Project::get();
+        $list_project = Project::with('status')->get();
+    
+        $projects = $list_project->sortBy(function($project) {
+            $order = ['PENGAJUAN' => 1, 'SURAT JALAN CHECK' => 2];
+            return $order[$project->status->status_name] ?? 3;
+        });
+        
         $types = Type::all();
         $sbus = Sbu::all();
         $statuses = Status::all();
@@ -115,12 +122,34 @@ class StaffPengajuanController extends Controller
         $page_name = 'View Project';
 
         $customer = Customer::where('project_id', $project->id)
-                ->firstOrFail();
+                        ->firstOrFail();
 
         $project = Project::where('id', $project->id)
-                ->firstOrFail();
+                        ->firstOrFail();
 
-        return view('staff.pengajuan.view', compact('page_name', 'project', 'customer'));
+        $suratJalan = SuratJalan::where('project_id', $project->id)
+                        ->first();
+
+        return view('staff.pengajuan.view', compact('page_name', 'project', 'customer', 'suratJalan'));
+    }
+
+    public function showPdf($id)
+    {
+        $project = Project::where('id', $id)
+                        ->firstOrFail();
+
+        $suratJalan = SuratJalan::where('project_id', $project->id)
+                        ->firstOrFail();
+                            
+        $path = str_replace('public/', 'app/public/', $suratJalan->link_file);
+
+        $pdfPath = storage_path($path);
+
+        if (!$pdfPath) {
+            abort(404, 'PDF tidak ditemukan');
+        }
+
+        return response()->file($pdfPath);
     }
 
     public function create()
@@ -202,6 +231,6 @@ class StaffPengajuanController extends Controller
             'project_id' => $project->id
         ]);
 
-        return redirect()->route('staff.pengajuan.index')->with('success', 'Project telah ditambahkan');
+        return redirect()->route('staff.pengajuan.index')->with('success', 'Project telah ditambahkan.');
     }
 }

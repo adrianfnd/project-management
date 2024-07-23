@@ -80,7 +80,7 @@
                                 @endif
                             </div>
 
-                            <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                            <button type="submit" class="btn btn-primary mr-2" style="margin-right: 10px">Submit</button>
                             <a href="{{ route('maintenance.pengajuan.index') }}" class="btn btn-light">Cancel</a>
                         </form>
                     </div>

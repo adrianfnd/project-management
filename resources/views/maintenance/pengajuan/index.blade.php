@@ -91,4 +91,29 @@
             </div>
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        var successMessage = '{{ session('success') }}';
+        var errorMessage = '{{ session('error') }}';
+        if (successMessage) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: successMessage,
+                showConfirmButton: false,
+                timer: 2000
+            });
+        }
+
+        if (errorMessage) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal!',
+                text: errorMessage,
+                showConfirmButton: false,
+                timer: 2000
+            });
+        }
+    </script>
 @endsection
