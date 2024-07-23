@@ -54,7 +54,7 @@ Route::middleware(['auth', 'role:Staff'])->prefix('staff')->group(function () {
    Route::get('/pengajuan/create', [StaffPengajuanController::class, 'create'])->name('staff.pengajuan.create');
    Route::post('/pengajuan', [StaffPengajuanController::class, 'store'])->name('staff.pengajuan.store');
    Route::get('/pengajuan/view-{project}', [StaffPengajuanController::class, 'view'])->name('staff.pengajuan.view');
-   Route::get('/pengajuan/pdf-{id}', [StaffPengajuanController::class, 'showPdf'])->name('staff.spengajuan.pdf');
+   Route::get('/pengajuan/pdf-{id}', [StaffPengajuanController::class, 'showPdf'])->name('staff.pengajuan.pdf');
 });
 
 Route::middleware(['auth', 'role:Maintenance'])->prefix('maintenance')->group(function () {
@@ -63,9 +63,11 @@ Route::middleware(['auth', 'role:Maintenance'])->prefix('maintenance')->group(fu
    Route::post('/pengajuan/store-{project}', [MaintenancePengajuanController::class, 'store'])->name('maintenance.pengajuan.store');
    Route::post('/pengajuan', [MaintenancePengajuanController::class, 'store'])->name('maintenance.pengajuan.store');
    Route::get('/pengajuan/view-{project}', [MaintenancePengajuanController::class, 'view'])->name('maintenance.pengajuan.view');
-   Route::get('/pengajuan/pdf-{id}', [MaintenancePengajuanController::class, 'showPdf'])->name('maintenance.spengajuan.pdf');
+   Route::get('/pengajuan/pdf-{id}', [MaintenancePengajuanController::class, 'showPdf'])->name('maintenance.pengajuan.pdf');
 
    Route::get('/pemasangan', [MaintenancePemasanganController::class, 'index'])->name('maintenance.pemasangan.index');
+   Route::get('/pemasangan/view-{project}', [MaintenancePemasanganController::class, 'view'])->name('maintenance.pemasangan.view');
+   Route::get('/pemasangan/pdf-{id}', [MaintenancePemasanganController::class, 'showPdf'])->name('maintenance.pemasangan.pdf');
    Route::post('/pemasangan/{project}/approve', [MaintenancePemasanganController::class, 'approve'])->name('maintenance.pemasangan.approve');
    Route::post('/pemasangan/{project}/decline', [MaintenancePemasanganController::class, 'decline'])->name('maintenance.pemasangan.decline');
 });
@@ -76,7 +78,7 @@ Route::middleware(['auth', 'role:Technician'])->prefix('technician')->group(func
    Route::get('/pengajuan/create', [TechnicianPengajuanController::class, 'create'])->name('technician.engajuan.create');
    Route::post('/pengajuan', [TechnicianPengajuanController::class, 'store'])->name('technician.pengajuan.store');
    Route::get('/pengajuan/view-{project}', [TechnicianPengajuanController::class, 'view'])->name('technician.pengajuan.view');
-   Route::get('/pengajuan/pdf-{id}', [TechnicianPengajuanController::class, 'showPdf'])->name('technician.spengajuan.pdf');
+   Route::get('/pengajuan/pdf-{id}', [TechnicianPengajuanController::class, 'showPdf'])->name('technician.pengajuan.pdf');
    Route::get('/pengajuan/{project}/complete', [TechnicianPengajuanController::class, 'completeView'])->name('technician.project.complete_view');
    Route::post('/pengajuan/{project}/complete', [TechnicianPengajuanController::class, 'complete'])->name('technician.project.complete');
    Route::post('/pengajuan/{project}/add-to-selected', [TechnicianPengajuanController::class, 'addToSelectedProjects'])->name('technician.project.add-to-selected');
