@@ -30,6 +30,9 @@ class Project extends Model
         'latitude',
         'longitude',
         'radius',
+        'link_file',
+        'images',
+        'is_active',
         'technician_id',
         'created_by',
         'updated_by',
@@ -53,6 +56,11 @@ class Project extends Model
     public function technician()
     {
         return $this->belongsTo(User::class, 'technician_id');
+    }
+
+    public function suratjalans()
+    {
+        return $this->hasMany(SuratJalan::class, 'project_id');
     }
 
     public function creator()

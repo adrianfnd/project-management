@@ -78,6 +78,7 @@ Route::middleware(['auth', 'role:Technician'])->prefix('technician')->group(func
    Route::get('/pengajuan/create', [TechnicianPengajuanController::class, 'create'])->name('technician.engajuan.create');
    Route::post('/pengajuan', [TechnicianPengajuanController::class, 'store'])->name('technician.pengajuan.store');
    Route::get('pengajuan/view-{project}', [TechnicianPengajuanController::class, 'view'])->name('technician.pengajuan.view');
+   Route::post('/project/{project}/add-to-selected', [TechnicianPengajuanController::class, 'addToSelectedProjects'])->name('technician.project.add-to-selected');
 
    Route::get('/pemasangan', [TechnicianPemasangController::class,'index']) -> name('technician.pemasangan.index');
    Route::post('/pemasangan/start-{id}', [TechnicianPemasangController::class, 'startProject'])->name('technician.pemasangan.start');

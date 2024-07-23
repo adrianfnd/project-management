@@ -63,12 +63,16 @@
                                                     data-bs-toggle="tooltip" data-bs-placement="top" title="View project">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
-                                                <a href="{{ route('maintenance.pengajuan.create', $item->id) }}"
-                                                    class="btn btn-xs btn-primary btn-sm" role="button"
-                                                    data-bs-toggle="tooltip" data-bs-placement="top"
-                                                    title="Create Surat Jalan">
-                                                    <i class="fas fa-plus"></i>
-                                                </a>
+
+                                                @if ($item->status->status_name === 'PENGAJUAN')
+                                                    <a href="{{ route('maintenance.pengajuan.create', $item->id) }}"
+                                                        class="btn btn-xs btn-primary btn-sm" role="button"
+                                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="Create Surat Jalan">
+                                                        <i class="fas fa-plus"></i>
+                                                    </a>
+                                                @endif
+
                                             </td>
                                         </tr>
                                     @endforeach

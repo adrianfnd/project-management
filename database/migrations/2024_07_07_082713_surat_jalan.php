@@ -17,6 +17,9 @@ return new class extends Migration
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
             $table->string('nomor_surat');
             $table->text('deskripsi')->nullable();
+            $table->string('link_file')->nullable();
+            $table->string('images')->nullable();
+            $table->enum('is_active', ['Y', 'N'])->default('N');
             $table->unsignedBigInteger('technician_id');
             $table->foreign('technician_id')->references('id')->on('users');
             $table->unsignedBigInteger('vendor_id');

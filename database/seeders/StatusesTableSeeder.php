@@ -15,9 +15,11 @@ class StatusesTableSeeder extends Seeder
     {
         $statuses = [
             'PENGAJUAN' => 'Status for PENGAJUAN',
-            'CANCEL' => 'Status for CANCEL',
+            'SURAT JALAN CHECK' => 'Status for SURAT JALAN CHECK',
+            'SURAT JALAN' => 'Status for SURAT JALAN',
+            'INSTALASI' => 'Status for INSTALASI',
             'FINISHED' => 'Status for FINISHED',
-            'INSTALASI' => 'Status for INSTALASI'
+            'CANCEL' => 'Status for CANCEL',
         ];
 
         // $statuses = [

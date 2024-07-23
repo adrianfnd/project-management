@@ -149,11 +149,15 @@
                                             Action</th>
                                     </tr>
                                 </thead>
+                                <style>
+                                    .selected-row {
+                                        background-color: #e0e0e0;
+                                    }
+                                </style>
                                 <tbody>
                                     @foreach ($selected_projects as $index => $project)
-                                        <tr data-project-id="{{ $project->project->id }}"
-                                            data-lat="{{ $project->project->latitude }}"
-                                            data-lng="{{ $project->project->longitude }}">
+                                        <tr data-project-id="{{ $project->id }}" data-lat="{{ $project->latitude }}"
+                                            data-lng="{{ $project->longitude }}">
                                             <td class="align-middle text-center">
                                                 <span
                                                     class="text-secondary text-xs font-weight-bold">{{ $index + 1 }}</span>
@@ -161,26 +165,26 @@
                                             <td>
                                                 <div class="d-flex px-2">
                                                     <div class="my-auto">
-                                                        <h6 class="mb-0 text-sm">{{ $project->project->project_name }}
+                                                        <h6 class="mb-0 text-sm">{{ $project->project_name }}
                                                         </h6>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td>
                                                 <p class="text-sm font-weight-bold mb-0">
-                                                    {{ $project->project->type->type_name }}
+                                                    {{ $project->type->type_name }}
                                                 </p>
                                             </td>
                                             <td class="align-middle text-center">
                                                 <div class="d-flex align-items-center justify-content-center">
                                                     <span
-                                                        class="me-2 text-xs font-weight-bold">{{ $project->project->progress }}%</span>
+                                                        class="me-2 text-xs font-weight-bold">{{ $project->progress }}%</span>
                                                     <div>
                                                         <div class="progress">
                                                             <div class="progress-bar bg-gradient-info" role="progressbar"
-                                                                aria-valuenow="{{ $project->project->progress }}"
-                                                                aria-valuemin="0" aria-valuemax="100"
-                                                                style="width: {{ $project->project->progress }}%;">
+                                                                aria-valuenow="{{ $project->progress }}" aria-valuemin="0"
+                                                                aria-valuemax="100"
+                                                                style="width: {{ $project->progress }}%;">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -188,29 +192,39 @@
                                             </td>
                                             <td class="align-middle text-center text-sm">
                                                 <span
-                                                    class="text-secondary text-xs font-weight-bold">{{ $project->project->status->status_name }}</span>
+                                                    class="text-secondary text-xs font-weight-bold">{{ $project->status->status_name }}</span>
                                             </td>
                                             <td class="align-middle text-center">
                                                 <span
-                                                    class="text-secondary text-xs font-weight-bold">{{ $project->project->start_date }}</span>
+                                                    class="text-secondary text-xs font-weight-bold">{{ $project->start_date }}</span>
                                             </td>
                                             <td class="align-middle text-center">
                                                 <span
-                                                    class="text-secondary text-xs font-weight-bold">{{ $project->project->end_date }}</span>
+                                                    class="text-secondary text-xs font-weight-bold">{{ $project->end_date }}</span>
                                             </td>
                                             <td class="align-middle text-center">
-                                                <a href="{{ route('technician.project.view', $project->project->id) }}"
-                                                    class="btn btn-xs btn-success btn-sm" role="button"
-                                                    data-bs-toggle="tooltip" data-bs-placement="top"
-                                                    title="View project">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
-                                                @if ($project->project->status->status_name === 'INSTALASI')
-                                                    <button onclick="handleInstallation({{ $project->project->id }})"
-                                                        class="btn btn-xs btn-primary btn-sm" role="button"
+                                                @php
+                                                    $surat_jalan = $project->suratjalans->first();
+                                                @endphp
+                                                @if ($surat_jalan->is_active == 'N')
+                                                    <a href="{{ route('technician.pengajuan.view', $project->id) }}"
+                                                        class="btn btn-xs btn-success btn-sm" role="button"
                                                         data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        title="Start Installation">
-                                                        <i class="fas fa-tools"></i>
+                                                        title="View project">
+                                                        <i class="fas fa-eye"></i>
+                                                    </a>
+                                                    <button onclick="addToSelectedProjects({{ $project->id }})"
+                                                        class="btn btn-xs btn-info btn-sm" role="button"
+                                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="Add to Selected Projects">
+                                                        <i class="fas fa-plus"></i>
+                                                    </button>
+                                                @else
+                                                    <button onclick="updateSelectedProject({{ $project->id }})"
+                                                        class="btn btn-xs btn-warning btn-sm" role="button"
+                                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="Update Selected Project">
+                                                        <i class="fas fa-edit"></i>
                                                     </button>
                                                 @endif
                                             </td>
@@ -227,23 +241,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        function confirmDelete(projectId) {
-            Swal.fire({
-                title: 'Apakan anda yakin?',
-                text: "Anda tidak akan dapat mengembalikan ini!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Iya, hapus!',
-                cancelButtonText: 'Batal'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.getElementById('delete-form-' + projectId).submit();
-                }
-            })
-        }
-
         var successMessage = '{{ session('success') }}';
         var errorMessage = '{{ session('error') }}';
         if (successMessage) {
@@ -267,6 +264,8 @@
         }
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
     <script>
         var map;
@@ -274,128 +273,108 @@
         var selectedRow = null;
         var selectedMarker = null;
 
+        function initializeTableListeners() {
+            const tableRows = document.querySelectorAll('table tbody tr');
+            tableRows.forEach(row => {
+                row.addEventListener('click', function() {
+                    const projectId = this.getAttribute('data-project-id');
+                    const lat = parseFloat(this.getAttribute('data-lat'));
+                    const lng = parseFloat(this.getAttribute('data-lng'));
+
+                    if (projectId && lat && lng) {
+                        focusOnMarker(projectId, lat, lng);
+                    }
+                });
+            });
+        }
+
+        function focusOnMarker(projectId, lat, lng) {
+            const marker = markers[projectId];
+            if (marker) {
+                map.setView([lat, lng], 15); // Zoom level 15, adjust as needed
+                marker.openPopup();
+
+                // Highlight the clicked row
+                if (selectedRow) {
+                    selectedRow.classList.remove('selected-row');
+                }
+                selectedRow = document.querySelector(`tr[data-project-id="${projectId}"]`);
+                if (selectedRow) {
+                    selectedRow.classList.add('selected-row');
+                }
+            }
+        }
+
+        // Call this function after the map and table are initialized
         document.addEventListener('DOMContentLoaded', function() {
             initializeMap();
             initializeTableListeners();
         });
 
         function initializeMap() {
-            map = L.map('map').setView([-6.200000, 106.816666], 10);
+            console.log('Initializing map...');
+            try {
+                map = L.map('map').setView([-6.200000, 106.816666], 10);
 
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(map);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
 
-            var projects = @json($projects);
-            projects.forEach(function(project) {
-                var installationButton = '';
-                if (project.status.status_name === 'INSTALASI') {
-                    installationButton = `<button onclick="handleInstallation(${project.id})" class="btn btn-xs btn-primary btn-sm" role="button" title="Start Installation">
-                <i class="fas fa-tools"></i> Start Installation
-            </button>`;
-                }
+                console.log('Map initialized successfully');
 
-                var popupContent = `
-            <b>${project.project_name || 'Unnamed Project'}</b><br>
-            Progress: ${project.progress || 'N/A'}<br>
-            Kendala: ${project.kendala || 'None'}<br><br>
-            ${project.image ? `<center><img src="${project.image}" alt="${project.project_name || 'Project Image'}" style="width:175px;height:auto;"></center><br>` : ''}
-            <center><a href="/project/view/${project.id}" class="btn btn-xs btn-success btn-sm" role="button" title="View project">
-                <i class="fas fa-eye"></i> View Project
-            </a>
-            ${installationButton}</center>
-        `;
+                var projects = @json($projects);
+                console.log('Projects:', projects);
 
-                if (project.latitude && project.longitude) {
-                    var marker = L.marker([project.latitude, project.longitude])
-                        .addTo(map)
-                        .bindPopup(popupContent);
+                projects.forEach(function(project) {
+                    console.log('Processing project:', project.id);
 
-                    markers[project.id] = marker;
+                    var popupContent = `
+                <b>${project.project_name || 'Unnamed Project'}</b><br>
+                Progress: ${project.progress || 'N/A'}<br>
+                Kendala: ${project.kendala || 'None'}<br>
+            `;
 
-                    marker.on('click', function() {
-                        selectProjectFromMap(project.id);
-                    });
+                    if (project.latitude && project.longitude) {
+                        console.log('Adding marker for project:', project.id);
+                        var markerColor = project.suratjalans && project.suratjalans[0] && project.suratjalans[0]
+                            .is_active === 'Y' ? 'green' : 'red';
+                        var markerIcon = L.icon({
+                            iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-${markerColor}.png`,
+                            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                            iconSize: [25, 41],
+                            iconAnchor: [12, 41],
+                            popupAnchor: [1, -34],
+                            shadowSize: [41, 41]
+                        });
 
-                    marker.on('popupclose', function() {
-                        unselectProject();
-                    });
-                } else {
-                    console.warn(`Project ${project.id} has invalid coordinates`);
-                }
-            });
-        }
+                        var marker = L.marker([project.latitude, project.longitude], {
+                                icon: markerIcon
+                            })
+                            .addTo(map)
+                            .bindPopup(popupContent);
 
-        function initializeTableListeners() {
-            var tableRows = document.querySelectorAll('table tbody tr');
-            tableRows.forEach(function(row) {
-                row.addEventListener('click', function() {
-                    var projectId = this.getAttribute('data-project-id');
-                    var lat = parseFloat(this.getAttribute('data-lat'));
-                    var lng = parseFloat(this.getAttribute('data-lng'));
-                    selectProjectFromTable(projectId, lat, lng);
+                        markers[project.id] = marker;
+                    } else {
+                        console.warn(`Project ${project.id} has invalid coordinates`);
+                    }
                 });
-            });
-        }
-
-        function selectProjectFromTable(projectId, lat, lng) {
-            if (isNaN(lat) || isNaN(lng)) {
-                console.warn(`Invalid coordinates for project ${projectId}`);
-                return;
-            }
-
-            map.panTo([lat, lng]);
-
-            if (markers[projectId]) {
-                markers[projectId].openPopup();
-                selectedMarker = markers[projectId];
-            }
-
-            highlightTableRow(projectId);
-        }
-
-        function selectProjectFromMap(projectId) {
-            highlightTableRow(projectId);
-            selectedMarker = markers[projectId];
-        }
-
-        function unselectProject() {
-            if (selectedRow) {
-                selectedRow.style.backgroundColor = '';
-                selectedRow = null;
-            }
-
-            selectedMarker = null;
-        }
-
-        function highlightTableRow(projectId) {
-            if (selectedRow) {
-                selectedRow.style.backgroundColor = '';
-            }
-
-            selectedRow = document.querySelector(`tr[data-project-id="${projectId}"]`);
-            if (selectedRow) {
-                selectedRow.style.backgroundColor = '#e0e0e0';
-
-                selectedRow.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'center'
-                });
+            } catch (error) {
+                console.error('Error initializing map:', error);
             }
         }
 
-        function handleInstallation(projectId) {
+        function addToSelectedProjects(projectId) {
             $.ajax({
-                url: `/technician/project/start-${projectId}`,
+                url: `/technician/project/${projectId}/add-to-selected`,
                 type: 'POST',
                 data: {
                     _token: '{{ csrf_token() }}',
                 },
                 success: function(response) {
                     Swal.fire({
-                        icon: response.success ? 'success' : 'error',
-                        title: response.success ? 'Installation Started' : 'Error',
-                        text: response.message,
+                        icon: 'success',
+                        title: 'Project Added',
+                        text: 'The project has been added to selected projects.',
                         showConfirmButton: false,
                         timer: 2000
                     }).then(() => {
@@ -406,42 +385,12 @@
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: xhr.responseJSON.message ||
-                            'Failed to start installation. Please try again.',
+                        text: xhr.responseJSON.message || 'Failed to add project. Please try again.',
                         showConfirmButton: false,
                         timer: 2000
-                    }).then(() => {
-                        location.reload();
                     });
                 }
             });
         }
-
-
-
-        // SweetAlert2 initialization (if you're using it)
-        $(document).ready(function() {
-            var successMessage = '{{ session('success') }}';
-            var errorMessage = '{{ session('error') }}';
-            if (successMessage) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Berhasil!',
-                    text: successMessage,
-                    showConfirmButton: false,
-                    timer: 2000
-                });
-            }
-
-            if (errorMessage) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Gagal!',
-                    text: errorMessage,
-                    showConfirmButton: false,
-                    timer: 2000
-                });
-            }
-        });
     </script>
 @endsection
