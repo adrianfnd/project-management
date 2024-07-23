@@ -11,21 +11,6 @@
                             action="{{ route('staff.pengajuan.store') }}">
                             @csrf
 
-                            {{-- <div class="form-group">
-                                <label for="type_id">Tipe Project</label>
-                                <select class="form-control" id="type_id" name="type_id" value="{{ old('type_id') }}"
-                                    required>
-                                    @foreach ($types as $type)
-                                        <option value="{{ $type->id }}"
-                                            {{ old('type_id') == $type->id ? 'selected' : '' }}>
-                                            {{ $type->type_name }}</option>
-                                    @endforeach
-                                </select>
-                                @if ($errors->has('type_id'))
-                                    <span class="text-danger">{{ $errors->first('type_id') }}</span>
-                                @endif
-                            </div> --}}
-
                             <div class="form-group">
                                 <label for="project_name">Nama Project</label>
                                 <input type="text" class="form-control" id="project_name" name="project_name"

@@ -29,6 +29,9 @@
                                             Start</th>
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Target</th>
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Action</th>
                                     </tr>
                                 </thead>
@@ -56,6 +59,10 @@
                                             <td class="align-middle text-center">
                                                 <span
                                                     class="text-secondary text-xs font-weight-bold">{{ $item->start_date }}</span>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <span
+                                                    class="text-secondary text-xs font-weight-bold">{{ $item->target }}</span>
                                             </td>
                                             <td class="align-middle text-center">
                                                 <a href="{{ route('maintenance.pengajuan.view', $item->id) }}"

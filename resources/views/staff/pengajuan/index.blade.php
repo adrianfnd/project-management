@@ -184,7 +184,7 @@
                                             Start</th>
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            End</th>
+                                            Target</th>
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Action</th>
@@ -234,32 +234,15 @@
                                             </td>
                                             <td class="align-middle text-center">
                                                 <span
-                                                    class="text-secondary text-xs font-weight-bold">{{ $project->end_date }}</span>
+                                                    class="text-secondary text-xs font-weight-bold">{{ $project->target }}</span>
                                             </td>
                                             <td class="align-middle text-center">
-                                                {{-- <a href="{{ route('staff.pengajuan.edit', $project->id) }}"
-                                                    class="btn btn-xs btn-primary btn-sm" role="button"
-                                                    data-bs-toggle="tooltip" data-bs-placement="top"
-                                                    title="Edit project">
-                                                    <i class="fas fa-edit"></i>
-                                                </a> --}}
                                                 <a href="{{ route('staff.pengajuan.view', $project->id) }}"
                                                     class="btn btn-xs btn-success btn-sm" role="button"
                                                     data-bs-toggle="tooltip" data-bs-placement="top"
                                                     title="View project">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
-                                                {{-- <button class="btn btn-xs btn-danger btn-sm" role="button"
-                                                    data-bs-toggle="tooltip" data-bs-placement="top"
-                                                    title="Delete project" onclick="confirmDelete({{ $project->id }})">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                                <form id="delete-form-{{ $project->id }}"
-                                                    action="{{ route('staff.pengajuan.destroy', $project->id) }}"
-                                                    method="POST" style="display: none;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                </form> --}}
                                             </td>
                                         </tr>
                                     @endforeach
@@ -388,23 +371,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        function confirmDelete(projectId) {
-            Swal.fire({
-                title: 'Apakan anda yakin?',
-                text: "Anda tidak akan dapat mengembalikan ini!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Iya, hapus!',
-                cancelButtonText: 'Batal'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.getElementById('delete-form-' + projectId).submit();
-                }
-            })
-        }
-
         var successMessage = '{{ session('success') }}';
         var errorMessage = '{{ session('error') }}';
         if (successMessage) {

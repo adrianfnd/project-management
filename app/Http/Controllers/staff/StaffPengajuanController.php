@@ -27,6 +27,7 @@ class StaffPengajuanController extends Controller
     public function index(Request $request)
     {
         $page_name = 'Daftar Pengajuan Pemasangan';
+
         $projects = Project::get();
         $types = Type::all();
         $sbus = Sbu::all();
@@ -107,6 +108,19 @@ class StaffPengajuanController extends Controller
             'pieChartData2' => $pieChartData2,
             'pieChartData3' => $pieChartData3
         ]);
+    }
+
+    public function view(Project $project)
+    {
+        $page_name = 'View Project';
+
+        $customer = Customer::where('project_id', $project->id)
+                ->firstOrFail();
+
+        $project = Project::where('id', $project->id)
+                ->firstOrFail();
+
+        return view('staff.pengajuan.view', compact('page_name', 'project', 'customer'));
     }
 
     public function create()
@@ -190,104 +204,4 @@ class StaffPengajuanController extends Controller
 
         return redirect()->route('staff.pengajuan.index')->with('success', 'Project telah ditambahkan');
     }
-
-    public function view(Project $project)
-    {
-        $page_name = 'View Project';
-
-        $customer = Customer::where('project_id', $project->id)->first();
-
-        return view('staff.pengajuan.view', compact('page_name', 'project', 'customer'));
-    }
-
-    // public function edit(Project $project)
-    // {
-    //     $page_name = 'Edit Project';
-    //     $statuses = Status::all();
-    //     $types = Type::all();
-    //     $sbus = Sbu::all();
-
-
-    //     $customer = Customer::where('project_id', $project->id)->first();
-
-    //     return view('staff.pengajuan.edit', compact('page_name', 'project', 'statuses', 'types', 'sbus', 'customer'));
-    // }
-
-    // public function update(Request $request, Project $project)
-    // {
-    //     $request->validate([
-    //         'project_name' => 'required|string|max:255',
-    //         'olt_hostname' => 'required|string|max:255',
-    //         'no_sp2k_spa' => 'required|string|max:255',
-    //         'sbu_id' => 'required|exists:sbus,id',
-    //         'start_date' => 'required|date',
-    //         'target' => 'required|date|after:start_date',
-    //         'latitude' => 'required|numeric',
-    //         'longitude' => 'required|numeric',
-    //         'radius' => 'required|numeric',
-    //         'customer_name' => 'required|string|max:255',
-    //         'customer_phone' => 'nullable|string|max:255',
-    //         'customer_email' => 'nullable|string|max:255',
-    //         'customer_address' => 'required|string|max:255',
-    //     ], [
-    //         'project_name.required' => 'Kolom Nama Project wajib diisi.',
-    //         'project_name.max' => 'Kolom Nama Project tidak boleh lebih dari :max karakter.',
-    //         'olt_hostname.required' => 'Kolom OLT Hostname wajib diisi.',
-    //         'olt_hostname.max' => 'Kolom OLT Hostname tidak boleh lebih dari :max karakter.',
-    //         'no_sp2k_spa.required' => 'Kolom No SP2K/SPA wajib diisi.',
-    //         'no_sp2k_spa.max' => 'Kolom No SP2K/SPA tidak boleh lebih dari :max karakter.',
-    //         'sbu_id.required' => 'Kolom SBU wajib diisi.',
-    //         'sbu_id.exists' => 'SBU yang dipilih tidak valid.',
-    //         'start_date.required' => 'Kolom Tanggal Mulai wajib diisi.',
-    //         'start_date.date' => 'Kolom Tanggal Mulai harus berupa tanggal yang valid.',
-    //         'target.required' => 'Kolom Target Selesai wajib diisi.',
-    //         'target.date' => 'Kolom Target Selesai harus berupa tanggal yang valid.',
-    //         'target.after' => 'Kolom Target Selesai harus setelah Tanggal Mulai.',
-    //         'latitude.required' => 'Kolom Latitude wajib diisi.',
-    //         'latitude.numeric' => 'Kolom Latitude harus berupa angka.',
-    //         'longitude.required' => 'Kolom Longitude wajib diisi.',
-    //         'longitude.numeric' => 'Kolom Longitude harus berupa angka.',
-    //         'radius.required' => 'Kolom Radius (meters) wajib diisi.',
-    //         'radius.numeric' => 'Kolom Radius (meters) harus berupa angka.',
-    //         'customer_name.required' => 'Kolom Nama Customer wajib diisi.',
-    //         'customer_name.max' => 'Kolom Nama Customer tidak boleh lebih dari :max karakter.',
-    //         'customer_phone.max' => 'Kolom Nomor Telepon Customer tidak boleh lebih dari :max karakter.',
-    //         'customer_email.max' => 'Kolom Email Customer tidak boleh lebih dari :max karakter.',
-    //         'customer_address.required' => 'Kolom Alamat Customer wajib diisi.',
-    //         'customer_address.max' => 'Kolom Alamat Customer tidak boleh lebih dari :max karakter.',
-    //     ]);
-
-    //     $project->update([
-    //         'type_id' => Type::where('type_name', 'TK4')->first()->id,
-    //         'project_name' => $request->project_name,
-    //         'olt_hostname' => $request->olt_hostname,
-    //         'no_sp2k_spa' => $request->no_sp2k_spa,
-    //         'sbu_id' => $request->sbu_id,
-    //         'start_date' => $request->start_date,
-    //         'target' => $request->target,
-    //         'latitude' => $request->latitude,
-    //         'longitude' => $request->longitude,
-    //         'radius' => $request->radius,
-    //         'updated_by' => auth()->user()->id
-    //     ]);
-
-    //     $customer = Customer::where('project_id', $project->id)->first();
-
-    //     $customer->update([
-    //         'name' => $request->customer_name,
-    //         'phone' => $request->customer_phone,
-    //         'email' => $request->customer_email,
-    //         'address' => $request->customer_address,
-    //         'updated_by' => auth()->user()->id
-    //     ]);
-
-    //     return redirect()->route('staff.pengajuan.index')->with('success', 'Project telah diperbarui');
-    // }
-
-    // public function destroy(Project $project)
-    // {
-    //     $project->delete();
-
-    //     return redirect()->route('staff.pengajuan.index')->with('success', 'Project telah dihapus');
-    // }
 }

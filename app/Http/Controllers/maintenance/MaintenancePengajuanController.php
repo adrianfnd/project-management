@@ -19,12 +19,16 @@ class MaintenancePengajuanController extends Controller
     public function index()
     {
         $page_name = 'Daftar Pengajuan Pemasangan';
-
-        $projects = Project::get();
-        
+    
+        $list_project = Project::with('status')->get();
+    
+        $projects = $list_project->sortBy(function($project) {
+            $order = ['PENGAJUAN' => 1, 'SURAT JALAN CHECK' => 2];
+            return $order[$project->status->status_name] ?? 3;
+        });
+    
         return view('maintenance.pengajuan.index', compact('page_name', 'projects'));
     }
-
     
     public function view(Project $project)
     {
@@ -39,9 +43,28 @@ class MaintenancePengajuanController extends Controller
         return view('maintenance.pengajuan.view', compact('page_name', 'project', 'customer'));
     }
 
+    public function showPdf($id)
+    {
+        $project = Project::where('id', $id)
+                        ->firstOrFail();
+
+        $suratJalan = SuratJalan::where('project_id', $project->id)
+                        ->firstOrFail();
+                            
+        $path = str_replace('public/', 'app/public/', $suratJalan->link_file);
+
+        $pdfPath = storage_path($path);
+
+        if (!$pdfPath) {
+            abort(404, 'PDF tidak ditemukan');
+        }
+
+        return response()->file($pdfPath);
+    }
+
     public function create(Project $project)
     {
-        $page_name = 'Buat Surat Jalan';
+        $page_name = 'Create Surat Jalan';
 
         $project = Project::where('id', $project->id)
                         ->where('status_id', Status::where('status_name', 'PENGAJUAN')->first()->id)
@@ -78,7 +101,7 @@ class MaintenancePengajuanController extends Controller
 
         $customer = Customer::where('project_id', $project->id)->first();
 
-        $nomor_surat = $customer->name . '-' . $project->project_name . '-' . date('dmy') . '-' . $request->nomor_surat;
+        $nomor_surat = 'SJ-' . $project->project_name . '-' . $customer->customer_name . '-' . date('dmy');
 
         $surat_jalan = SuratJalan::create([
             'project_id' => $request->project_id,

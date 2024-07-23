@@ -66,6 +66,7 @@ Route::middleware(['auth', 'role:Maintenance'])->prefix('maintenance')->group(fu
    Route::post('/pengajuan/store-{project}', [MaintenancePengajuanController::class, 'store'])->name('maintenance.pengajuan.store');
    Route::post('/pengajuan', [MaintenancePengajuanController::class, 'store'])->name('maintenance.pengajuan.store');
    Route::get('pengajuan/view-{project}', [MaintenancePengajuanController::class, 'view'])->name('maintenance.pengajuan.view');
+   Route::get('pengajuan/pdf-{id}', [MaintenancePengajuanController::class, 'showPdf'])->name('maintenance.spengajuan.pdf');
 
    Route::get('/pemasangan', [MaintenancePemasanganController::class, 'index'])->name('maintenance.pemasangan.index');
    Route::post('/pemasangan/{project}/approve', [MaintenancePemasanganController::class, 'approve'])->name('maintenance.pemasangan.approve');

@@ -86,7 +86,6 @@
 <body>
     <div class="container">
         <div class="header">
-            <img src="{{ asset('ui_dashboard') }}/assets/img/logo-ct-dark.png" alt="main_logo" class="logo">
             <h1>SURAT JALAN</h1>
             <p>Nomor: {{ $surat_jalan->nomor_surat }}</p>
         </div>
