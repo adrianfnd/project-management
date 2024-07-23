@@ -29,7 +29,9 @@ class StaffPengajuanController extends Controller
     {
         $page_name = 'Daftar Pengajuan Pemasangan';
 
-        $list_project = Project::with('status')->get();
+        $list_project = Project::with('status')
+                        ->whereNotIn('status_id', [Status::where('status_name', 'INSTALASI')->first()->id, Status::where('status_name', 'SURAT JALAN')->first()->id])
+                        ->get();
     
         $projects = $list_project->sortBy(function($project) {
             $order = ['PENGAJUAN' => 1, 'SURAT JALAN CHECK' => 2];
@@ -74,18 +76,22 @@ class StaffPengajuanController extends Controller
             ];
         }
 
-        $total_project = Project::count();
+        $total_project = Project::whereNotIn('status_id', [Status::where('status_name', 'INSTALASI')->first()->id, Status::where('status_name', 'SURAT JALAN')->first()->id])
+                            ->count();
 
         if ($total_project > 0) {
-            $inschedule_project = Project::whereColumn('target', '=', 'end_date')->count();
+            $inschedule_project = Project::whereNotIn('status_id', [Status::where('status_name', 'INSTALASI')->first()->id, Status::where('status_name', 'SURAT JALAN')->first()->id])
+                                ->whereColumn('target', '=', 'end_date')->count();
             $inschedule_project_percentage = round(($inschedule_project / $total_project) * 100);
 
-            $overdue_project = Project::whereNull('end_date')
+            $overdue_project = Project::whereNotIn('status_id', [Status::where('status_name', 'INSTALASI')->first()->id, Status::where('status_name', 'SURAT JALAN')->first()->id])
+                                ->whereNull('end_date')
                                 ->where('target', '<', now())
                                 ->count();
             $overdue_project_percentage = round(($overdue_project / $total_project) * 100);
 
-            $beyond_project = Project::whereColumn('target', '<', 'end_date')->count();
+            $beyond_project = Project::whereNotIn('status_id', [Status::where('status_name', 'INSTALASI')->first()->id, Status::where('status_name', 'SURAT JALAN')->first()->id])
+                                ->whereColumn('target', '<', 'end_date')->count();
             $beyond_project_percentage = round(($beyond_project / $total_project) * 100);
         } else {
             $inschedule_project = 0;
@@ -125,6 +131,7 @@ class StaffPengajuanController extends Controller
                         ->firstOrFail();
 
         $project = Project::where('id', $project->id)
+                        ->whereNotIn('status_id', [Status::where('status_name', 'INSTALASI')->first()->id, Status::where('status_name', 'SURAT JALAN')->first()->id])
                         ->firstOrFail();
 
         $suratJalan = SuratJalan::where('project_id', $project->id)
@@ -220,6 +227,7 @@ class StaffPengajuanController extends Controller
             'latitude' => $request->latitude,
             'longitude' => $request->longitude,
             'radius' => $request->radius,
+            'progress' => 0,
             'created_by' => auth()->user()->id
         ]);
 

@@ -17,6 +17,7 @@ class SuratJalan extends Model
         'deskripsi',
         'link_file',
         'images',
+        'notes',
         'is_active',
         'technician_id',
         'vendor_id',

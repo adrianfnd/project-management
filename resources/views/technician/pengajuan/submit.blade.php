@@ -6,119 +6,180 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">Form Edit Project FTTH</h4>
-                        <form id="projectForm" class="forms-sample" method="POST"
-                            action="{{ route('project.update', $project->id) }}">
-                            @csrf
-                            @method('PUT')
-
-                            <div class="form-group">
-                                <label for="type_id">Tipe Project</label>
-                                <input type="text" class="form-control" id="type_id" name="type_id"
-                                    value="{{ $project->type->type_name }}" readonly>
-                            </div>
-
+                        <h4 class="card-title">Detail Project</h4>
+                        @if ($project->project_name)
                             <div class="form-group">
                                 <label for="project_name">Nama Project</label>
-                                <input type="text" class="form-control" id="project_name" name="project_name"
-                                    value="{{ old('project_name', $project->project_name) }}" readonly>
+                                <p>{{ $project->project_name }}</p>
                             </div>
-
+                        @endif
+                        @if ($project->olt_hostname)
                             <div class="form-group">
                                 <label for="olt_hostname">OLT Hostname</label>
-                                <input type="text" class="form-control" id="olt_hostname" name="olt_hostname"
-                                    value="{{ old('olt_hostname', $project->olt_hostname) }}" readonly>
+                                <p>{{ $project->olt_hostname }}</p>
                             </div>
-
+                        @endif
+                        @if ($project->no_sp2k_spa)
                             <div class="form-group">
                                 <label for="no_sp2k_spa">No SP2K/SPA</label>
-                                <input type="text" class="form-control" id="no_sp2k_spa" name="no_sp2k_spa"
-                                    value="{{ old('no_sp2k_spa', $project->no_sp2k_spa) }}" readonly>
+                                <p>{{ $project->no_sp2k_spa }}</p>
                             </div>
-
+                        @endif
+                        @if ($project->sbu_id)
+                            <div class="form-group">
+                                <label for="sbu_id">SBU</label>
+                                <p>{{ $project->sbu->sbu_name }}</p>
+                            </div>
+                        @endif
+                        @if ($project->hp_plan)
                             <div class="form-group">
                                 <label for="hp_plan">HP Plan</label>
-                                <input type="number" class="form-control" id="hp_plan" name="hp_plan"
-                                    value="{{ old('hp_plan', $project->hp_plan) }}">
-                                @if ($errors->has('hp_plan'))
-                                    <span class="text-danger">{{ $errors->first('hp_plan') }}</span>
-                                @endif
+                                <p>{{ $project->hp_plan }}</p>
                             </div>
-
+                        @endif
+                        @if ($project->hp_built)
                             <div class="form-group">
                                 <label for="hp_built">HP Built</label>
-                                <input type="number" class="form-control" id="hp_built" name="hp_built"
-                                    value="{{ old('hp_built', $project->hp_built) }}">
-                                @if ($errors->has('hp_built'))
-                                    <span class="text-danger">{{ $errors->first('hp_built') }}</span>
-                                @endif
+                                <p>{{ $project->hp_built }}</p>
                             </div>
-
+                        @endif
+                        @if ($project->fat_total)
                             <div class="form-group">
                                 <label for="fat_total">FAT Total</label>
-                                <input type="number" class="form-control" id="fat_total" name="fat_total"
-                                    value="{{ old('fat_total', $project->fat_total) }}">
-                                @if ($errors->has('fat_total'))
-                                    <span class="text-danger">{{ $errors->first('fat_total') }}</span>
-                                @endif
+                                <p>{{ $project->fat_total }}</p>
                             </div>
-
+                        @endif
+                        @if ($project->fat_progress)
                             <div class="form-group">
                                 <label for="fat_progress">FAT Progress</label>
-                                <input type="number" class="form-control" id="fat_progress" name="fat_progress"
-                                    value="{{ old('fat_progress', $project->fat_progress) }}">
-                                @if ($errors->has('fat_progress'))
-                                    <span class="text-danger">{{ $errors->first('fat_progress') }}</span>
-                                @endif
+                                <p>{{ $project->fat_progress }}</p>
                             </div>
-
+                        @endif
+                        @if ($project->fat_built)
                             <div class="form-group">
                                 <label for="fat_built">FAT Built</label>
-                                <input type="number" class="form-control" id="fat_built" name="fat_built"
-                                    value="{{ old('fat_built', $project->fat_built) }}">
-                                @if ($errors->has('fat_built'))
-                                    <span class="text-danger">{{ $errors->first('fat_built') }}</span>
-                                @endif
+                                <p>{{ $project->fat_built }}</p>
                             </div>
-
+                        @endif
+                        @if ($project->ip_olt)
                             <div class="form-group">
                                 <label for="ip_olt">IP OLT</label>
-                                <input type="text" class="form-control" id="ip_olt" name="ip_olt"
-                                    value="{{ old('ip_olt', $project->ip_olt) }}">
-                                @if ($errors->has('ip_olt'))
-                                    <span class="text-danger">{{ $errors->first('ip_olt') }}</span>
-                                @endif
+                                <p>{{ $project->ip_olt }}</p>
                             </div>
-
+                        @endif
+                        @if ($project->kendala)
                             <div class="form-group">
                                 <label for="kendala">Kendala</label>
-                                <textarea class="form-control" id="kendala" name="kendala" rows="4">{{ old('kendala', $project->kendala) }}</textarea>
-                                @if ($errors->has('kendala'))
-                                    <span class="text-danger">{{ $errors->first('kendala') }}</span>
-                                @endif
+                                <p>{{ $project->kendala }}</p>
                             </div>
-
+                        @endif
+                        @if ($project->progress)
                             <div class="form-group">
-                                <label for="progress">Progress (%)</label>
-                                <input type="range" class="form-control-range" id="progress" name="progress"
-                                    value="{{ old('progress', $project->progress) }}" min="0" max="100">
-                                <span id="progressValue">{{ old('progress', $project->progress) }}</span>%
-                                @if ($errors->has('progress'))
-                                    <span class="text-danger">{{ $errors->first('progress') }}</span>
-                                @endif
+                                <label for="progress">Progress</label>
+                                <p>{{ $project->progress }}</p>
                             </div>
-
+                        @endif
+                        @if ($project->status_id)
+                            <div class="form-group">
+                                <label for="status_id">Status</label>
+                                <p>{{ $project->status->status_name }}</p>
+                            </div>
+                        @endif
+                        @if ($project->start_date)
+                            <div class="form-group">
+                                <label for="start_date">Tanggal Mulai</label>
+                                <p>{{ $project->start_date }}</p>
+                            </div>
+                        @endif
+                        @if ($project->target)
+                            <div class="form-group">
+                                <label for="target">Target Selesai</label>
+                                <p>{{ $project->target }}</p>
+                            </div>
+                        @endif
+                        @if ($project->end_date)
                             <div class="form-group">
                                 <label for="end_date">Tanggal Selesai</label>
-                                <input type="date" class="form-control" id="end_date" name="end_date"
-                                    value="{{ old('end_date', $project->end_date) }}">
-                                @if ($errors->has('end_date'))
-                                    <span class="text-danger">{{ $errors->first('end_date') }}</span>
+                                <p>{{ $project->end_date }}</p>
+                            </div>
+                        @endif
+                        @if ($project->radius)
+                            <div class="form-group">
+                                <label for="radius">Radius (meters)</label>
+                                <p>{{ $project->radius }}</p>
+                            </div>
+                        @endif
+                        <div class="form-group">
+                            <label for="mapid">Lokasi Project</label>
+                            <div id="mapid" style="height: 400px;"></div>
+                        </div>
+                        <h5 class="mt-4">Informasi Customer</h5>
+                        @if ($customer->name)
+                            <div class="form-group">
+                                <label for="customer_name">Nama Customer</label>
+                                <p>{{ $customer->name }}</p>
+                            </div>
+                        @endif
+                        @if ($customer->phone)
+                            <div class="form-group">
+                                <label for="customer_phone">Nomor Telepon Customer</label>
+                                <p>{{ $customer->phone }}</p>
+                            </div>
+                        @endif
+                        @if ($customer->email)
+                            <div class="form-group">
+                                <label for="customer_email">Email Customer</label>
+                                <p>{{ $customer->email }}</p>
+                            </div>
+                        @endif
+                        @if ($customer->address)
+                            <div class="form-group">
+                                <label for="customer_address">Alamat Customer</label>
+                                <p>{{ $customer->address }}</p>
+                            </div>
+                        @endif
+
+                        @if ($suratJalan !== null && $suratJalan->link_file !== null)
+                            <h5 class="mt-4">Surat Jalan Check</h5>
+                            <div class="pdf-container">
+                                <embed src="{{ url('/technician/pengajuan/pdf-' . $project->id) }}" type="application/pdf"
+                                    width="100%" height="750px" />
+                            </div>
+                        @endif
+
+                        <h4 class="card-title">Complete Project: {{ $project->project_name }}</h4>
+
+                        <form id="completeProjectForm" class="forms-sample" method="POST"
+                            action="{{ route('technician.project.complete', $project->id) }}"
+                            enctype="multipart/form-data">
+                            @csrf
+                            @method('POST')
+
+                            <div class="form-group mb-3">
+                                <label for="images" class="form-label">Upload Images (Format : JPG, PNG)</label>
+                                <input type="file" class="form-control" id="images" name="images[]" multiple
+                                    accept="image/*">
+                                <small class="text-muted">Anda dapat memilih lebih dari satu gambar.</small>
+                                @if ($errors->has('images'))
+                                    <span class="text-danger">{{ $errors->first('images') }}</span>
                                 @endif
                             </div>
 
-                            <button type="submit" class="btn btn-primary mr-2">Simpan</button>
-                            <a href="{{ route('technician.project.index') }}" class="btn btn-light">Batal</a>
+                            <div id="imagePreviewContainer" class="mb-3 d-flex flex-wrap">
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="notes" class="form-label">Notes</label>
+                                <textarea class="form-control" id="notes" name="notes" rows="4">{{ old('notes') }}</textarea>
+                                @if ($errors->has('notes'))
+                                    <span class="text-danger">{{ $errors->first('notes') }}</span>
+                                @endif
+                            </div>
+
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary me-2">Complete Surat Jalan</button>
+                                <a href="{{ route('technician.pengajuan.index') }}" class="btn btn-light">Cancel</a>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -127,12 +188,47 @@
     </div>
 
     <script>
-        var slider = document.getElementById("progress");
-        var output = document.getElementById("progressValue");
-        output.innerHTML = slider.value;
+        document.getElementById('images').addEventListener('change', function(event) {
+            const previewContainer = document.getElementById('imagePreviewContainer');
+            previewContainer.innerHTML = '';
 
-        slider.oninput = function() {
-            output.innerHTML = this.value;
-        };
+            const files = event.target.files;
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const preview = document.createElement('div');
+                        preview.className = 'image-preview me-2 mb-2';
+                        preview.style.width = '200px';
+                        preview.style.height = '200px';
+                        preview.style.backgroundImage = `url(${e.target.result})`;
+                        preview.style.backgroundSize = 'cover';
+                        preview.style.backgroundPosition = 'center';
+                        preview.style.border = '1px solid #ddd';
+                        preview.style.borderRadius = '4px';
+                        previewContainer.appendChild(preview);
+                    }
+                    reader.readAsDataURL(file);
+                }
+            }
+        });
     </script>
+
+    <style>
+        #imagePreviewContainer {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .image-preview {
+            width: 100px;
+            height: 100px;
+            background-size: cover;
+            background-position: center;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
 @endsection

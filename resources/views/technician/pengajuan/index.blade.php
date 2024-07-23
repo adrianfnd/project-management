@@ -143,7 +143,7 @@
                                             Start</th>
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            End</th>
+                                            Target</th>
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Action</th>
@@ -200,7 +200,7 @@
                                             </td>
                                             <td class="align-middle text-center">
                                                 <span
-                                                    class="text-secondary text-xs font-weight-bold">{{ $project->end_date }}</span>
+                                                    class="text-secondary text-xs font-weight-bold">{{ $project->target }}</span>
                                             </td>
                                             <td class="align-middle text-center">
                                                 @php
@@ -220,10 +220,10 @@
                                                         <i class="fas fa-plus"></i>
                                                     </button>
                                                 @else
-                                                    <button onclick="updateSelectedProject({{ $project->id }})"
+                                                    <button onclick="redirectToCompleteView({{ $project->id }})"
                                                         class="btn btn-xs btn-warning btn-sm" role="button"
                                                         data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        title="Update Selected Project">
+                                                        title="Complete Selected Project">
                                                         <i class="fas fa-edit"></i>
                                                     </button>
                                                 @endif
@@ -240,29 +240,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        var successMessage = '{{ session('success') }}';
-        var errorMessage = '{{ session('error') }}';
-        if (successMessage) {
-            Swal.fire({
-                icon: 'success',
-                title: 'Berhasil!',
-                text: successMessage,
-                showConfirmButton: false,
-                timer: 2000
-            });
-        }
-
-        if (errorMessage) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Gagal!',
-                text: errorMessage,
-                showConfirmButton: false,
-                timer: 2000
-            });
-        }
-    </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
@@ -326,30 +303,28 @@
                 projects.forEach(function(project) {
                     console.log('Processing project:', project.id);
 
-                    var popupContent = `
-                <b>${project.project_name || 'Unnamed Project'}</b><br>
-                Progress: ${project.progress || 'N/A'}<br>
-                Kendala: ${project.kendala || 'None'}<br>
-            `;
-
                     if (project.latitude && project.longitude) {
                         console.log('Adding marker for project:', project.id);
-                        var markerColor = project.suratjalans && project.suratjalans[0] && project.suratjalans[0]
-                            .is_active === 'Y' ? 'green' : 'red';
-                        var markerIcon = L.icon({
-                            iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-${markerColor}.png`,
-                            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-                            iconSize: [25, 41],
-                            iconAnchor: [12, 41],
-                            popupAnchor: [1, -34],
-                            shadowSize: [41, 41]
+
+                        var customIcon = L.icon({
+                            iconUrl: '{{ asset('ui_dashboard/assets/img/map-icons/pole.png') }}',
+                            iconSize: [64, 64],
+                            iconAnchor: [32, 64],
+                            popupAnchor: [16, -64]
                         });
 
                         var marker = L.marker([project.latitude, project.longitude], {
-                                icon: markerIcon
-                            })
-                            .addTo(map)
-                            .bindPopup(popupContent);
+                            icon: customIcon
+                        }).addTo(map);
+
+                        if (project.radius) {
+                            var circle = L.circle([project.latitude, project.longitude], {
+                                color: '#1c3782',
+                                fillColor: '#aaf',
+                                fillOpacity: 0.5,
+                                radius: parseFloat(project.radius)
+                            }).addTo(map);
+                        }
 
                         markers[project.id] = marker;
                     } else {
@@ -363,7 +338,7 @@
 
         function addToSelectedProjects(projectId) {
             $.ajax({
-                url: `/staff/project/${projectId}/add-to-selected`,
+                url: `/technician/pengajuan/${projectId}/add-to-selected`,
                 type: 'POST',
                 data: {
                     _token: '{{ csrf_token() }}',
@@ -372,7 +347,7 @@
                     Swal.fire({
                         icon: 'success',
                         title: 'Success',
-                        text: 'Surat Jalan berhasil ditambahkan.',
+                        text: 'Surat jalan berhasil ditambahkan.',
                         showConfirmButton: false,
                         timer: 2000
                     }).then(() => {
@@ -388,6 +363,32 @@
                         timer: 2000
                     });
                 }
+            });
+        }
+
+        function redirectToCompleteView(projectId) {
+            window.location.href = `/technician/pengajuan/${projectId}/complete`;
+        }
+
+        var successMessage = '{{ session('success') }}';
+        var errorMessage = '{{ session('error') }}';
+        if (successMessage) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: successMessage,
+                showConfirmButton: false,
+                timer: 2000
+            });
+        }
+
+        if (errorMessage) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal!',
+                text: errorMessage,
+                showConfirmButton: false,
+                timer: 2000
             });
         }
     </script>

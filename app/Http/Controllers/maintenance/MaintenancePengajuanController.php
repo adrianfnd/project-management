@@ -20,7 +20,9 @@ class MaintenancePengajuanController extends Controller
     {
         $page_name = 'Daftar Pengajuan Pemasangan';
     
-        $list_project = Project::with('status')->get();
+        $list_project = Project::with('status')
+                        ->whereNotIn('status_id', [Status::where('status_name', 'INSTALASI')->first()->id, Status::where('status_name', 'SURAT JALAN')->first()->id])
+                        ->get();
     
         $projects = $list_project->sortBy(function($project) {
             $order = ['PENGAJUAN' => 1, 'SURAT JALAN CHECK' => 2];
@@ -38,6 +40,7 @@ class MaintenancePengajuanController extends Controller
                         ->firstOrFail();
 
         $project = Project::where('id', $project->id)
+                        ->whereNotIn('status_id', [Status::where('status_name', 'INSTALASI')->first()->id, Status::where('status_name', 'SURAT JALAN')->first()->id])
                         ->firstOrFail();
 
         $suratJalan = SuratJalan::where('project_id', $project->id)
@@ -98,8 +101,10 @@ class MaintenancePengajuanController extends Controller
                         ->firstOrFail();
 
         $project->update([
+            'progress' => 25,
             'status_id' => Status::where('status_name', 'SURAT JALAN CHECK')->first()->id,
-            'technician_id' => $request->technician_id
+            'technician_id' => $request->technician_id,
+            'updated_by' => auth()->user()->id
         ]);
 
         $customer = Customer::where('project_id', $project->id)->first();
@@ -128,7 +133,8 @@ class MaintenancePengajuanController extends Controller
         Storage::put($pdfPath, $pdf->output());
 
         $surat_jalan->update([
-            'link_file' => $pdfPath
+            'link_file' => $pdfPath,
+            'updated_by' => auth()->user()->id
         ]);
 
         return redirect()->route('maintenance.pengajuan.index')->with('success', 'Surat jalan berhasil dibuat dan PDF disimpan.');
