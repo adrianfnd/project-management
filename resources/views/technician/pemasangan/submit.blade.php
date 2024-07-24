@@ -142,7 +142,7 @@
                         @if ($suratJalan !== null && $suratJalan->link_file !== null)
                             <h5 class="mt-4">Surat Jalan Check</h5>
                             <div class="pdf-container">
-                                <embed src="{{ url('/technician/pengajuan/pdf-' . $project->id) }}" type="application/pdf"
+                                <embed src="{{ url('/technician/pemasangan/pdf-' . $project->id) }}" type="application/pdf"
                                     width="100%" height="750px" />
                             </div>
                         @endif
@@ -150,7 +150,7 @@
                         <h4 class="card-title">Complete Project: {{ $project->project_name }}</h4>
 
                         <form id="completeProjectForm" class="forms-sample" method="POST"
-                            action="{{ route('technician.pengajuan.complete', $project->id) }}"
+                            action="{{ route('technician.pemasangan.complete', $project->id) }}"
                             enctype="multipart/form-data">
                             @csrf
                             @method('POST')
@@ -195,7 +195,7 @@
 
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary me-2">Complete Surat Jalan</button>
-                                <a href="{{ route('technician.pengajuan.index') }}" class="btn btn-light">Cancel</a>
+                                <a href="{{ route('technician.pemasangan.index') }}" class="btn btn-light">Cancel</a>
                             </div>
                         </form>
                     </div>

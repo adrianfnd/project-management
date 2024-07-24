@@ -142,62 +142,12 @@
                         @if ($suratJalan !== null && $suratJalan->link_file !== null)
                             <h5 class="mt-4">Surat Jalan Check</h5>
                             <div class="pdf-container">
-                                <embed src="{{ url('/technician/pengajuan/pdf-' . $project->id) }}" type="application/pdf"
+                                <embed src="{{ url('/technician/pemasangan/pdf-' . $project->id) }}" type="application/pdf"
                                     width="100%" height="750px" />
                             </div>
                         @endif
 
-                        <h4 class="card-title">Complete Project: {{ $project->project_name }}</h4>
-
-                        <form id="completeProjectForm" class="forms-sample" method="POST"
-                            action="{{ route('technician.pengajuan.complete', $project->id) }}"
-                            enctype="multipart/form-data">
-                            @csrf
-                            @method('POST')
-
-                            <div class="form-group mb-3">
-                                <label for="images" class="form-label">Upload Images (Format : JPG, PNG)</label>
-                                <input type="file" class="form-control" id="images" name="images[]" multiple
-                                    accept="image/*">
-                                <small class="text-muted">Anda dapat memilih lebih dari satu gambar.</small>
-                                @if ($errors->has('images'))
-                                    <span class="text-danger">{{ $errors->first('images') }}</span>
-                                @endif
-                            </div>
-
-                            <div id="imagePreviewContainer" class="mb-3 d-flex flex-wrap">
-                            </div>
-
-                            <style>
-                                #imagePreviewContainer {
-                                    display: flex;
-                                    flex-wrap: wrap;
-                                    gap: 10px;
-                                }
-
-                                .image-preview {
-                                    width: 100px;
-                                    height: 100px;
-                                    background-size: cover;
-                                    background-position: center;
-                                    border: 1px solid #ddd;
-                                    border-radius: 4px;
-                                }
-                            </style>
-
-                            <div class="form-group mb-3">
-                                <label for="notes" class="form-label">Notes</label>
-                                <textarea class="form-control" id="notes" name="notes" rows="4">{{ old('notes') }}</textarea>
-                                @if ($errors->has('notes'))
-                                    <span class="text-danger">{{ $errors->first('notes') }}</span>
-                                @endif
-                            </div>
-
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-primary me-2">Complete Surat Jalan</button>
-                                <a href="{{ route('technician.pengajuan.index') }}" class="btn btn-light">Cancel</a>
-                            </div>
-                        </form>
+                        <a href="{{ route('technician.pemasangan.index') }}" class="btn btn-light">Kembali</a>
                     </div>
                 </div>
             </div>
@@ -206,33 +156,8 @@
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
     <script>
-        document.getElementById('images').addEventListener('change', function(event) {
-            const previewContainer = document.getElementById('imagePreviewContainer');
-            previewContainer.innerHTML = '';
-
-            const files = event.target.files;
-            for (let i = 0; i < files.length; i++) {
-                const file = files[i];
-                if (file.type.startsWith('image/')) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const preview = document.createElement('div');
-                        preview.className = 'image-preview me-2 mb-2';
-                        preview.style.width = '200px';
-                        preview.style.height = '200px';
-                        preview.style.backgroundImage = `url(${e.target.result})`;
-                        preview.style.backgroundSize = 'cover';
-                        preview.style.backgroundPosition = 'center';
-                        preview.style.border = '1px solid #ddd';
-                        preview.style.borderRadius = '4px';
-                        previewContainer.appendChild(preview);
-                    }
-                    reader.readAsDataURL(file);
-                }
-            }
-        });
-
         document.addEventListener('DOMContentLoaded', function() {
             var lat = {{ $project->latitude }};
             var lon = {{ $project->longitude }};

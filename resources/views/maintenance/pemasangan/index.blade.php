@@ -74,12 +74,14 @@
                                                 @if ($item->status->status_name === 'INSTALASI')
                                                     <button class="btn btn-info btn-sm approve-btn" role="button"
                                                         data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        title="Approve project"
-                                                        data-id="{{ $item->id }}">Approve</button>
+                                                        title="Approve project" data-id="{{ $item->id }}">
+                                                        <i class="fas fa-check"></i>
+                                                    </button>
                                                     <button class="btn btn-danger btn-sm decline-btn" role="button"
                                                         data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        title="Decline project"
-                                                        data-id="{{ $item->id }}">Decline</button>
+                                                        title="Decline project" data-id="{{ $item->id }}">
+                                                        <i class="fas fa-times"></i>
+                                                    </button>
                                                 @endif
                                             </td>
                                         </tr>

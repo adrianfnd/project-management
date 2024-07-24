@@ -13,7 +13,7 @@ use App\Http\Controllers\maintenance\MaintenancePengajuanController;
 use App\Http\Controllers\maintenance\MaintenancePemasanganController;
 
 use App\Http\Controllers\technician\TechnicianPengajuanController;
-use App\Http\Controllers\technician\TechnicianPemasangController;
+use App\Http\Controllers\technician\TechnicianPemasanganController;
 
 
 /*
@@ -81,11 +81,17 @@ Route::middleware(['auth', 'role:Technician'])->prefix('technician')->group(func
    Route::post('/pengajuan', [TechnicianPengajuanController::class, 'store'])->name('technician.pengajuan.store');
    Route::get('/pengajuan/view-{project}', [TechnicianPengajuanController::class, 'view'])->name('technician.pengajuan.view');
    Route::get('/pengajuan/pdf-{id}', [TechnicianPengajuanController::class, 'showPdf'])->name('technician.pengajuan.pdf');
-   Route::get('/pengajuan/{project}/complete', [TechnicianPengajuanController::class, 'completeView'])->name('technician.project.complete_view');
-   Route::post('/pengajuan/{project}/complete', [TechnicianPengajuanController::class, 'complete'])->name('technician.project.complete');
-   Route::post('/pengajuan/{project}/add-to-selected', [TechnicianPengajuanController::class, 'addToSelectedProjects'])->name('technician.project.add-to-selected');
+   Route::get('/pengajuan/{project}/complete', [TechnicianPengajuanController::class, 'completeView'])->name('technician.pengajuan.complete_view');
+   Route::post('/pengajuan/{project}/complete', [TechnicianPengajuanController::class, 'complete'])->name('technician.pengajuan.complete');
+   Route::post('/pengajuan/{project}/add-to-selected', [TechnicianPengajuanController::class, 'addToSelectedProjects'])->name('technician.pengajuan.add-to-selected');
 
-   Route::get('/pemasangan', [TechnicianPemasangController::class,'index']) -> name('technician.pemasangan.index');
-   Route::post('/pemasangan/start-{id}', [TechnicianPemasangController::class, 'startProject'])->name('technician.pemasangan.start');
-   Route::get('/pemasangan/view-{id}', [TechnicianPemasangController::class, 'view'])->name('technician.pemasangan.view');
+   Route::get('/pemasangan', [TechnicianPemasanganController::class,'index']) -> name('technician.pemasangan.index');
+   Route::get('/pemasangan/create', [TechnicianPemasanganController::class, 'create'])->name('technician.engajuan.create');
+   Route::post('/pemasangan', [TechnicianPemasanganController::class, 'store'])->name('technician.pemasangan.store');
+   Route::get('/pemasangan/view-{project}', [TechnicianPemasanganController::class, 'view'])->name('technician.pemasangan.view');
+   Route::get('/pemasangan/pdf-{id}', [TechnicianPemasanganController::class, 'showPdf'])->name('technician.pemasangan.pdf');
+   Route::get('/pemasangan/{project}/complete', [TechnicianPemasanganController::class, 'completeView'])->name('technician.pemasangan.complete_view');
+   Route::post('/pemasangan/{project}/complete', [TechnicianPemasanganController::class, 'complete'])->name('technician.pemasangan.complete');
+   Route::post('/pemasangan/{project}/add-to-selected', [TechnicianPemasanganController::class, 'addToSelectedProjects'])->name('technician.pemasangan.add-to-selected');
+   Route::post('/pemasangan/{project}/decline', [TechnicianPemasanganController::class, 'decline'])->name('technician.pemasangan.decline');
 });

@@ -51,11 +51,8 @@ class MaintenancePemasanganController extends Controller
     {
         $project = Project::where('id', $id)
                         ->firstOrFail();
-
-        $suratJalan = SuratJalan::where('project_id', $project->id)
-                        ->firstOrFail();
                             
-        $path = str_replace('public/', 'app/public/', $suratJalan->link_file);
+        $path = str_replace('public/', 'app/public/', $project->link_file);
 
         $pdfPath = storage_path($path);
 
@@ -77,6 +74,7 @@ class MaintenancePemasanganController extends Controller
 
 
         $project->update([
+            'progress' => 75,
             'status_id' => Status::where('status_name', 'SURAT JALAN')->first()->id,
             'link_file' => $surat_jalan->link_file,
             'updated_by' => auth()->user()->id
@@ -93,6 +91,7 @@ class MaintenancePemasanganController extends Controller
     
         $project->update([
             'kendala' => $request->notes,
+            'progress' => 0,
             'status_id' => Status::where('status_name', 'PENGAJUAN')->first()->id,
             'updated_by' => auth()->user()->id
         ]);
