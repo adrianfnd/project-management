@@ -164,7 +164,7 @@ class TechnicianPengajuanController extends Controller
         $imagePaths = [];
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
-                $path = $image->store('project_completion_images', 'public');
+                $path = $image->store('gambar surat jalan check/' . $project->project_name, 'public');
                 $imagePaths[] = $path;
             }
         }
@@ -187,4 +187,5 @@ class TechnicianPengajuanController extends Controller
     
         return redirect()->route('technician.pengajuan.index')->with('success', 'Surat jalan check selesai.');
     }
+    
 }

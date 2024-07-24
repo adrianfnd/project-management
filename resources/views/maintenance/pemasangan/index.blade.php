@@ -95,26 +95,154 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        var successMessage = '{{ session('success') }}';
-        var errorMessage = '{{ session('error') }}';
-        if (successMessage) {
-            Swal.fire({
-                icon: 'success',
-                title: 'Berhasil!',
-                text: successMessage,
-                showConfirmButton: false,
-                timer: 2000
-            });
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            var successMessage = '{{ session('success') }}';
+            var errorMessage = '{{ session('error') }}';
+            if (successMessage) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: successMessage,
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+            }
 
-        if (errorMessage) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Gagal!',
-                text: errorMessage,
-                showConfirmButton: false,
-                timer: 2000
+            if (errorMessage) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal!',
+                    text: errorMessage,
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+            }
+
+            document.querySelectorAll('.approve-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const projectId = this.getAttribute('data-id');
+                    Swal.fire({
+                        title: 'Apakah Anda yakin?',
+                        text: "Anda akan menyetujui project ini dan membuat surat jalan.",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Ya, setujui!',
+                        cancelButtonText: 'Batal'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            approveProject(projectId);
+                        }
+                    });
+                });
             });
-        }
+
+            document.querySelectorAll('.decline-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const projectId = this.getAttribute('data-id');
+                    Swal.fire({
+                        title: 'Masukkan alasan penolakan',
+                        input: 'textarea',
+                        inputAttributes: {
+                            autocapitalize: 'off'
+                        },
+                        showCancelButton: true,
+                        confirmButtonText: 'Tolak',
+                        cancelButtonText: 'Batal',
+                        showLoaderOnConfirm: true,
+                        preConfirm: (notes) => {
+                            return declineProject(projectId, notes);
+                        },
+                        allowOutsideClick: () => !Swal.isLoading()
+                    });
+                });
+            });
+
+            function approveProject(projectId) {
+                fetch(`/maintenance/pemasangan/${projectId}/approve`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.error) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Gagal!',
+                                text: data.error,
+                                showConfirmButton: false,
+                                timer: 2000
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Berhasil!',
+                                text: data.message,
+                                showConfirmButton: false,
+                                timer: 2000
+                            }).then(() => {
+                                location.reload();
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal!',
+                            text: 'Terjadi kesalahan saat menyetujui project.',
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                    });
+            }
+
+            function declineProject(projectId, notes) {
+                return fetch(`/maintenance/pemasangan/${projectId}/decline`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({
+                            notes: notes
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.error) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Gagal!',
+                                text: data.error,
+                                showConfirmButton: false,
+                                timer: 2000
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Berhasil!',
+                                text: data.message,
+                                showConfirmButton: false,
+                                timer: 2000
+                            }).then(() => {
+                                location.reload();
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal!',
+                            text: 'Terjadi kesalahan saat menolak project.',
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                    });
+            }
+        });
     </script>
 @endsection

@@ -69,26 +69,45 @@ class MaintenancePemasanganController extends Controller
 
     public function approve(Project $project)
     {
+        if ($project->status->status_name !== 'SURAT JALAN') {
+            return response()->json(['error' => 'Project tidak ditemukan.'], 400);
+        }
+
+        $surat_jalan = SuratJalan::where('project_id', $project->id)->firstOrFail();
+
+
         $project->update([
-            'status_id' => Status::where('status_name', 'DISETUJUI')->first()->id
+            'status_id' => Status::where('status_name', 'INSTALASI')->first()->id,
+            'link_file' => $surat_jalan->link_file,
+            'updated_by' => auth()->user()->id
         ]);
-
-        $suratJalan = SuratJalan::create([
-            'project_id' => $project->id,
-            'nomor_surat' => 'SJ-' . date('YmdHis'),
-            'deskripsi' => 'Surat Jalan Pemasangan untuk ' . $project->project_name,
-            'created_by' => auth()->user()->id,
-        ]);
-
-        return response()->json(['message' => 'Pengajuan disetujui dan Surat Jalan dibuat.']);
+    
+        return response()->json(['message' => 'Project disetujui dan Surat Jalan dibuat.']);
     }
-
-    public function decline(Project $project)
+    
+    public function decline(Request $request, Project $project)
     {
+        if ($project->status->status_name !== 'SURAT JALAN') {
+            return response()->json(['error' => 'Project tidak ditemukan.'], 400);
+        }
+    
         $project->update([
-            'status_id' => Status::where('status_name', 'DITOLAK')->first()->id
+            'kendala' => $request->notes,
+            'status_id' => Status::where('status_name', 'PENGAJUAN')->first()->id,
+            'updated_by' => auth()->user()->id
         ]);
 
-        return response()->json(['message' => 'Pengajuan ditolak.']);
+        $suratJalan = SuratJalan::where('project_id', $project->id)->first();
+    
+        if ($suratJalan) {
+            if ($suratJalan->link_file) {
+                Storage::delete($suratJalan->link_file);
+            }
+
+            $suratJalan->delete();
+        }
+    
+        return response()->json(['message' => 'Project ditolak.']);
     }
+
 }
