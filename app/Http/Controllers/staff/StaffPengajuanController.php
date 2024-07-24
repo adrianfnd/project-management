@@ -241,4 +241,114 @@ class StaffPengajuanController extends Controller
 
         return redirect()->route('staff.pengajuan.index')->with('success', 'Project telah ditambahkan.');
     }
+
+    public function recreate($id)
+    {
+        $page_name = 'Recreate Project';
+
+        $project = Project::findOrFail($id);
+
+        $customer = Customer::where('project_id', $project->id)
+                        ->firstOrFail();
+
+        if (!$project) {
+            return redirect()->route('staff.pengajuan.index')->with('error', 'Project tidak ditemukan.');
+        }
+
+        return view('staff.pengajuan.recreate', [
+            'page_name' => $page_name,
+            'project' => $project,
+            'customer' => $customer,
+            'sbus' => Sbu::all(),
+        ]);
+    }
+
+    public function restore(Request $request)
+    {
+        $request->validate([
+            'id' => 'required|exists:projects,id',
+            'project_name' => 'required|string|max:255',
+            'olt_hostname' => 'required|string|max:255',
+            'no_sp2k_spa' => 'required|string|max:255',
+            'sbu_id' => 'required|exists:sbus,id',
+            'start_date' => 'required|date',
+            'target' => 'required|date|after:start_date',
+            'latitude' => 'required|numeric',
+            'longitude' => 'required|numeric',
+            'radius' => 'required|numeric',
+            'customer_name' => 'required|string|max:255',
+            'customer_phone' => 'nullable|string|max:20',
+            'customer_email' => 'nullable|email|max:255',
+            'customer_address' => 'required|string',
+        ], [
+            'id.required' => 'Kolom ID Project wajib diisi.',
+            'id.exists' => 'Project yang dipilih tidak valid.',
+            'project_name.required' => 'Kolom Nama Project wajib diisi.',
+            'project_name.max' => 'Kolom Nama Project tidak boleh lebih dari :max karakter.',
+            'olt_hostname.required' => 'Kolom OLT Hostname wajib diisi.',
+            'olt_hostname.max' => 'Kolom OLT Hostname tidak boleh lebih dari :max karakter.',
+            'no_sp2k_spa.required' => 'Kolom No SP2K/SPA wajib diisi.',
+            'no_sp2k_spa.max' => 'Kolom No SP2K/SPA tidak boleh lebih dari :max karakter.',
+            'sbu_id.required' => 'Kolom SBU wajib diisi.',
+            'sbu_id.exists' => 'SBU yang dipilih tidak valid.',
+            'start_date.required' => 'Kolom Tanggal Mulai wajib diisi.',
+            'start_date.date' => 'Kolom Tanggal Mulai harus berupa tanggal yang valid.',
+            'target.required' => 'Kolom Target Selesai wajib diisi.',
+            'target.date' => 'Kolom Target Selesai harus berupa tanggal yang valid.',
+            'target.after' => 'Kolom Target Selesai harus setelah Tanggal Mulai.',
+            'latitude.required' => 'Kolom Latitude wajib diisi.',
+            'latitude.numeric' => 'Kolom Latitude harus berupa angka.',
+            'longitude.required' => 'Kolom Longitude wajib diisi.',
+            'longitude.numeric' => 'Kolom Longitude harus berupa angka.',
+            'radius.required' => 'Kolom Radius (meters) wajib diisi.',
+            'radius.numeric' => 'Kolom Radius (meters) harus berupa angka.',
+            'customer_name.required' => 'Kolom Nama Customer wajib diisi.',
+            'customer_name.max' => 'Kolom Nama Customer tidak boleh lebih dari :max karakter.',
+            'customer_phone.max' => 'Kolom Nomor Telepon Customer tidak boleh lebih dari :max karakter.',
+            'customer_email.max' => 'Kolom Email Customer tidak boleh lebih dari :max karakter.',
+            'customer_address.required' => 'Kolom Alamat Customer wajib diisi.',
+            'customer_address.max' => 'Kolom Alamat Customer tidak boleh lebih dari :max karakter.',
+        ]);
+
+        $existingProject = Project::find($request->id);
+        
+        if ($existingProject) {
+            Customer::where('project_id', $existingProject->id)->delete();
+
+            $existingProject->delete();
+        }
+
+        $project = Project::create([
+            'type_id' => Type::where('type_name', 'TK4')->first()->id,
+            'project_name' => 'TK-' . $request->project_name,
+            'olt_hostname' => $request->olt_hostname,
+            'no_sp2k_spa' => $request->no_sp2k_spa,
+            'sbu_id' => $request->sbu_id,
+            'status_id' => Status::where('status_name', 'PENGAJUAN')->first()->id,
+            'start_date' => $request->start_date,
+            'target' => $request->target,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
+            'radius' => $request->radius,
+            'progress' => 0,
+            'created_by' => auth()->user()->id
+        ]);
+
+        $customer = Customer::create([
+            'name' => $request->customer_name,
+            'phone' => $request->customer_phone,
+            'email' => $request->customer_email,
+            'address' => $request->customer_address,
+            'project_id' => $project->id
+        ]);
+
+        return redirect()->route('staff.pengajuan.index')->with('success', 'Project telah diperbarui.');
+    }
+
+    public function destroy(Project $project)
+    {
+        $project->delete();
+
+        return redirect()->route('dashboard_project')->with('success', 'Project telah dihapus');
+    }
 }

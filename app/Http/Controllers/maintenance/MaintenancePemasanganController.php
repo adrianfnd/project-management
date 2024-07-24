@@ -69,7 +69,7 @@ class MaintenancePemasanganController extends Controller
 
     public function approve(Project $project)
     {
-        if ($project->status->status_name !== 'SURAT JALAN') {
+        if ($project->status->status_name !== 'INSTALASI') {
             return response()->json(['error' => 'Project tidak ditemukan.'], 400);
         }
 
@@ -77,7 +77,7 @@ class MaintenancePemasanganController extends Controller
 
 
         $project->update([
-            'status_id' => Status::where('status_name', 'INSTALASI')->first()->id,
+            'status_id' => Status::where('status_name', 'SURAT JALAN')->first()->id,
             'link_file' => $surat_jalan->link_file,
             'updated_by' => auth()->user()->id
         ]);
@@ -87,7 +87,7 @@ class MaintenancePemasanganController extends Controller
     
     public function decline(Request $request, Project $project)
     {
-        if ($project->status->status_name !== 'SURAT JALAN') {
+        if ($project->status->status_name !== 'INSTALASI') {
             return response()->json(['error' => 'Project tidak ditemukan.'], 400);
         }
     

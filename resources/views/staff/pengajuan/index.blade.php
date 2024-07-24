@@ -236,14 +236,25 @@
                                                 <span
                                                     class="text-secondary text-xs font-weight-bold">{{ $project->target }}</span>
                                             </td>
-                                            <td class="align-middle text-center">
-                                                <a href="{{ route('staff.pengajuan.view', $project->id) }}"
-                                                    class="btn btn-xs btn-success btn-sm" role="button"
-                                                    data-bs-toggle="tooltip" data-bs-placement="top"
-                                                    title="View project">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
-                                            </td>
+                                            @if ($project->kendala === null)
+                                                <td class="align-middle text-center">
+                                                    <a href="{{ route('staff.pengajuan.view', $project->id) }}"
+                                                        class="btn btn-xs btn-success btn-sm" role="button"
+                                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="View project">
+                                                        <i class="fas fa-eye"></i>
+                                                    </a>
+                                                </td>
+                                            @else
+                                                <td class="align-middle text-center">
+                                                    <a href="{{ route('staff.pengajuan.recreate', $project->id) }}"
+                                                        class="btn btn-xs btn-warning btn-sm" role="button"
+                                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="Buat ulang project">
+                                                        <i class="fas fa-redo-alt"></i>
+                                                    </a>
+                                                </td>
+                                            @endif
                                         </tr>
                                     @endforeach
                                 </tbody>

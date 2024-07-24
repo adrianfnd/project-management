@@ -71,7 +71,7 @@
                                                     <i class="fas fa-eye"></i>
                                                 </a>
 
-                                                @if ($item->status->status_name === 'SURAT JALAN')
+                                                @if ($item->status->status_name === 'INSTALASI')
                                                     <button class="btn btn-info btn-sm approve-btn" role="button"
                                                         data-bs-toggle="tooltip" data-bs-placement="top"
                                                         title="Approve project"

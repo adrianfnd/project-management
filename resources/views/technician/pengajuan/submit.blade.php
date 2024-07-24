@@ -168,6 +168,23 @@
                             <div id="imagePreviewContainer" class="mb-3 d-flex flex-wrap">
                             </div>
 
+                            <style>
+                                #imagePreviewContainer {
+                                    display: flex;
+                                    flex-wrap: wrap;
+                                    gap: 10px;
+                                }
+
+                                .image-preview {
+                                    width: 100px;
+                                    height: 100px;
+                                    background-size: cover;
+                                    background-position: center;
+                                    border: 1px solid #ddd;
+                                    border-radius: 4px;
+                                }
+                            </style>
+
                             <div class="form-group mb-3">
                                 <label for="notes" class="form-label">Notes</label>
                                 <textarea class="form-control" id="notes" name="notes" rows="4">{{ old('notes') }}</textarea>
@@ -187,6 +204,8 @@
         </div>
     </div>
 
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <script>
         document.getElementById('images').addEventListener('change', function(event) {
             const previewContainer = document.getElementById('imagePreviewContainer');
@@ -213,22 +232,35 @@
                 }
             }
         });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var lat = {{ $project->latitude }};
+            var lon = {{ $project->longitude }};
+            var radius = {{ $project->radius }};
+
+            var map = L.map('mapid').setView([lat, lon], 13);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            var customIcon = L.icon({
+                iconUrl: '{{ asset('ui_dashboard/assets/img/map-icons/pole.png') }}',
+                iconSize: [64, 64],
+                iconAnchor: [32, 64],
+                popupAnchor: [16, -64]
+            });
+
+            var marker = L.marker([lat, lon], {
+                icon: customIcon
+            }).addTo(map);
+
+            var circle = L.circle([lat, lon], {
+                color: '#1c3782',
+                fillColor: '#aaf',
+                fillOpacity: 0.5,
+                radius: radius
+            }).addTo(map);
+        });
     </script>
-
-    <style>
-        #imagePreviewContainer {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .image-preview {
-            width: 100px;
-            height: 100px;
-            background-size: cover;
-            background-position: center;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-    </style>
 @endsection

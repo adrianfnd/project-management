@@ -55,6 +55,8 @@ Route::middleware(['auth', 'role:Staff'])->prefix('staff')->group(function () {
    Route::post('/pengajuan', [StaffPengajuanController::class, 'store'])->name('staff.pengajuan.store');
    Route::get('/pengajuan/view-{project}', [StaffPengajuanController::class, 'view'])->name('staff.pengajuan.view');
    Route::get('/pengajuan/pdf-{id}', [StaffPengajuanController::class, 'showPdf'])->name('staff.pengajuan.pdf');
+   Route::get('/pengajuan/recreate/{id}', [StaffPengajuanController::class, 'recreate'])->name('staff.pengajuan.recreate');
+   Route::post('/pengajuan/restore', [StaffPengajuanController::class, 'restore'])->name('staff.pengajuan.restore');
 });
 
 Route::middleware(['auth', 'role:Maintenance'])->prefix('maintenance')->group(function () {
