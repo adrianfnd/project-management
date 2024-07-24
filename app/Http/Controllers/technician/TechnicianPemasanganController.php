@@ -180,6 +180,7 @@ class TechnicianPemasanganController extends Controller
     
         $project->update([
             'progress' => 100,
+            'end_date' => now(),
             'images' => json_encode($imagePaths),
             'is_active' => 'N',
             'status_id' => Status::where('status_name', 'FINISHED')->first()->id,

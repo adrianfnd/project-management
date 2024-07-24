@@ -14,6 +14,7 @@ use App\Http\Controllers\maintenance\MaintenancePemasanganController;
 
 use App\Http\Controllers\technician\TechnicianPengajuanController;
 use App\Http\Controllers\technician\TechnicianPemasanganController;
+use App\Http\Controllers\technician\TechnicianRiwayatSuratJalanController;
 
 
 /*
@@ -94,4 +95,8 @@ Route::middleware(['auth', 'role:Technician'])->prefix('technician')->group(func
    Route::post('/pemasangan/{project}/complete', [TechnicianPemasanganController::class, 'complete'])->name('technician.pemasangan.complete');
    Route::post('/pemasangan/{project}/add-to-selected', [TechnicianPemasanganController::class, 'addToSelectedProjects'])->name('technician.pemasangan.add-to-selected');
    Route::post('/pemasangan/{project}/decline', [TechnicianPemasanganController::class, 'decline'])->name('technician.pemasangan.decline');
+
+   Route::get('/riwayat', [TechnicianRiwayatSuratJalanController::class, 'index'])->name('technician.riwayat.index');
+   Route::get('/riwayat/{id}', [TechnicianRiwayatSuratJalanController::class, 'show'])->name('technician.riwayat.show');
+   Route::get('/riwayat-pdf-{id}', [TechnicianRiwayatSuratJalanController::class, 'showPdf'])->name('technician.riwayat.pdf');
 });
