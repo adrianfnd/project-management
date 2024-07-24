@@ -142,7 +142,7 @@ class TechnicianPengajuanController extends Controller
 
     public function completeView(Project $project)
     {
-        $page_name = 'Complete Surat Jalan';
+        $page_name = 'Complete Surat Jalan Check';
 
         $customer = Customer::where('project_id', $project->id)
                         ->firstOrFail();

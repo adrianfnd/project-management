@@ -147,7 +147,7 @@
                             </div>
                         @endif
 
-                        <h4 class="card-title">Complete Project: {{ $project->project_name }}</h4>
+                        <h4 class="card-title">Complete Surat Jalan Check: {{ $project->project_name }}</h4>
 
                         <form id="completeProjectForm" class="forms-sample" method="POST"
                             action="{{ route('technician.pengajuan.complete', $project->id) }}"

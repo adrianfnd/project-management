@@ -92,12 +92,12 @@ class TechnicianPemasanganController extends Controller
             $suratJalan = SuratJalan::where('project_id', $project->id)->first();
 
             if (!$suratJalan) {
-                throw new \Exception('Surat Jalan tidak ditemukan.');
+                throw new \Exception('Project tidak ditemukan.');
             }
 
             $project->update(['is_active' => 'Y']);
 
-            return response()->json(['success' => true, 'message' => 'Surat jalan berhasil ditambahkan.']);
+            return response()->json(['success' => true, 'message' => 'Project berhasil ditambahkan.']);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
         }
@@ -139,7 +139,7 @@ class TechnicianPemasanganController extends Controller
 
     public function completeView(Project $project)
     {
-        $page_name = 'Complete Surat Jalan';
+        $page_name = 'Complete Project';
 
         $customer = Customer::where('project_id', $project->id)
                         ->firstOrFail();
@@ -197,7 +197,7 @@ class TechnicianPemasanganController extends Controller
             'created_by' => auth()->user()->id
         ]);
     
-        return redirect()->route('technician.pemasangan.index')->with('success', 'Surat jalan check selesai.');
+        return redirect()->route('technician.pemasangan.index')->with('success', 'Project selesai.');
     }
 
     public function decline(Request $request, Project $project)

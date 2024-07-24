@@ -139,8 +139,30 @@
                             </div>
                         @endif
 
-                        @if ($suratJalan !== null && $suratJalan->link_file !== null)
+                        @if ($suratJalan !== null && $suratJalan->images !== null)
                             <h5 class="mt-4">Surat Jalan Check</h5>
+
+                            <div class="form-group">
+                                <label for="customer_address">Images</label>
+                                <div class="row">
+                                    @foreach (json_decode($suratJalan->images) as $image)
+                                        <div class="col-md-4 mb-3">
+                                            <img src="{{ asset('storage/' . $image) }}" class="img-fluid rounded"
+                                                style="width: 100%; height: 200px; object-fit: contain;"
+                                                alt="Project Image">
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="customer_address">Notes</label>
+                                <p>{{ $suratJalan->notes }}</p>
+                            </div>
+                        @endif
+
+                        @if ($project->link_file !== null)
+                            <h5 class="mt-4">Surat Jalan</h5>
                             <div class="pdf-container">
                                 <embed src="{{ url('/technician/pemasangan/pdf-' . $project->id) }}" type="application/pdf"
                                     width="100%" height="750px" />

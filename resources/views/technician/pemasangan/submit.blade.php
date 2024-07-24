@@ -139,8 +139,30 @@
                             </div>
                         @endif
 
-                        @if ($suratJalan !== null && $suratJalan->link_file !== null)
+                        @if ($suratJalan !== null && $suratJalan->images !== null)
                             <h5 class="mt-4">Surat Jalan Check</h5>
+
+                            <div class="form-group">
+                                <label for="customer_address">Images</label>
+                                <div class="row">
+                                    @foreach (json_decode($suratJalan->images) as $image)
+                                        <div class="col-md-4 mb-3">
+                                            <img src="{{ asset('storage/' . $image) }}" class="img-fluid rounded"
+                                                style="width: 100%; height: 200px; object-fit: contain;"
+                                                alt="Project Image">
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="customer_address">Notes</label>
+                                <p>{{ $suratJalan->notes }}</p>
+                            </div>
+                        @endif
+
+                        @if ($suratJalan !== null && $suratJalan->link_file !== null)
+                            <h5 class="mt-4">Surat Jalan</h5>
                             <div class="pdf-container">
                                 <embed src="{{ url('/technician/pemasangan/pdf-' . $project->id) }}" type="application/pdf"
                                     width="100%" height="750px" />
@@ -185,16 +207,8 @@
                                 }
                             </style>
 
-                            <div class="form-group mb-3">
-                                <label for="notes" class="form-label">Notes</label>
-                                <textarea class="form-control" id="notes" name="notes" rows="4">{{ old('notes') }}</textarea>
-                                @if ($errors->has('notes'))
-                                    <span class="text-danger">{{ $errors->first('notes') }}</span>
-                                @endif
-                            </div>
-
                             <div class="form-group">
-                                <button type="submit" class="btn btn-primary me-2">Complete Surat Jalan</button>
+                                <button type="submit" class="btn btn-primary me-2">Complete Project</button>
                                 <a href="{{ route('technician.pemasangan.index') }}" class="btn btn-light">Cancel</a>
                             </div>
                         </form>
