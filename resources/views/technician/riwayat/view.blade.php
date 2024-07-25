@@ -6,15 +6,14 @@
             <div class="col-12">
                 <div class="card mb-4">
                     <div class="card-header pb-0 d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Detail Riwayat Surat Jalan</h5>
-                        <a href="{{ route('technician.riwayat.index') }}" class="btn btn-sm btn-secondary">Back to List</a>
+                        <h4 class="card-title">Detail Riwayat</h4>
                     </div>
                     <div class="card-body">
                         <div class="row mb-4">
                             <div class="col-12">
                                 <div class="card shadow-sm">
                                     <div class="card-header bg-light">
-                                        <h6 class="mb-0">Project Information</h6>
+                                        <h6 class="mb-0">Project</h6>
                                     </div>
                                     <div class="card-body">
                                         <div class="row">
@@ -100,7 +99,7 @@
                             <div class="col-md-6">
                                 <div class="card shadow-sm">
                                     <div class="card-header bg-light">
-                                        <h6 class="mb-0">Vendor Information</h6>
+                                        <h6 class="mb-0">Vendor</h6>
                                     </div>
                                     <div class="card-body">
                                         <table class="table table-sm table-borderless">
@@ -127,7 +126,7 @@
                             <div class="col-md-6">
                                 <div class="card shadow-sm">
                                     <div class="card-header bg-light">
-                                        <h6 class="mb-0">Customer Information</h6>
+                                        <h6 class="mb-0">Customer</h6>
                                     </div>
                                     <div class="card-body">
                                         <table class="table table-sm table-borderless">
@@ -192,7 +191,7 @@
                             <div class="col-md-12 mb-4">
                                 <div class="card shadow-sm">
                                     <div class="card-header bg-light">
-                                        <h6 class="mb-0">Surat Jalan Information</h6>
+                                        <h6 class="mb-0">Surat Jalan</h6>
                                     </div>
                                     <div class="card-body">
                                         <table class="table table-sm table-borderless">
@@ -220,68 +219,96 @@
                                 </div>
                             </div>
                         </div>
-                        @if ($riwayat->keterangan)
-                            <div class="row mb-4">
-                                <div class="col-md-12">
-                                    <div class="card shadow-sm">
-                                        <div class="card-header bg-light">
-                                            <h6 class="mb-0">Keterangan</h6>
-                                        </div>
-                                        <div class="card-body">
-                                            <p class="mb-0">{{ $riwayat->keterangan }}</p>
-                                        </div>
+                        <div class="row mb-4">
+                            <div class="col-md-12">
+                                <div class="card shadow-sm">
+                                    <div class="card-header bg-light">
+                                        <h6 class="mb-0">Project Complete</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <table class="table table-sm table-borderless">
+                                            <tr>
+                                                <div class="form-group">
+                                                    <label for="customer_address">Images</label>
+                                                    <div class="row">
+                                                        @foreach (json_decode($riwayat->project->images) as $image)
+                                                            <div class="col-md-4 mb-3">
+                                                                <img src="{{ asset('storage/' . $image) }}"
+                                                                    class="img-fluid rounded"
+                                                                    style="width: 100%; height: 200px; object-fit: contain;"
+                                                                    alt="Project Image">
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                            </tr>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
-                        @endif
-                        <div class="row">
-                            <div class="col-12 text-center">
-                                @if ($riwayat->suratJalan->link_file)
-                                @else
-                                    <button class="btn btn-secondary" disabled>
-                                        <i class="fas fa-exclamation-circle me-2"></i>Surat Jalan Not Available
-                                    </button>
-                                @endif
+                            @if ($riwayat->keterangan)
+                                <div class="row mb-4">
+                                    <div class="col-md-12">
+                                        <div class="card shadow-sm">
+                                            <div class="card-header bg-light">
+                                                <h6 class="mb-0">Keterangan</h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <p class="mb-0">{{ $riwayat->keterangan }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    @if ($riwayat->suratJalan->link_file)
+                                    @else
+                                        <button class="btn btn-secondary" disabled>
+                                            <i class="fas fa-exclamation-circle me-2"></i>Surat Jalan Not Available
+                                        </button>
+                                    @endif
+                                </div>
                             </div>
                         </div>
+                        <a href="{{ route('technician.riwayat.index') }}" class="btn btn-light">Kembali</a>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+        <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var lat = {{ $riwayat->project->latitude }};
-            var lon = {{ $riwayat->project->longitude }};
-            var radius = {{ $riwayat->project->radius }};
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var lat = {{ $riwayat->project->latitude }};
+                var lon = {{ $riwayat->project->longitude }};
+                var radius = {{ $riwayat->project->radius }};
 
-            var map = L.map('mapid').setView([lat, lon], 13);
+                var map = L.map('mapid').setView([lat, lon], 13);
 
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(map);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
 
-            var customIcon = L.icon({
-                iconUrl: '{{ asset('ui_dashboard/assets/img/map-icons/pole.png') }}',
-                iconSize: [64, 64],
-                iconAnchor: [32, 64],
-                popupAnchor: [16, -64]
+                var customIcon = L.icon({
+                    iconUrl: '{{ asset('ui_dashboard/assets/img/map-icons/pole.png') }}',
+                    iconSize: [64, 64],
+                    iconAnchor: [32, 64],
+                    popupAnchor: [16, -64]
+                });
+
+                var marker = L.marker([lat, lon], {
+                    icon: customIcon
+                }).addTo(map);
+
+                var circle = L.circle([lat, lon], {
+                    color: '#1c3782',
+                    fillColor: '#aaf',
+                    fillOpacity: 0.5,
+                    radius: radius
+                }).addTo(map);
             });
-
-            var marker = L.marker([lat, lon], {
-                icon: customIcon
-            }).addTo(map);
-
-            var circle = L.circle([lat, lon], {
-                color: '#1c3782',
-                fillColor: '#aaf',
-                fillOpacity: 0.5,
-                radius: radius
-            }).addTo(map);
-        });
-    </script>
-@endsection
+        </script>
+    @endsection
