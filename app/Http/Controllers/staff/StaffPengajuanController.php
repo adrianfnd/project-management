@@ -11,6 +11,7 @@ use App\Models\Status;
 use App\Models\Project;
 use App\Models\Customer;
 use App\Models\SuratJalan;
+use Maatwebsite\Excel\Facades\Excel;
 
 class StaffPengajuanController extends Controller
 {
@@ -363,10 +364,126 @@ class StaffPengajuanController extends Controller
         return redirect()->route('staff.pengajuan.index')->with('success', 'Project telah diperbarui.');
     }
 
-    public function destroy(Project $project)
+    public function showImport(Request $request)
     {
-        $project->delete();
+        $page_name = 'Import Excel';
 
-        return redirect()->route('dashboard_project')->with('success', 'Project telah dihapus');
+        try {
+            $request->validate([
+                'excel_file' => 'required|mimes:xls,xlsx|max:10240',
+            ]);
+    
+            $file = $request->file('excel_file');
+            
+            $excelData = Excel::toArray([], $file);
+    
+            $rowCount = 0;
+            foreach ($excelData[0] as $row) {
+                $nonEmptyColumns = array_filter($row, function($value) {
+                    return !is_null($value) && $value !== '';
+                });
+                if (count($nonEmptyColumns) > 0) {
+                    $rowCount++;
+                }
+            }
+    
+            return view('staff.pengajuan.import', compact('page_name', 'excelData', 'rowCount'))->with('success', 'Data from Excel imported successfully!');
+        } catch (\Exception $e) {
+            return redirect()->route('staff.pengajuan.index')->with('error', 'Error during import: ' . $e->getMessage());
+        }
     }
+
+    public function importExcel(Request $request)
+    {
+        $columns = [
+            'type_id', 'project_name', 'olt_hostname', 'no_sp2k_spa', 'sbu_id', 'hp_plan', 'hp_built',
+            'fat_total', 'fat_progress', 'fat_built', 'ip_olt', 'kendala', 'progress', 'status_id',
+            'start_date', 'target', 'end_date', 'latitude', 'longitude', 'radius', 'link_file',
+            'images', 'is_active', 'technician_id'
+        ];
+
+        $columnMapping = [];
+        foreach ($columns as $column) {
+            $columnMapping[$column] = $request->input($column);
+        }
+
+        $uniqueColumns = array_filter($columnMapping, function ($value) {
+            return $value !== null;
+        });
+
+        if (count(array_unique($uniqueColumns)) !== count($uniqueColumns)) {
+            return redirect()->route('staff.pengajuan.index')->with('error', 'Pemilih kolom harus unik.');
+        }
+
+        if (count($uniqueColumns) === 0) {
+            return redirect()->route('staff.pengajuan.index')->with('error', 'Setidaknya ada satu kolom dipilih.');
+        }
+
+        try {
+            $excelData = json_decode($request->input('excel_data'), true);
+
+            $headerRow = $excelData[0][0];
+            $limitedData = array_slice($excelData[0], 1);
+
+            $results = [];
+            foreach ($limitedData as $row) {
+                $hasNonNullValue = false;
+            
+                foreach ($columnMapping as $column => $index) {
+                    if ($index !== null && isset($row[$index - 1]) && $row[$index - 1] !== null) {
+                        $hasNonNullValue = true;
+                        break;
+                    }
+                }
+            
+                if (!$hasNonNullValue) {
+                    continue;
+                }
+            
+                $projectData = [];
+                foreach ($columnMapping as $column => $index) {
+                    if ($index !== null) {
+                        $projectData[$column] = $row[$index - 1] ?? null;
+                    }
+                }
+
+                if (isset($projectData['type_id'])) {
+                    $projectData['type_id'] = Type::where('type_name', $projectData['type_id'])->first()->id ?? null;
+                }
+                if (isset($projectData['sbu_id'])) {
+                    $projectData['sbu_id'] = Sbu::where('sbu_name', $projectData['sbu_id'])->first()->id ?? null;
+                }
+                if (isset($projectData['status_id'])) {
+                    $projectData['status_id'] = Status::where('status_name', $projectData['status_id'])->first()->id ?? null;
+                }
+                if (isset($projectData['technician_id'])) {
+                    $projectData['technician_id'] = User::where('name', $projectData['technician_id'])->first()->id ?? null;
+                }
+
+                if (isset($projectData['is_active'])) {
+                    $projectData['is_active'] = filter_var($projectData['is_active'], FILTER_VALIDATE_BOOLEAN);
+                }
+
+                $dateFields = ['start_date', 'target', 'end_date'];
+                foreach ($dateFields as $dateField) {
+                    if (isset($projectData[$dateField])) {
+                        $projectData[$dateField] = \Carbon\Carbon::parse($projectData[$dateField])->format('Y-m-d');
+                    }
+                }
+
+                $projectData['created_by'] = auth()->id();
+                $projectData['updated_by'] = auth()->id();
+            
+                $project = Project::create($projectData);
+                $results[] = $project;
+            }
+
+            $importCount = count($results);
+
+            return redirect()->route('staff.pengajuan.index')->with('success', 'Projects imported successfully! Total ' . $importCount . ' rows imported.');
+        } catch (\Exception $e) {
+            return redirect()->route('staff.pengajuan.index')->with('error', 'Error during import: ' . $e->getMessage());
+        }
+    }
+
 }

@@ -154,11 +154,25 @@
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="d-flex justify-content-between align-items-center px-4 pb-3">
                             <div></div>
-                            <a href="{{ route('staff.pengajuan.create') }}" class="btn btn-sm btn-primary" role="button"
-                                data-bs-toggle="tooltip" data-bs-placement="top" title="Create project">
-                                <i class="fa fa-plus" style="margin-right: 5px; vertical-align: middle;"></i>
-                                <span style="vertical-align: middle;">Create Project</span>
-                            </a>
+                            <div class="d-flex justify-content-end mb-3">
+                                <a href="{{ route('staff.pengajuan.create') }}" class="btn btn-sm btn-primary mr-2"
+                                    role="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Create project">
+                                    <i class="fa fa-plus" style="margin-right: 5px; vertical-align: middle;"></i>
+                                    <span style="vertical-align: middle;">Create Project</span>
+                                </a>
+                                <form id="excelForm" action="{{ route('staff.pengajuan.excel') }}"
+                                    style="margin-left: 5px;" method="post" enctype="multipart/form-data">
+                                    @csrf
+                                    <input type="file" class="d-none" id="excel_file" name="excel_file"
+                                        accept=".xls,.xlsx" required onchange="submitForm()">
+                                    <button type="button" onclick="chooseFile()" class="btn btn-sm btn-primary">
+                                        <i class="fa fa-file-excel me-1"></i>
+                                        <span>Import Excel</span>
+                                    </button>
+                                </form>
+                                <div id="fileInfo" class="text-muted">Pilih file Excel (.xls, .xlsx) untuk diunggah.
+                                    Maksimal ukuran file: 10 MB.</div>
+                            </div>
                         </div>
                         <div class="table-responsive p-0">
                             <table class="table align-items-center justify-content-center mb-0">
@@ -406,6 +420,19 @@
                 showConfirmButton: false,
                 timer: 2000
             });
+        }
+
+        function chooseFile() {
+            document.getElementById('excel_file').click();
+        }
+
+        function submitForm() {
+            var fileInput = document.getElementById('excel_file');
+            if (fileInput.files.length > 0) {
+                var fileInfo = document.getElementById('fileInfo');
+                fileInfo.innerText = 'File yang dipilih: ' + fileInput.files[0].name;
+            }
+            document.getElementById('excelForm').submit();
         }
     </script>
 @endsection
