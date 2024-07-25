@@ -19,12 +19,12 @@ class TechnicianPengajuanController extends Controller
     {
         $page_name = 'Daftar Pengajuan Pemasangan';
         $projects = Project::where('status_id', Status::where('status_name', 'SURAT JALAN CHECK')->first()->id)
-                                ->whereNotIn('status_id', [Status::where('status_name', 'INSTALASI')->first()->id, Status::where('status_name', 'SURAT JALAN')->first()->id])
+                                ->whereNotIn('status_id', [Status::where('status_name', 'INSTALASI')->first()->id, Status::where('status_name', 'SURAT JALAN')->first()->id, Status::where('status_name', 'FINISHED')->first()->id])
                                 ->where('technician_id', auth()->user()->id)
                                 ->get();
                                 
         $selected_projects = Project::where('status_id', Status::where('status_name', 'SURAT JALAN CHECK')->first()->id)
-                                ->whereNotIn('status_id', [Status::where('status_name', 'INSTALASI')->first()->id, Status::where('status_name', 'SURAT JALAN')->first()->id])
+                                ->whereNotIn('status_id', [Status::where('status_name', 'INSTALASI')->first()->id, Status::where('status_name', 'SURAT JALAN')->first()->id, Status::where('status_name', 'FINISHED')->first()->id])
                                 ->where('technician_id', auth()->user()->id)
                                 ->get();
         $types = Type::all();
@@ -32,19 +32,19 @@ class TechnicianPengajuanController extends Controller
         $statuses = Status::all();
       
         $total_project = Project::where('status_id', Status::where('status_name', 'SURAT JALAN CHECK')->first()->id)
-                                ->whereNotIn('status_id', [Status::where('status_name', 'INSTALASI')->first()->id, Status::where('status_name', 'SURAT JALAN')->first()->id])
+                                ->whereNotIn('status_id', [Status::where('status_name', 'INSTALASI')->first()->id, Status::where('status_name', 'SURAT JALAN')->first()->id, Status::where('status_name', 'FINISHED')->first()->id])
                                 ->where('technician_id', auth()->user()->id)
                                 ->count();
 
         if ($total_project > 0) {
             $inschedule_project = Project::where('status_id', Status::where('status_name', 'SURAT JALAN CHECK')->first()->id)
-                                ->whereNotIn('status_id', [Status::where('status_name', 'INSTALASI')->first()->id, Status::where('status_name', 'SURAT JALAN')->first()->id])
+                                ->whereNotIn('status_id', [Status::where('status_name', 'INSTALASI')->first()->id, Status::where('status_name', 'SURAT JALAN')->first()->id, Status::where('status_name', 'FINISHED')->first()->id])
                                 ->where('technician_id', auth()->user()->id)
                                 ->whereColumn('target', '=', 'end_date')->count();
             $inschedule_project_percentage = round(($inschedule_project / $total_project) * 100);
 
             $overdue_project = Project::where('status_id', Status::where('status_name', 'SURAT JALAN CHECK')->first()->id)
-                                ->whereNotIn('status_id', [Status::where('status_name', 'INSTALASI')->first()->id, Status::where('status_name', 'SURAT JALAN')->first()->id])
+                                ->whereNotIn('status_id', [Status::where('status_name', 'INSTALASI')->first()->id, Status::where('status_name', 'SURAT JALAN')->first()->id, Status::where('status_name', 'FINISHED')->first()->id])
                                 ->where('technician_id', auth()->user()->id)
                                 ->whereNull('end_date')
                                 ->where('target', '<', now())
@@ -52,7 +52,7 @@ class TechnicianPengajuanController extends Controller
             $overdue_project_percentage = round(($overdue_project / $total_project) * 100);
 
             $beyond_project = Project::where('status_id', Status::where('status_name', 'SURAT JALAN CHECK')->first()->id)
-                                ->whereNotIn('status_id', [Status::where('status_name', 'INSTALASI')->first()->id, Status::where('status_name', 'SURAT JALAN')->first()->id])
+                                ->whereNotIn('status_id', [Status::where('status_name', 'INSTALASI')->first()->id, Status::where('status_name', 'SURAT JALAN')->first()->id, Status::where('status_name', 'FINISHED')->first()->id])
                                 ->where('technician_id', auth()->user()->id)
                                 ->whereColumn('target', '<', 'end_date')->count();
             $beyond_project_percentage = round(($beyond_project / $total_project) * 100);
@@ -111,7 +111,7 @@ class TechnicianPengajuanController extends Controller
                         ->firstOrFail();
 
         $project = Project::where('id', $project->id)
-                        ->whereNotIn('status_id', [Status::where('status_name', 'INSTALASI')->first()->id, Status::where('status_name', 'SURAT JALAN')->first()->id])
+                        ->whereNotIn('status_id', [Status::where('status_name', 'INSTALASI')->first()->id, Status::where('status_name', 'SURAT JALAN')->first()->id, Status::where('status_name', 'FINISHED')->first()->id])
                         ->where('technician_id', auth()->user()->id)
                         ->firstOrFail();
 
@@ -148,7 +148,7 @@ class TechnicianPengajuanController extends Controller
                         ->firstOrFail();
 
         $project = Project::where('id', $project->id)
-                        ->whereNotIn('status_id', [Status::where('status_name', 'INSTALASI')->first()->id, Status::where('status_name', 'SURAT JALAN')->first()->id])
+                        ->whereNotIn('status_id', [Status::where('status_name', 'INSTALASI')->first()->id, Status::where('status_name', 'SURAT JALAN')->first()->id, Status::where('status_name', 'FINISHED')->first()->id])
                         ->where('technician_id', auth()->user()->id)
                         ->firstOrFail();
 

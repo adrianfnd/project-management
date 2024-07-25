@@ -19,7 +19,7 @@ class MaintenancePemasanganController extends Controller
         $page_name = 'Daftar Pemasangan';
 
         $list_project = Project::with('status')
-                        ->whereNotIn('status_id', [Status::where('status_name', 'PENGAJUAN')->first()->id, Status::where('status_name', 'SURAT JALAN CHECK')->first()->id])
+                        ->whereNotIn('status_id', [Status::where('status_name', 'PENGAJUAN')->first()->id, Status::where('status_name', 'SURAT JALAN CHECK')->first()->id, Status::where('status_name', 'FINISHED')->first()->id])
                         ->get();
     
         $projects = $list_project->sortBy(function($project) {
@@ -38,7 +38,7 @@ class MaintenancePemasanganController extends Controller
                         ->firstOrFail();
 
         $project = Project::where('id', $project->id)
-                        ->whereNotIn('status_id', [Status::where('status_name', 'PENGAJUAN')->first()->id, Status::where('status_name', 'SURAT JALAN CHECK')->first()->id])
+                        ->whereNotIn('status_id', [Status::where('status_name', 'PENGAJUAN')->first()->id, Status::where('status_name', 'SURAT JALAN CHECK')->first()->id, Status::where('status_name', 'FINISHED')->first()->id])
                         ->firstOrFail();
 
         $suratJalan = SuratJalan::where('project_id', $project->id)
