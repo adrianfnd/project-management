@@ -8,13 +8,15 @@ use App\Http\Controllers\superadmin\StaffController;
 use App\Http\Controllers\superadmin\TechnicianController;
 
 use App\Http\Controllers\staff\StaffPengajuanController;
+use App\Http\Controllers\staff\StaffRiwayatController;
 
 use App\Http\Controllers\maintenance\MaintenancePengajuanController;
 use App\Http\Controllers\maintenance\MaintenancePemasanganController;
+use App\Http\Controllers\maintenance\MaintenanceRiwayatController;
 
 use App\Http\Controllers\technician\TechnicianPengajuanController;
 use App\Http\Controllers\technician\TechnicianPemasanganController;
-use App\Http\Controllers\technician\TechnicianRiwayatSuratJalanController;
+use App\Http\Controllers\technician\TechnicianRiwayatController;
 
 
 /*
@@ -59,9 +61,9 @@ Route::middleware(['auth', 'role:Staff'])->prefix('staff')->group(function () {
    Route::get('/pengajuan/recreate/{id}', [StaffPengajuanController::class, 'recreate'])->name('staff.pengajuan.recreate');
    Route::post('/pengajuan/restore', [StaffPengajuanController::class, 'restore'])->name('staff.pengajuan.restore');
 
-   Route::get('/riwayat', [StaffPengajuanController::class, 'index'])->name('staff.riwayat.index');
-   Route::get('/riwayat/{id}', [StaffPengajuanController::class, 'show'])->name('staff.riwayat.show');
-   Route::get('/riwayat-pdf-{id}', [StaffPengajuanController::class, 'showPdf'])->name('staff.riwayat.pdf');
+   Route::get('/riwayat', [StaffRiwayatController::class, 'index'])->name('staff.riwayat.index');
+   Route::get('/riwayat/{id}', [StaffRiwayatController::class, 'show'])->name('staff.riwayat.show');
+   Route::get('/riwayat-pdf-{id}', [StaffRiwayatController::class, 'showPdf'])->name('staff.riwayat.pdf');
 });
 
 Route::middleware(['auth', 'role:Maintenance'])->prefix('maintenance')->group(function () {
@@ -78,9 +80,9 @@ Route::middleware(['auth', 'role:Maintenance'])->prefix('maintenance')->group(fu
    Route::post('/pemasangan/{project}/approve', [MaintenancePemasanganController::class, 'approve'])->name('maintenance.pemasangan.approve');
    Route::post('/pemasangan/{project}/decline', [MaintenancePemasanganController::class, 'decline'])->name('maintenance.pemasangan.decline');
 
-   Route::get('/riwayat', [MaintenancePemasanganController::class, 'index'])->name('maintenance.riwayat.index');
-   Route::get('/riwayat/{id}', [MaintenancePemasanganController::class, 'show'])->name('maintenance.riwayat.show');
-   Route::get('/riwayat-pdf-{id}', [MaintenancePemasanganController::class, 'showPdf'])->name('maintenance.riwayat.pdf');
+   Route::get('/riwayat', [MaintenanceRiwayatController::class, 'index'])->name('maintenance.riwayat.index');
+   Route::get('/riwayat/{id}', [MaintenanceRiwayatController::class, 'show'])->name('maintenance.riwayat.show');
+   Route::get('/riwayat-pdf-{id}', [MaintenanceRiwayatController::class, 'showPdf'])->name('maintenance.riwayat.pdf');
 });
 
 
@@ -104,7 +106,7 @@ Route::middleware(['auth', 'role:Technician'])->prefix('technician')->group(func
    Route::post('/pemasangan/{project}/add-to-selected', [TechnicianPemasanganController::class, 'addToSelectedProjects'])->name('technician.pemasangan.add-to-selected');
    Route::post('/pemasangan/{project}/decline', [TechnicianPemasanganController::class, 'decline'])->name('technician.pemasangan.decline');
 
-   Route::get('/riwayat', [TechnicianRiwayatSuratJalanController::class, 'index'])->name('technician.riwayat.index');
-   Route::get('/riwayat/{id}', [TechnicianRiwayatSuratJalanController::class, 'show'])->name('technician.riwayat.show');
-   Route::get('/riwayat-pdf-{id}', [TechnicianRiwayatSuratJalanController::class, 'showPdf'])->name('technician.riwayat.pdf');
+   Route::get('/riwayat', [TechnicianRiwayatController::class, 'index'])->name('technician.riwayat.index');
+   Route::get('/riwayat/{id}', [TechnicianRiwayatController::class, 'show'])->name('technician.riwayat.show');
+   Route::get('/riwayat-pdf-{id}', [TechnicianRiwayatController::class, 'showPdf'])->name('technician.riwayat.pdf');
 });

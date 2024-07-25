@@ -8,7 +8,7 @@ use App\Models\RiwayatSuratJalan;
 use App\Models\Project;
 use App\Models\SuratJalan;
 
-class TechnicianRiwayatSuratJalanController extends Controller
+class TechnicianRiwayatController extends Controller
 {
     public function index()
     {
@@ -27,6 +27,7 @@ class TechnicianRiwayatSuratJalanController extends Controller
         $page_name = 'View Riwayat';
 
         $riwayat = RiwayatSuratJalan::with(['suratJalan', 'project', 'technician', 'vendor', 'customer', 'creator'])
+                    ->where('technician_id', auth()->user()->id)
                     ->findOrFail($id);
 
         return view('technician.riwayat.view', compact('page_name', 'riwayat'));
