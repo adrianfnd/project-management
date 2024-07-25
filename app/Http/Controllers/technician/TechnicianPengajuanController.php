@@ -21,12 +21,12 @@ class TechnicianPengajuanController extends Controller
         $projects = Project::where('status_id', Status::where('status_name', 'SURAT JALAN CHECK')->first()->id)
                                 ->whereNotIn('status_id', [Status::where('status_name', 'INSTALASI')->first()->id, Status::where('status_name', 'SURAT JALAN')->first()->id, Status::where('status_name', 'FINISHED')->first()->id])
                                 ->where('technician_id', auth()->user()->id)
-                                ->paginate(10);
+                                ->get();
                                 
         $selected_projects = Project::where('status_id', Status::where('status_name', 'SURAT JALAN CHECK')->first()->id)
                                 ->whereNotIn('status_id', [Status::where('status_name', 'INSTALASI')->first()->id, Status::where('status_name', 'SURAT JALAN')->first()->id, Status::where('status_name', 'FINISHED')->first()->id])
                                 ->where('technician_id', auth()->user()->id)
-                                ->paginate(10);
+                                ->get();
         $types = Type::all();
         $sbus = Sbu::all();
         $statuses = Status::all();
