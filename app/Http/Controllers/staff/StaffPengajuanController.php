@@ -321,7 +321,17 @@ class StaffPengajuanController extends Controller
         $existingProject = Project::find($request->id);
         
         if ($existingProject) {
-            Customer::where('project_id', $existingProject->id)->delete();
+            $existingCustomer = Customer::where('project_id', $existingProject->id)->first();
+
+            if ($existingCustomer) {
+                $existingSuratJalan = SuratJalan::where('project_id', $existingProject->id)->first();
+                
+                if ($existingSuratJalan) {
+                    $existingSuratJalan->delete();
+                }
+
+                $existingCustomer->delete();
+            }
 
             $existingProject->delete();
         }

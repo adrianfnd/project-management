@@ -18,14 +18,21 @@ class MaintenancePemasanganController extends Controller
     {
         $page_name = 'Daftar Pemasangan';
 
+        $excludedStatuses = ['PENGAJUAN', 'SURAT JALAN CHECK', 'FINISHED'];
+        $excludedStatusIds = Status::whereIn('status_name', $excludedStatuses)->pluck('id');
+        
         $list_project = Project::with('status')
-                        ->whereNotIn('status_id', [Status::where('status_name', 'PENGAJUAN')->first()->id, Status::where('status_name', 'SURAT JALAN CHECK')->first()->id, Status::where('status_name', 'FINISHED')->first()->id])
-                        ->paginate(10);
-    
-        $projects = $list_project->sortBy(function($project) {
-            $order = ['INSTALASI' => 1, 'SURAT JALAN' => 2];
-            return $order[$project->status->status_name] ?? 3;
-        });
+            ->whereNotIn('status_id', $excludedStatusIds)
+            ->join('statuses', 'projects.status_id', '=', 'statuses.id')
+            ->orderByRaw("CASE 
+                WHEN statuses.status_name = 'INSTALASI' THEN 1
+                WHEN statuses.status_name = 'SURAT JALAN' THEN 2
+                ELSE 3
+            END")
+            ->select('projects.*')
+            ->paginate(10);
+        
+        $projects = $list_project;
         
         return view('maintenance.pemasangan.index', compact('page_name', 'projects'));
     }
