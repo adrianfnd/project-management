@@ -20,7 +20,7 @@ class MaintenancePemasanganController extends Controller
 
         $list_project = Project::with('status')
                         ->whereNotIn('status_id', [Status::where('status_name', 'PENGAJUAN')->first()->id, Status::where('status_name', 'SURAT JALAN CHECK')->first()->id, Status::where('status_name', 'FINISHED')->first()->id])
-                        ->get();
+                        ->paginate(10);
     
         $projects = $list_project->sortBy(function($project) {
             $order = ['INSTALASI' => 1, 'SURAT JALAN' => 2];

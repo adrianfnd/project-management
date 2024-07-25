@@ -21,13 +21,21 @@ class MaintenancePengajuanController extends Controller
         $page_name = 'Daftar Pengajuan Pemasangan';
     
         $list_project = Project::with('status')
-                        ->whereNotIn('status_id', [Status::where('status_name', 'INSTALASI')->first()->id, Status::where('status_name', 'SURAT JALAN')->first()->id, Status::where('status_name', 'FINISHED')->first()->id])
-                        ->get();
-    
-        $projects = $list_project->sortBy(function($project) {
-            $order = ['PENGAJUAN' => 1, 'SURAT JALAN CHECK' => 2];
-            return $order[$project->status->status_name] ?? 3;
-        });
+                ->whereNotIn('status_id', [
+                    Status::where('status_name', 'INSTALASI')->first()->id,
+                    Status::where('status_name', 'SURAT JALAN')->first()->id,
+                    Status::where('status_name', 'FINISHED')->first()->id
+                ])
+                ->join('statuses', 'projects.status_id', '=', 'statuses.id')
+                ->orderByRaw("CASE 
+                    WHEN statuses.status_name = 'PENGAJUAN' THEN 1
+                    WHEN statuses.status_name = 'SURAT JALAN CHECK' THEN 2
+                    ELSE 3
+                END")
+                ->select('projects.*')
+                ->paginate(10);
+
+        $projects = $list_project;
     
         return view('maintenance.pengajuan.index', compact('page_name', 'projects'));
     }

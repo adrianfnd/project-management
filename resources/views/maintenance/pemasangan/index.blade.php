@@ -91,6 +91,10 @@
                         </div>
                     </div>
                 </div>
+                <!-- Pagination links -->
+                <div class="d-flex justify-content-end mt-4">
+                    {{ $items->links('pagination::bootstrap-4') }}
+                </div>
             </div>
         </div>
     </div>

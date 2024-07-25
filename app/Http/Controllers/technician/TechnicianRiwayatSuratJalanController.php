@@ -17,7 +17,7 @@ class TechnicianRiwayatSuratJalanController extends Controller
         $riwayatSuratJalans = RiwayatSuratJalan::with(['suratJalan', 'project', 'technician', 'vendor', 'customer', 'creator'])
                     ->where('technician_id', auth()->user()->id)
                     ->orderBy('created_at', 'desc')
-                    ->get();
+                    ->paginate(10);
 
         return view('technician.riwayat.index', compact('page_name', 'riwayatSuratJalans'));
     }

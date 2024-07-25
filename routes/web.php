@@ -58,6 +58,10 @@ Route::middleware(['auth', 'role:Staff'])->prefix('staff')->group(function () {
    Route::get('/pengajuan/pdf-{id}', [StaffPengajuanController::class, 'showPdf'])->name('staff.pengajuan.pdf');
    Route::get('/pengajuan/recreate/{id}', [StaffPengajuanController::class, 'recreate'])->name('staff.pengajuan.recreate');
    Route::post('/pengajuan/restore', [StaffPengajuanController::class, 'restore'])->name('staff.pengajuan.restore');
+
+   Route::get('/riwayat', [StaffPengajuanController::class, 'index'])->name('staff.riwayat.index');
+   Route::get('/riwayat/{id}', [StaffPengajuanController::class, 'show'])->name('staff.riwayat.show');
+   Route::get('/riwayat-pdf-{id}', [StaffPengajuanController::class, 'showPdf'])->name('staff.riwayat.pdf');
 });
 
 Route::middleware(['auth', 'role:Maintenance'])->prefix('maintenance')->group(function () {
@@ -73,6 +77,10 @@ Route::middleware(['auth', 'role:Maintenance'])->prefix('maintenance')->group(fu
    Route::get('/pemasangan/pdf-{id}', [MaintenancePemasanganController::class, 'showPdf'])->name('maintenance.pemasangan.pdf');
    Route::post('/pemasangan/{project}/approve', [MaintenancePemasanganController::class, 'approve'])->name('maintenance.pemasangan.approve');
    Route::post('/pemasangan/{project}/decline', [MaintenancePemasanganController::class, 'decline'])->name('maintenance.pemasangan.decline');
+
+   Route::get('/riwayat', [MaintenancePemasanganController::class, 'index'])->name('maintenance.riwayat.index');
+   Route::get('/riwayat/{id}', [MaintenancePemasanganController::class, 'show'])->name('maintenance.riwayat.show');
+   Route::get('/riwayat-pdf-{id}', [MaintenancePemasanganController::class, 'showPdf'])->name('maintenance.riwayat.pdf');
 });
 
 

@@ -64,6 +64,12 @@
                                         <span class="sidenav-normal"> Pengajuan </span>
                                     </a>
                                 </li>
+                                <li class="nav-item {{ request()->is('staff/riwayat*') ? 'active' : '' }}">
+                                    <a class="nav-link" href="{{ route('staff.riwayat.index') }}">
+                                        <span class="sidenav-mini-icon"> R </span>
+                                        <span class="sidenav-normal"> Riwayat </span>
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </li>
@@ -94,6 +100,12 @@
                                         <span class="sidenav-normal"> Pemasangan </span>
                                     </a>
                                 </li>
+                                <li class="nav-item {{ request()->is('maintenance/riwayat*') ? 'active' : '' }}">
+                                    <a class="nav-link" href="{{ route('maintenance.riwayat.index') }}">
+                                        <span class="sidenav-mini-icon"> R </span>
+                                        <span class="sidenav-normal"> Riwayat </span>
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </li>
@@ -122,6 +134,12 @@
                                     <a class="nav-link" href="{{ route('technician.pemasangan.index') }}">
                                         <span class="sidenav-mini-icon"> P </span>
                                         <span class="sidenav-normal"> Pemasangan </span>
+                                    </a>
+                                </li>
+                                <li class="nav-item {{ request()->is('technician/riwayat*') ? 'active' : '' }}">
+                                    <a class="nav-link" href="{{ route('technician.riwayat.index') }}">
+                                        <span class="sidenav-mini-icon"> R </span>
+                                        <span class="sidenav-normal"> Riwayat </span>
                                     </a>
                                 </li>
                             </ul>

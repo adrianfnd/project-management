@@ -14,7 +14,7 @@ class StaffController extends Controller
     {
         $page_name = 'Staff';
 
-        $staffUsers = User::where('role_id', Role::where('role_name', 'Staff')->first()->id)->get();
+        $staffUsers = User::where('role_id', Role::where('role_name', 'Staff')->first()->id)->paginate(10);
         
         return view('superadmin.staff.index', compact('page_name', 'staffUsers'));
     }

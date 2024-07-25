@@ -14,7 +14,7 @@ class TechnicianController extends Controller
     {
         $page_name = 'Technician';
 
-        $technicians = User::where('role_id', Role::where('role_name', 'Technician')->first()->id)->get();
+        $technicians = User::where('role_id', Role::where('role_name', 'Technician')->first()->id)->paginate(10);
         
         return view('superadmin.technician.index', compact('page_name', 'technicians'));
     }
