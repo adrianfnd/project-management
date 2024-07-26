@@ -395,12 +395,7 @@ class StaffPengajuanController extends Controller
 
     public function importExcel(Request $request)
     {
-        $columns = [
-            'type_id', 'project_name', 'olt_hostname', 'no_sp2k_spa', 'sbu_id', 'hp_plan', 'hp_built',
-            'fat_total', 'fat_progress', 'fat_built', 'ip_olt', 'kendala', 'progress', 'status_id',
-            'start_date', 'target', 'end_date', 'latitude', 'longitude', 'radius', 'link_file',
-            'images', 'is_active', 'technician_id'
-        ];
+        $columns = ['project_name', 'olt_hostname', 'no_sp2k_spa', 'ip_olt', 'kendala', 'progress', 'start_date', 'target', 'end_date', 'latitude', 'longitude', 'radius'];
 
         $columnMapping = [];
         foreach ($columns as $column) {
@@ -480,9 +475,9 @@ class StaffPengajuanController extends Controller
 
             $importCount = count($results);
 
-            return redirect()->route('staff.pengajuan.index')->with('success', 'Projects imported successfully! Total ' . $importCount . ' rows imported.');
+            return redirect()->route('staff.pengajuan.index')->with('success', 'Project berhasil diimport. Total ' . $importCount . ' baris diimport.');
         } catch (\Exception $e) {
-            return redirect()->route('staff.pengajuan.index')->with('error', 'Error during import: ' . $e->getMessage());
+            return redirect()->route('staff.pengajuan.index')->with('error', 'Error pada saat import: ' . $e->getMessage());
         }
     }
 

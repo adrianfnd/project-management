@@ -6,6 +6,10 @@ use App\Http\Controllers\AuthController;
 
 use App\Http\Controllers\superadmin\StaffController;
 use App\Http\Controllers\superadmin\TechnicianController;
+use App\Http\Controllers\superadmin\CustomerController;
+use App\Http\Controllers\superadmin\MaintenanceController;
+use App\Http\Controllers\superadmin\VendorController;
+use App\Http\Controllers\superadmin\ProjectController;
 
 use App\Http\Controllers\staff\StaffPengajuanController;
 use App\Http\Controllers\staff\StaffRiwayatController;
@@ -50,6 +54,36 @@ Route::middleware(['auth', 'role:Superadmin'])->prefix('superadmin')->group(func
    Route::get('/technician/{id}/edit', [TechnicianController::class, 'edit'])->name('technician.edit');
    Route::put('/technician/{id}', [TechnicianController::class, 'update'])->name('technician.update');
    Route::delete('/technician/{id}', [TechnicianController::class, 'destroy'])->name('technician.destroy');
+
+   Route::get('/maintenance', [MaintenanceController::class, 'index'])->name('maintenance.index');
+   Route::get('/maintenance/create', [MaintenanceController::class, 'create'])->name('maintenance.create');
+   Route::post('/maintenance', [MaintenanceController::class, 'store'])->name('maintenance.store');
+   Route::get('/maintenance/{id}/edit', [MaintenanceController::class, 'edit'])->name('maintenance.edit');
+   Route::put('/maintenance/{id}', [MaintenanceController::class, 'update'])->name('maintenance.update');
+   Route::delete('/maintenance/{id}', [MaintenanceController::class, 'destroy'])->name('maintenance.destroy');
+
+   Route::get('/vendor', [VendorController::class, 'index'])->name('vendor.index');
+   Route::get('/vendor/create', [VendorController::class, 'create'])->name('vendor.create');
+   Route::post('/vendor', [VendorController::class, 'store'])->name('vendor.store');
+   Route::get('/vendor/{id}/edit', [VendorController::class, 'edit'])->name('vendor.edit');
+   Route::put('/vendor/{id}', [VendorController::class, 'update'])->name('vendor.update');
+   Route::delete('/vendor/{id}', [VendorController::class, 'destroy'])->name('vendor.destroy');
+ 
+   Route::get('/project', [ProjectController::class, 'index'])->name('project.index');
+   Route::get('/project/create', [ProjectController::class, 'create'])->name('project.create');
+   Route::post('/project', [ProjectController::class, 'store'])->name('project.store');
+   Route::get('/project/{id}/edit', [ProjectController::class, 'edit'])->name('project.edit');
+   Route::put('/project/{id}', [ProjectController::class, 'update'])->name('project.update');
+   Route::delete('/project/{id}', [ProjectController::class, 'destroy'])->name('project.destroy');
+   Route::post('/project/excel', [ProjectController::class, 'showImport'])->name('project.excel');
+   Route::post('/project/import', [ProjectController::class, 'importExcel'])->name('project.import');
+
+   Route::get('/customer', [CustomerController::class, 'index'])->name('customer.index');
+   Route::get('/customer/create', [CustomerController::class, 'create'])->name('customer.create');
+   Route::post('/customer', [CustomerController::class, 'store'])->name('customer.store');
+   Route::get('/customer/{id}/edit', [CustomerController::class, 'edit'])->name('customer.edit');
+   Route::put('/customer/{id}', [CustomerController::class, 'update'])->name('customer.update');
+   Route::delete('/customer/{id}', [CustomerController::class, 'destroy'])->name('customer.destroy');
 });
 
 Route::middleware(['auth', 'role:Staff'])->prefix('staff')->group(function () {

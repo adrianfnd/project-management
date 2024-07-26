@@ -23,7 +23,8 @@
                                 <p>{{ Session::get('success') }}</p>
                             </div>
                         @endif
-                        <form action="/importExcel" method="post" enctype="multipart/form-data" class="forms-sample">
+                        <form action="{{ route('staff.pengajuan.import') }}" method="post" enctype="multipart/form-data"
+                            class="forms-sample">
                             @csrf
                             <div class="info mb-3">
                                 @php
@@ -34,7 +35,7 @@
                             <input type="hidden" name="excel_count" value="{{ $excelCount }}">
                             <input type="hidden" name="excel_data" value="{{ json_encode($excelData) }}">
 
-                            @foreach (['type_id', 'project_name', 'olt_hostname', 'no_sp2k_spa', 'sbu_id', 'hp_plan', 'hp_built', 'fat_total', 'fat_progress', 'fat_built', 'ip_olt', 'kendala', 'progress', 'status_id', 'start_date', 'target', 'end_date', 'latitude', 'longitude', 'radius', 'link_file', 'images', 'is_active', 'technician_id', 'created_by', 'updated_by'] as $field)
+                            @foreach (['project_name', 'olt_hostname', 'no_sp2k_spa', 'ip_olt', 'kendala', 'progress', 'start_date', 'target', 'end_date', 'latitude', 'longitude', 'radius'] as $field)
                                 <div class="form-group">
                                     <label for="{{ $field }}">{{ ucfirst(str_replace('_', ' ', $field)) }}</label>
                                     <select name="{{ $field }}" id="{{ $field }}" class="form-control">

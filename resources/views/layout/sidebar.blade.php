@@ -40,6 +40,30 @@
                                         <span class="sidenav-normal"> Manage Technicians </span>
                                     </a>
                                 </li>
+                                <li class="nav-item {{ request()->is('superadmin/maintenance*') ? 'active' : '' }}">
+                                    <a class="nav-link" href="{{ route('maintenance.index') }}">
+                                        <span class="sidenav-mini-icon"> M </span>
+                                        <span class="sidenav-normal"> Manage Maintenance </span>
+                                    </a>
+                                </li>
+                                <li class="nav-item {{ request()->is('superadmin/vendor*') ? 'active' : '' }}">
+                                    <a class="nav-link" href="{{ route('vendor.index') }}">
+                                        <span class="sidenav-mini-icon"> V </span>
+                                        <span class="sidenav-normal"> Manage Vendors </span>
+                                    </a>
+                                </li>
+                                <li class="nav-item {{ request()->is('superadmin/project*') ? 'active' : '' }}">
+                                    <a class="nav-link" href="{{ route('project.index') }}">
+                                        <span class="sidenav-mini-icon"> T </span>
+                                        <span class="sidenav-normal"> Manage Projects </span>
+                                    </a>
+                                </li>
+                                <li class="nav-item {{ request()->is('superadmin/customer*') ? 'active' : '' }}">
+                                    <a class="nav-link" href="{{ route('customer.index') }}">
+                                        <span class="sidenav-mini-icon"> C </span>
+                                        <span class="sidenav-normal"> Manage Customers </span>
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </li>
@@ -114,8 +138,8 @@
                 <!-- Technician Menu Items -->
                 @if (auth()->user()->role->role_name === 'Technician')
                     <li class="nav-item">
-                        <a class="nav-link active" href="#navbar-technician" data-bs-toggle="collapse" role="button"
-                            aria-expanded="false" aria-controls="navbar-technician">
+                        <a class="nav-link active" href="#navbar-technician" data-bs-toggle="collapse"
+                            role="button" aria-expanded="false" aria-controls="navbar-technician">
                             <div
                                 class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="ni ni-hat-3 text-dark text-sm opacity-10"></i>

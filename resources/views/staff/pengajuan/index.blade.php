@@ -170,8 +170,6 @@
                                         <span>Import Excel</span>
                                     </button>
                                 </form>
-                                <div id="fileInfo" class="text-muted">Pilih file Excel (.xls, .xlsx) untuk diunggah.
-                                    Maksimal ukuran file: 10 MB.</div>
                             </div>
                         </div>
                         <div class="table-responsive p-0">
@@ -429,10 +427,8 @@
         function submitForm() {
             var fileInput = document.getElementById('excel_file');
             if (fileInput.files.length > 0) {
-                var fileInfo = document.getElementById('fileInfo');
-                fileInfo.innerText = 'File yang dipilih: ' + fileInput.files[0].name;
+                document.getElementById('excelForm').submit();
             }
-            document.getElementById('excelForm').submit();
         }
     </script>
 @endsection
