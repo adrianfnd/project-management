@@ -160,16 +160,6 @@
                                     <i class="fa fa-plus" style="margin-right: 5px; vertical-align: middle;"></i>
                                     <span style="vertical-align: middle;">Create Project</span>
                                 </a>
-                                <form id="excelForm" action="{{ route('staff.pengajuan.excel') }}"
-                                    style="margin-left: 5px;" method="post" enctype="multipart/form-data">
-                                    @csrf
-                                    <input type="file" class="d-none" id="excel_file" name="excel_file"
-                                        accept=".xls,.xlsx" required onchange="submitForm()">
-                                    <button type="button" onclick="chooseFile()" class="btn btn-sm btn-primary">
-                                        <i class="fa fa-file-excel me-1"></i>
-                                        <span>Import Excel</span>
-                                    </button>
-                                </form>
                             </div>
                         </div>
                         <div class="table-responsive p-0">
@@ -418,17 +408,6 @@
                 showConfirmButton: false,
                 timer: 2000
             });
-        }
-
-        function chooseFile() {
-            document.getElementById('excel_file').click();
-        }
-
-        function submitForm() {
-            var fileInput = document.getElementById('excel_file');
-            if (fileInput.files.length > 0) {
-                document.getElementById('excelForm').submit();
-            }
         }
     </script>
 @endsection

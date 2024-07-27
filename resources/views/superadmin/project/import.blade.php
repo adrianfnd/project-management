@@ -23,7 +23,7 @@
                                 <p>{{ Session::get('success') }}</p>
                             </div>
                         @endif
-                        <form action="{{ route('staff.pengajuan.import') }}" method="post" enctype="multipart/form-data"
+                        <form action="{{ route('project.import') }}" method="post" enctype="multipart/form-data"
                             class="forms-sample">
                             @csrf
                             <div class="info mb-3">
@@ -57,7 +57,7 @@
 
                             <button type="submit" class="btn btn-primary mr-2" style="margin-right: 10px">Import Data
                                 Excel</button>
-                            <a href="{{ route('staff.pengajuan.index') }}" class="btn btn-light">Cancel</a>
+                            <a href="{{ route('project.index') }}" class="btn btn-light">Cancel</a>
                         </form>
                     </div>
                 </div>

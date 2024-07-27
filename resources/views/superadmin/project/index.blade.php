@@ -11,11 +11,23 @@
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="d-flex justify-content-between align-items-center px-4 pb-3">
                             <div></div>
-                            <a href="{{ route('project.create') }}" class="btn btn-sm btn-primary" role="button"
-                                data-bs-toggle="tooltip" data-bs-placement="top" title="Create project">
-                                <i class="fa fa-plus" style="margin-right: 5px; vertical-align: middle;"></i>
-                                <span style="vertical-align: middle;">Create Project</span>
-                            </a>
+                            <div class="d-flex justify-content-end mb-3">
+                                <a href="{{ route('project.create') }}" class="btn btn-sm btn-primary" role="button"
+                                    data-bs-toggle="tooltip" data-bs-placement="top" title="Create project">
+                                    <i class="fa fa-plus" style="margin-right: 5px; vertical-align: middle;"></i>
+                                    <span style="vertical-align: middle;">Create Project</span>
+                                </a>
+                                <form id="excelForm" action="{{ route('staff.pengajuan.excel') }}" style="margin-left: 5px;"
+                                    method="post" enctype="multipart/form-data">
+                                    @csrf
+                                    <input type="file" class="d-none" id="excel_file" name="excel_file"
+                                        accept=".xls,.xlsx" required onchange="submitForm()">
+                                    <button type="button" onclick="chooseFile()" class="btn btn-sm btn-primary">
+                                        <i class="fa fa-file-excel me-1"></i>
+                                        <span>Import Excel</span>
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                         <div class="table-responsive p-0">
                             <table class="table align-items-center justify-content-center mb-0">
@@ -56,28 +68,29 @@
                                             <td>
                                                 <div class="d-flex px-2">
                                                     <div class="my-auto">
-                                                        <h6 class="mb-0 text-sm">{{ $project->project_name }}</h6>
+                                                        <h6 class="mb-0 text-sm">{{ $project->project_name ?? '-' }}</h6>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td>
-                                                <p class="text-sm font-weight-bold mb-0">{{ $project->type->type_name }}</p>
+                                                <p class="text-sm font-weight-bold mb-0">
+                                                    {{ $project->type->type_name ?? '-' }}</p>
                                             </td>
                                             <td class="align-middle text-center text-sm">
                                                 <span
-                                                    class="text-secondary text-xs font-weight-bold">{{ $project->sbu->sbu_name }}</span>
+                                                    class="text-secondary text-xs font-weight-bold">{{ $project->sbu->sbu_name ?? '-' }}</span>
                                             </td>
                                             <td class="align-middle text-center text-sm">
                                                 <span
-                                                    class="text-secondary text-xs font-weight-bold">{{ $project->status->status_name }}</span>
+                                                    class="text-secondary text-xs font-weight-bold">{{ $project->status->status_name ?? '-' }}</span>
                                             </td>
                                             <td class="align-middle text-center">
                                                 <span
-                                                    class="text-secondary text-xs font-weight-bold">{{ $project->start_date }}</span>
+                                                    class="text-secondary text-xs font-weight-bold">{{ $project->start_date ?? '-' }}</span>
                                             </td>
                                             <td class="align-middle text-center">
                                                 <span
-                                                    class="text-secondary text-xs font-weight-bold">{{ $project->target }}</span>
+                                                    class="text-secondary text-xs font-weight-bold">{{ $project->target ?? '-' }}</span>
                                             </td>
                                             <td class="align-middle text-center">
                                                 <a href="{{ route('project.edit', $project->id) }}"
@@ -114,6 +127,17 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+        function chooseFile() {
+            document.getElementById('excel_file').click();
+        }
+
+        function submitForm() {
+            var fileInput = document.getElementById('excel_file');
+            if (fileInput.files.length > 0) {
+                document.getElementById('excelForm').submit();
+            }
+        }
+
         function confirmDelete(projectId) {
             Swal.fire({
                 title: 'Apakah anda yakin?',
