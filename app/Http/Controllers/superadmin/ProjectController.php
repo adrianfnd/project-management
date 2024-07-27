@@ -12,6 +12,7 @@ use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ProjectsExport;
 
 class ProjectController extends Controller
 {
@@ -342,5 +343,10 @@ class ProjectController extends Controller
         } catch (\Exception $e) {
             return redirect()->route('project.index')->with('error', 'Error pada saat import: ' . $e->getMessage());
         }
+    }
+
+    public function export()
+    {
+        return Excel::download(new ProjectsExport, 'projects.xlsx');
     }
 }

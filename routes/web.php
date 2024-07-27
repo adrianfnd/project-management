@@ -77,6 +77,7 @@ Route::middleware(['auth', 'role:Superadmin'])->prefix('superadmin')->group(func
    Route::delete('/project/{id}', [ProjectController::class, 'destroy'])->name('project.destroy');
    Route::post('/project/excel', [ProjectController::class, 'showImport'])->name('project.excel');
    Route::post('/project/import', [ProjectController::class, 'importExcel'])->name('project.import');
+   Route::get('/project/export', [ProjectController::class, 'export'])->name('project.export');
 
    Route::get('/customer', [CustomerController::class, 'index'])->name('customer.index');
    Route::get('/customer/create', [CustomerController::class, 'create'])->name('customer.create');
@@ -94,8 +95,6 @@ Route::middleware(['auth', 'role:Staff'])->prefix('staff')->group(function () {
    Route::get('/pengajuan/pdf-{id}', [StaffPengajuanController::class, 'showPdf'])->name('staff.pengajuan.pdf');
    Route::get('/pengajuan/recreate/{id}', [StaffPengajuanController::class, 'recreate'])->name('staff.pengajuan.recreate');
    Route::post('/pengajuan/restore', [StaffPengajuanController::class, 'restore'])->name('staff.pengajuan.restore');
-   Route::post('/pengajuan/excel', [StaffPengajuanController::class, 'showImport'])->name('staff.pengajuan.excel');
-   Route::post('/pengajuan/import', [StaffPengajuanController::class, 'importExcel'])->name('staff.pengajuan.import');
 
    Route::get('/riwayat', [StaffRiwayatController::class, 'index'])->name('staff.riwayat.index');
    Route::get('/riwayat/{id}', [StaffRiwayatController::class, 'show'])->name('staff.riwayat.show');

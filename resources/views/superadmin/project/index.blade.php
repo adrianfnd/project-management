@@ -17,7 +17,7 @@
                                     <i class="fa fa-plus" style="margin-right: 5px; vertical-align: middle;"></i>
                                     <span style="vertical-align: middle;">Create Project</span>
                                 </a>
-                                <form id="excelForm" action="{{ route('staff.pengajuan.excel') }}" style="margin-left: 5px;"
+                                <form id="excelForm" action="{{ route('project.excel') }}" style="margin-left: 5px;"
                                     method="post" enctype="multipart/form-data">
                                     @csrf
                                     <input type="file" class="d-none" id="excel_file" name="excel_file"
@@ -27,6 +27,12 @@
                                         <span>Import Excel</span>
                                     </button>
                                 </form>
+                                <a href="{{ route('project.export') }}" class="btn btn-sm btn-primary"
+                                    style="margin-left: 5px;" role="button" data-bs-toggle="tooltip"
+                                    data-bs-placement="top" title="Export to Excel">
+                                    <i class="fa fa-download me-1"></i>
+                                    <span>Export Excel</span>
+                                </a>
                             </div>
                         </div>
                         <div class="table-responsive p-0">
