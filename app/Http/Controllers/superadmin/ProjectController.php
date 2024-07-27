@@ -347,6 +347,10 @@ class ProjectController extends Controller
 
     public function export()
     {
-        return Excel::download(new ProjectsExport, 'projects.xlsx');
+        $timestamp = now()->format('Ymd_His');
+        
+        $fileName = 'projects_' . $timestamp . '.xlsx';
+
+        return Excel::download(new ProjectsExport, $fileName);
     }
 }
