@@ -14,7 +14,7 @@
                             <div class="form-group">
                                 <label for="project_name">Nama Project</label>
                                 <input type="text" class="form-control" id="project_name" name="project_name"
-                                    value="{{ old('project_name', $project->project_name) }}" required>
+                                    value="{{ old('project_name', $project->project_name) }}">
                                 @if ($errors->has('project_name'))
                                     <span class="text-danger">{{ $errors->first('project_name') }}</span>
                                 @endif
@@ -22,7 +22,7 @@
                             <div class="form-group">
                                 <label for="olt_hostname">OLT Hostname</label>
                                 <input type="text" class="form-control" id="olt_hostname" name="olt_hostname"
-                                    value="{{ old('olt_hostname', $project->olt_hostname) }}" required>
+                                    value="{{ old('olt_hostname', $project->olt_hostname) }}">
                                 @if ($errors->has('olt_hostname'))
                                     <span class="text-danger">{{ $errors->first('olt_hostname') }}</span>
                                 @endif
@@ -30,14 +30,14 @@
                             <div class="form-group">
                                 <label for="no_sp2k_spa">No SP2K/SPA</label>
                                 <input type="text" class="form-control" id="no_sp2k_spa" name="no_sp2k_spa"
-                                    value="{{ old('no_sp2k_spa', $project->no_sp2k_spa) }}" required>
+                                    value="{{ old('no_sp2k_spa', $project->no_sp2k_spa) }}">
                                 @if ($errors->has('no_sp2k_spa'))
                                     <span class="text-danger">{{ $errors->first('no_sp2k_spa') }}</span>
                                 @endif
                             </div>
                             <div class="form-group">
                                 <label for="sbu_id">SBU</label>
-                                <select class="form-control" id="sbu_id" name="sbu_id" required>
+                                <select class="form-control" id="sbu_id" name="sbu_id">
                                     @foreach ($sbus as $sbu)
                                         <option value="{{ $sbu['id'] }}" data-latitude="{{ $sbu['latitude'] }}"
                                             data-longitude="{{ $sbu['longitude'] }}"
@@ -53,7 +53,7 @@
                             <div class="form-group">
                                 <label for="start_date">Tanggal Mulai</label>
                                 <input type="date" class="form-control" id="start_date" name="start_date"
-                                    value="{{ old('start_date', $project->start_date) }}" required>
+                                    value="{{ old('start_date', $project->start_date) }}">
                                 @if ($errors->has('start_date'))
                                     <span class="text-danger">{{ $errors->first('start_date') }}</span>
                                 @endif
@@ -61,7 +61,7 @@
                             <div class="form-group">
                                 <label for="target">Target Selesai</label>
                                 <input type="date" class="form-control" id="target" name="target"
-                                    value="{{ old('target', $project->target) }}" required>
+                                    value="{{ old('target', $project->target) }}">
                                 @if ($errors->has('target'))
                                     <span class="text-danger">{{ $errors->first('target') }}</span>
                                 @endif
@@ -69,7 +69,7 @@
                             <div class="form-group">
                                 <label for="radius">Radius (meters)</label>
                                 <input type="number" class="form-control" id="radius" name="radius"
-                                    value="{{ old('radius', $project->radius) }}" required>
+                                    value="{{ old('radius', $project->radius) }}">
                                 @if ($errors->has('radius'))
                                     <span class="text-danger">{{ $errors->first('radius') }}</span>
                                 @endif
@@ -89,19 +89,19 @@
                                 </div>
                                 <div id="mapid" style="height: 400px;"></div>
                                 <input type="hidden" id="latitude" name="latitude"
-                                    value="{{ old('latitude', $project->latitude) }}" required>
+                                    value="{{ old('latitude', $project->latitude) }}">
                                 @if ($errors->has('latitude'))
                                     <span class="text-danger">{{ $errors->first('latitude') }}</span>
                                 @endif
                                 <input type="hidden" id="longitude" name="longitude"
-                                    value="{{ old('longitude', $project->longitude) }}" required>
+                                    value="{{ old('longitude', $project->longitude) }}">
                                 @if ($errors->has('longitude'))
                                     <span class="text-danger">{{ $errors->first('longitude') }}</span>
                                 @endif
                             </div>
                             <div class="mb-3">
                                 <label for="technician_id" class="form-label">Teknisi</label>
-                                <select class="form-control" id="technician_id" name="technician_id" required>
+                                <select class="form-control" id="technician_id" name="technician_id">
                                     <option value="">Pilih Teknisi</option>
                                     @foreach ($technicians as $technician)
                                         <option value="{{ $technician->id }}"
@@ -116,7 +116,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="type_id" class="form-label">Tipe Project</label>
-                                <select class="form-control" id="type_id" name="type_id" required>
+                                <select class="form-control" id="type_id" name="type_id">
                                     <option value="">Pilih Tipe Project</option>
                                     @foreach ($types as $type)
                                         <option value="{{ $type->id }}"
@@ -146,7 +146,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="status_id" class="form-label">Status</label>
-                                <select class="form-control" id="status_id" name="status_id" required>
+                                <select class="form-control" id="status_id" name="status_id">
                                     <option value="">Pilih Status</option>
                                     @foreach ($statuses as $status)
                                         <option value="{{ $status->id }}"
@@ -229,7 +229,7 @@
 
                             <div class="mb-3">
                                 <label for="is_active" class="form-label">Status Aktif</label>
-                                <select class="form-control" id="is_active" name="is_active" required>
+                                <select class="form-control" id="is_active" name="is_active">
                                     <option value="Y"
                                         {{ old('is_active', $project->is_active) == 'Y' ? 'selected' : '' }}>Aktif</option>
                                     <option value="N"

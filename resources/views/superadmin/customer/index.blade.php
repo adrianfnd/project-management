@@ -33,9 +33,6 @@
                                             Email</th>
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Proyek</th>
-                                        <th
-                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Aksi</th>
                                     </tr>
                                 </thead>
@@ -49,20 +46,16 @@
                                             <td>
                                                 <div class="d-flex px-2">
                                                     <div class="my-auto">
-                                                        <h6 class="mb-0 text-sm">{{ $customer->name }}</h6>
+                                                        <h6 class="mb-0 text-sm">{{ $customer->name ?? '-' }}</h6>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td>
-                                                <p class="text-sm font-weight-bold mb-0">{{ $customer->phone }}</p>
+                                                <p class="text-sm font-weight-bold mb-0">{{ $customer->phone ?? '-' }}</p>
                                             </td>
                                             <td class="align-middle text-center text-sm">
                                                 <span
-                                                    class="text-secondary text-xs font-weight-bold">{{ $customer->email }}</span>
-                                            </td>
-                                            <td class="align-middle text-center text-sm">
-                                                <span
-                                                    class="text-secondary text-xs font-weight-bold">{{ $customer->project->name }}</span>
+                                                    class="text-secondary text-xs font-weight-bold">{{ $customer->email ?? '-' }}</span>
                                             </td>
                                             <td class="align-middle text-center">
                                                 <a href="{{ route('customer.edit', $customer->id) }}"
