@@ -35,7 +35,8 @@
                             <input type="hidden" name="excel_count" value="{{ $excelCount }}">
                             <input type="hidden" name="excel_data" value="{{ json_encode($excelData) }}">
 
-                            @foreach (['project_name', 'olt_hostname', 'no_sp2k_spa', 'ip_olt', 'kendala', 'progress', 'start_date', 'target', 'end_date', 'latitude', 'longitude', 'radius'] as $field)
+                            {{-- @foreach (['project_name', 'olt_hostname', 'no_sp2k_spa', 'ip_olt', 'kendala', 'progress', 'start_date', 'target', 'end_date', 'latitude', 'longitude', 'radius'] as $field) --}}
+                            @foreach (['project_name', 'olt_hostname', 'ip_olt', 'kendala', 'progress', 'start_date', 'target', 'end_date', 'latitude', 'longitude', 'radius'] as $field)
                                 <div class="form-group">
                                     <label for="{{ $field }}">{{ ucfirst(str_replace('_', ' ', $field)) }}</label>
                                     <select name="{{ $field }}" id="{{ $field }}" class="form-control">

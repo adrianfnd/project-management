@@ -43,7 +43,7 @@ class ProjectController extends Controller
             'type_id' => 'required|exists:types,id',
             'project_name' => 'required',
             'olt_hostname' => 'required',
-            'no_sp2k_spa' => 'required',
+            // 'no_sp2k_spa' => 'required',
             'sbu_id' => 'required|exists:sbus,id',
             'kendala' => 'nullable',
             'progress' => 'nullable',
@@ -62,7 +62,7 @@ class ProjectController extends Controller
             'type_id.required' => 'Tipe proyek wajib diisi.',
             'project_name.required' => 'Nama proyek wajib diisi.',
             'olt_hostname.required' => 'OLT hostname wajib diisi.',
-            'no_sp2k_spa.required' => 'Nomor SP2K/SPA wajib diisi.',
+            // 'no_sp2k_spa.required' => 'Nomor SP2K/SPA wajib diisi.',
             'sbu_id.required' => 'SBU wajib diisi.',
             'status_id.required' => 'Status wajib diisi.',
             'start_date.required' => 'Tanggal mulai wajib diisi.',
@@ -75,7 +75,7 @@ class ProjectController extends Controller
         $project->type_id = $request->type_id;
         $project->project_name = $request->project_name;
         $project->olt_hostname = $request->olt_hostname;
-        $project->no_sp2k_spa = $request->no_sp2k_spa;
+        // $project->no_sp2k_spa = $request->no_sp2k_spa;
         $project->sbu_id = $request->sbu_id;
         $project->kendala = $request->kendala;
         $project->progress = $request->progress;
@@ -131,7 +131,7 @@ class ProjectController extends Controller
             'type_id' => 'required|exists:types,id',
             'project_name' => 'required',
             'olt_hostname' => 'required',
-            'no_sp2k_spa' => 'required',
+            // 'no_sp2k_spa' => 'required',
             'sbu_id' => 'required|exists:sbus,id',
             'kendala' => 'nullable',
             'progress' => 'nullable',
@@ -150,7 +150,7 @@ class ProjectController extends Controller
             'type_id.required' => 'Tipe proyek wajib diisi.',
             'project_name.required' => 'Nama proyek wajib diisi.',
             'olt_hostname.required' => 'OLT hostname wajib diisi.',
-            'no_sp2k_spa.required' => 'Nomor SP2K/SPA wajib diisi.',
+            // 'no_sp2k_spa.required' => 'Nomor SP2K/SPA wajib diisi.',
             'sbu_id.required' => 'SBU wajib diisi.',
             'status_id.required' => 'Status wajib diisi.',
             'start_date.required' => 'Tanggal mulai wajib diisi.',
@@ -163,7 +163,7 @@ class ProjectController extends Controller
         $project->type_id = $request->type_id;
         $project->project_name = $request->project_name;
         $project->olt_hostname = $request->olt_hostname;
-        $project->no_sp2k_spa = $request->no_sp2k_spa;
+        // $project->no_sp2k_spa = $request->no_sp2k_spa;
         $project->sbu_id = $request->sbu_id;
         $project->kendala = $request->kendala;
         $project->progress = $request->progress;
@@ -259,7 +259,20 @@ class ProjectController extends Controller
 
     public function importExcel(Request $request)
     {
-        $columns = ['project_name', 'olt_hostname', 'no_sp2k_spa', 'ip_olt', 'kendala', 'progress', 'start_date', 'target', 'end_date', 'latitude', 'longitude', 'radius'];
+        $columns = [
+            'project_name', 
+            'olt_hostname', 
+            // 'no_sp2k_spa', 
+            'ip_olt', 
+            'kendala', 
+            'progress', 
+            'start_date', 
+            'target', 
+            'end_date', 
+            'latitude', 
+            'longitude', 
+            'radius'
+        ];
 
         $columnMapping = [];
         foreach ($columns as $column) {

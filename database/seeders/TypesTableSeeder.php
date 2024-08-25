@@ -14,16 +14,16 @@ class TypesTableSeeder extends Seeder
     public function run(): void
     {
         $types = [
-            'CB1' => 'Type for CB1',
-            'CB2' => 'Type for CB2',
-            'CB3' => 'Type for CB3',
+            // 'CB1' => 'Type for CB1',
+            // 'CB2' => 'Type for CB2',
+            // 'CB3' => 'Type for CB3',
             'TK1' => 'Type for TK1',
             'TK2' => 'Type for TK2',
             'TK3' => 'Type for TK3',
             'TK4' => 'Type for TK4',
-            'SI' => 'Type for SI',
-            'POC' => 'Type for POC',
-            'JI' => 'Type for JI',
+            // 'SI' => 'Type for SI',
+            // 'POC' => 'Type for POC',
+            // 'JI' => 'Type for JI',
         ];
 
         foreach ($types as $type => $description) {

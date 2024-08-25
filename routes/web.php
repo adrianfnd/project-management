@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
 
+use App\Http\Controllers\superadmin\DashboardController;
 use App\Http\Controllers\superadmin\StaffController;
 use App\Http\Controllers\superadmin\TechnicianController;
 use App\Http\Controllers\superadmin\CustomerController;
@@ -41,6 +42,8 @@ Route::post('/login', [AuthController::class, 'login'])->name('login.action');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth', 'role:Superadmin'])->prefix('superadmin')->group(function () {
+   Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('superadmin.dashboard');
+   
    Route::get('/staff', [StaffController::class, 'index'])->name('staff.index');
    Route::get('/staff/create', [StaffController::class, 'create'])->name('staff.create');
    Route::post('/staff', [StaffController::class, 'store'])->name('staff.store');

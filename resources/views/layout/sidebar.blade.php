@@ -18,6 +18,16 @@
                 <!-- Superadmin Menu Items -->
                 @if (auth()->user()->role->role_name === 'Superadmin')
                     <li class="nav-item">
+                        <a class="nav-link {{ request()->is('dashboard*') ? 'active' : '' }}"
+                            href="{{ route('superadmin.dashboard') }}">
+                            <div
+                                class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="ni ni-tv-2 text-dark text-sm opacity-10"></i>
+                            </div>
+                            <span class="nav-link-text ms-1">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="#navbar-superadmin" data-bs-toggle="collapse" role="button"
                             aria-expanded="false" aria-controls="navbar-superadmin">
                             <div

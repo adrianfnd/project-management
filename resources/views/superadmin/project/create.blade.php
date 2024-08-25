@@ -25,14 +25,14 @@
                                     <span class="text-danger">{{ $errors->first('olt_hostname') }}</span>
                                 @endif
                             </div>
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                                 <label for="no_sp2k_spa">No SP2K/SPA</label>
                                 <input type="text" class="form-control" id="no_sp2k_spa" name="no_sp2k_spa"
                                     value="{{ old('no_sp2k_spa') }}" required>
                                 @if ($errors->has('no_sp2k_spa'))
                                     <span class="text-danger">{{ $errors->first('no_sp2k_spa') }}</span>
                                 @endif
-                            </div>
+                            </div> --}}
                             <div class="form-group">
                                 <label for="sbu_id">SBU</label>
                                 <select class="form-control" id="sbu_id" name="sbu_id" value="{{ old('sbu_id') }}"

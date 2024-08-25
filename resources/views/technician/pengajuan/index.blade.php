@@ -5,35 +5,35 @@
 @section('content')
     <div class="container-fluid py-4">
         <div class="row mb-4 justify-content-between">
-            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                <div class="card">
-                    <div class="card-body p-3">
-                        <div class="row">
+            <div class="col-xl-3 col-sm-6 mb-4">
+                <div class="card border-0 shadow-sm rounded h-100">
+                    <div class="card-body p-4 d-flex align-items-center">
+                        <div class="row w-100">
                             <div class="col-8">
                                 <div class="numbers">
-                                    <p class="text-sm mb-0 text-capitalize font-weight-bold">Total Project</p>
-                                    <h5 class="font-weight-bolder mb-0">
+                                    <p class="text-sm mb-0 text-capitalize font-weight-bold text-dark">Total Project</p>
+                                    <h5 class="font-weight-bolder mb-0 text-dark">
                                         {{ $total_project }}
                                     </h5>
                                 </div>
                             </div>
                             <div class="col-4 text-end">
-                                <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                                    <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
+                                <div class="icon icon-shape bg-gradient-primary shadow-sm text-center rounded-circle">
+                                    <i class="ni ni-money-coins text-lg text-white" aria-hidden="true"></i>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                <div class="card">
-                    <div class="card-body p-3">
-                        <div class="row">
+            <div class="col-xl-3 col-sm-6 mb-4">
+                <div class="card border-0 shadow-sm rounded h-100">
+                    <div class="card-body p-4 d-flex align-items-center">
+                        <div class="row w-100">
                             <div class="col-8">
                                 <div class="numbers">
-                                    <p class="text-sm mb-0 text-capitalize font-weight-bold">In Schedule Project</p>
-                                    <h5 class="font-weight-bolder mb-0">
+                                    <p class="text-sm mb-0 text-capitalize font-weight-bold text-dark">In Schedule Project</p>
+                                    <h5 class="font-weight-bolder mb-0 text-dark">
                                         {{ $inschedule_project }}
                                         <span class="text-success text-sm font-weight-bolder">(
                                             {{ $inschedule_project_percentage }}% of total)</span>
@@ -41,54 +41,54 @@
                                 </div>
                             </div>
                             <div class="col-4 text-end">
-                                <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                                    <i class="ni ni-world text-lg opacity-10" aria-hidden="true"></i>
+                                <div class="icon icon-shape bg-gradient-info shadow-sm text-center rounded-circle">
+                                    <i class="ni ni-world text-lg text-white" aria-hidden="true"></i>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                <div class="card">
-                    <div class="card-body p-3">
-                        <div class="row">
+            <div class="col-xl-3 col-sm-6 mb-4">
+                <div class="card border-0 shadow-sm rounded h-100">
+                    <div class="card-body p-4 d-flex align-items-center">
+                        <div class="row w-100">
                             <div class="col-8">
                                 <div class="numbers">
-                                    <p class="text-sm mb-0 text-capitalize font-weight-bold">Overdue Project</p>
-                                    <h5 class="font-weight-bolder mb-0">
+                                    <p class="text-sm mb-0 text-capitalize font-weight-bold text-dark">Overdue Project</p>
+                                    <h5 class="font-weight-bolder mb-0 text-dark">
                                         {{ $overdue_project }}
-                                        <span class="text-success text-sm font-weight-bolder">(
+                                        <span class="text-danger text-sm font-weight-bolder">(
                                             {{ $overdue_project_percentage }}% of total)</span>
                                     </h5>
                                 </div>
                             </div>
                             <div class="col-4 text-end">
-                                <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                                    <i class="ni ni-paper-diploma text-lg opacity-10" aria-hidden="true"></i>
+                                <div class="icon icon-shape bg-gradient-danger shadow-sm text-center rounded-circle">
+                                    <i class="ni ni-paper-diploma text-lg text-white" aria-hidden="true"></i>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-xl-3 col-sm-6">
-                <div class="card">
-                    <div class="card-body p-3">
-                        <div class="row">
+            <div class="col-xl-3 col-sm-6 mb-4">
+                <div class="card border-0 shadow-sm rounded h-100">
+                    <div class="card-body p-4 d-flex align-items-center">
+                        <div class="row w-100">
                             <div class="col-8">
                                 <div class="numbers">
-                                    <p class="text-sm mb-0 text-capitalize font-weight-bold">Beyond Project</p>
-                                    <h5 class="font-weight-bolder mb-0">
+                                    <p class="text-sm mb-0 text-capitalize font-weight-bold text-dark">Beyond Project</p>
+                                    <h5 class="font-weight-bolder mb-0 text-dark">
                                         {{ $beyond_project }}
-                                        <span class="text-success text-sm font-weight-bolder">(
+                                        <span class="text-warning text-sm font-weight-bolder">(
                                             {{ $beyond_project_percentage }}% of total)</span>
                                     </h5>
                                 </div>
                             </div>
                             <div class="col-4 text-end">
-                                <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                                    <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
+                                <div class="icon icon-shape bg-gradient-secondary shadow-sm text-center rounded-circle">
+                                    <i class="ni ni-money-coins text-lg text-white" aria-hidden="true"></i>
                                 </div>
                             </div>
                         </div>
@@ -96,6 +96,7 @@
                 </div>
             </div>
         </div>
+        
         <div class="row mb-4">
             <div class="col-12">
                 <div class="card mb-4">
